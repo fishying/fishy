@@ -2,6 +2,7 @@
   <div>
       <router-view></router-view>
       <y-Modal></y-Modal>
+      <y-notification></y-notification>
   </div>
 </template>
 <style >
@@ -14,6 +15,8 @@
 
 import yModal from "./components/modal"
 
+import yNotification from "./components/notification"
+
 export default {
     ready: function (){
       this.$http.get("/api/index",{ 
@@ -23,7 +26,8 @@ export default {
       })
     },
     components:{
-        yModal
+        yModal,
+        yNotification
     }
 }
 </script>

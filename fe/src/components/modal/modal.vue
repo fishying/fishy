@@ -66,7 +66,7 @@ export default {
         data(){
             return this.$root.GLOBAL_MODAL
         }
-    }
+    },
 }
 </script>
 <style lang="less">

@@ -1,4 +1,5 @@
 import modal from "./modal"
+import notification from "./notification"
 
 (function (global, factory){
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -6,11 +7,15 @@ import modal from "./modal"
     (global.yyy = factory())
 }(this, function(){
     'use strict'
+
+
     function install (Vue, options = {
-        Modal:true
+        Modal:true,
+        Notification:true,
     }){
         let $root = null
 
+        
         Vue.mixin({
             created (){
                 if(!$root){
@@ -25,6 +30,9 @@ import modal from "./modal"
             $root = vm
             if(options.Modal){
                 modal(Vue, vm)
+            }
+            if(options.Notification){
+                notification(Vue, vm)
             }
         }
     }

@@ -1,0 +1,81 @@
+@import "../../assets/style/color";
+.notification-box {
+	position: fixed;
+	right: 20px;
+	top: 20px;
+	z-index: 999;
+	.notification {
+		position:relative;
+		background: #fff;
+		width: 320px;
+	    border: 1px #ebebeb solid;
+	    background: #fff;
+	    border-radius: 4px;
+	    box-shadow: 0 0 40px -5px #ccc;
+	    display: flex;
+	    align-items: center;
+	    padding: 12px;
+	    margin-bottom: 20px;
+	    .notification-c {
+	    	margin-left: 22px;
+			h2 {
+				font-size: 20px;
+			}
+			p {
+				color: @gray;
+			}
+	    }
+	    .notification-del {
+	    	position: absolute;
+			right: 10px;
+			top: 10px;
+			cursor: pointer;
+	    }
+	    .notification-info {
+	    	font-size: 26px;
+	    }
+	}
+	.notification-success {
+		.notification-info {
+			color: @o-green;
+		} 
+		.notification-del {
+			color: @o-green;
+		} 
+	}
+	.notification-info {
+		.notification-info {
+			color: @o-blue;
+		} 
+		.notification-del {
+			color: @o-blue;
+		} 
+	}
+	.notification-warning {
+		.notification-info {
+			color: @o-yellow;
+		} 
+		.notification-del {
+			color: @o-yellow;
+		} 
+	}
+	.notification-danger {
+		.notification-info {
+			color: @o-red;
+		} 
+		.notification-del {
+			color: @o-red;
+		} 
+	}
+}
+.notification-transition {
+	transition: all .5s cubic-bezier(.55,0,.1,1);
+}
+.notification-enter, .notification-leave  {
+    transform: translateX(100%);
+    opacity: 0;
+}
+.notification-move  {
+  /* applied to the element when moving */
+  transition: transform .5s cubic-bezier(.55,0,.1,1);
+}

@@ -1,9 +1,12 @@
 <template>
         <a v-link="{path:'/test'}">asdasd</a>
-        <button class="btn btn-default">test</button>
+        <button class="btn btn-default" @click="notification_success">test</button>
         <button class="btn btn-primary">test</button>
         <button class="btn btn-success">test</button>
         <button class="btn btn-warning">test</button>
+        <input type="text" name="" class="input sm">
+        <input type="text" name="" class="input">
+        <input type="text" name="" class="input lg">
         <button class="btn btn-danger" @click="modal_btn">test</button>
         <y-select 
             :data="data1" 
@@ -40,6 +43,7 @@ import yModal from "./components/modal"
 import yAlert from "./components/alert"
 import yPopover from "./components/popover"
 import yPopconfirm from "./components/popconfirm"
+import yNotification from "./components/notification"
 export default {
     data:function(){
         return {
@@ -64,6 +68,9 @@ export default {
                 okBtn:{show: true,type:"primary",text:"确定"},
                 backBtn:{show: true,type:"",text:"取消"}
             })
+        },
+        notification_success:function(){
+            this.$Notification.success({title:"test",content:"testss", })
         }
     },
     ready:function(){
@@ -73,7 +80,8 @@ export default {
         yModal,
         yAlert,
         yPopover,
-        yPopconfirm
+        yPopconfirm,
+        yNotification
     }
 }
 </script>
