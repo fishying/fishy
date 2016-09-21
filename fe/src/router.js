@@ -3,13 +3,7 @@ export default (app) => {
 		"/":{
 			name:"index",
 			component: (resolve) => {
-				require(["./index"], resolve)
-			}
-		},
-		"/test":{
-			name:"test",
-			component: (resolve) => {
-				require(["./test"], resolve)
+				require(["./view/index"], resolve)
 			}
 		}
 	})

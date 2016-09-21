@@ -6,7 +6,11 @@
             'popover-box-top':placement == 'top',
             'popover-box-right':placement == 'right',
             'popover-box-left':placement == 'left',
-            'popconfirm':style == 'popconfirm'
+            'popconfirm':style == 'popconfirm',
+            'right':position == 'right',
+            'left':position == 'left',
+            'top':position == 'top',
+            'bottom':position == 'bottom',
         }"
         v-el:pop
         v-show="isshow"
@@ -51,6 +55,10 @@ export default {
             type:String,
             default:"top"
         },
+        position:{
+            type:String,
+            default:"centern"
+        },
         trigger:{
             type:String,
             default:"click"
@@ -67,9 +75,16 @@ export default {
             let elHeight = el.offsetHeight;
             let contWidth = cont.offsetWidth;
             let contHeight = cont.offsetHeight;
-
-            cont.style.left = left + -contWidth/2 + elWidth/2 + "px";
-            cont.style.top = top + +elHeight + -3 + "px";
+            if(this.position == "right"){
+                cont.style.left = left + -contWidth + elWidth + "px";
+                cont.style.top = top + +elHeight + -3 + "px";
+            }else if(this.position == "left"){
+                cont.style.left = left + "px";
+                cont.style.top = top + +elHeight + -3 + "px";
+            }else if(this.position == "center"){
+                cont.style.left = left + -contWidth/2 + elWidth/2 + "px";
+                cont.style.top = top + +elHeight + -3 + "px";
+            }
         },
         topOffset:function(el, cont){
             let left = el.offsetLeft;

@@ -1,5 +1,6 @@
 import modal from "./modal"
 import notification from "./notification"
+import animated from "vue-animated-list"
 
 (function (global, factory){
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -13,6 +14,7 @@ import notification from "./notification"
         Modal:true,
         Notification:true,
     }){
+        Vue.use(animated)
         let $root = null
 
         

@@ -71,9 +71,14 @@
 .notification-transition {
 	transition: all .5s cubic-bezier(.55,0,.1,1);
 }
-.notification-enter, .notification-leave  {
+.notification-enter,  {
     transform: translateX(100%);
     opacity: 0;
+}
+.notification-leave {
+    opacity: 0;
+    transform: translateX(100%);
+	position: absolute;
 }
 .notification-move  {
   /* applied to the element when moving */
