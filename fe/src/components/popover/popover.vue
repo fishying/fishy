@@ -32,7 +32,7 @@
     </div>
 </template>
 <script>
-import { In } from "../utils"
+import { In, getLeft, getTop } from "../utils"
 export default {
     props:{
         isshow:{
@@ -69,8 +69,8 @@ export default {
     // 然后获取
     methods:{
         bottomOffset:function(el, cont){
-            let left = el.offsetLeft;
-            let top = el.offsetTop;
+            let left = getLeft(el);
+            let top = getTop(el);
             let elWidth = el.offsetWidth;
             let elHeight = el.offsetHeight;
             let contWidth = cont.offsetWidth;
@@ -87,19 +87,27 @@ export default {
             }
         },
         topOffset:function(el, cont){
-            let left = el.offsetLeft;
-            let top = el.offsetTop;
+            let left = getLeft(el);
+            let top = getTop(el);
             let elWidth = el.offsetWidth;
             let elHeight = el.offsetHeight;
             let contWidth = cont.offsetWidth;
             let contHeight = cont.offsetHeight;
 
-            cont.style.left = left + -contWidth/2 + elWidth/2 + "px";
-            cont.style.top = top + -contHeight + -3 + "px";
+            if(this.position == "right"){
+                cont.style.left = left + -contWidth + elWidth + "px";
+                cont.style.top = top + -contHeight + -3 + "px";
+            }else if(this.position == "left"){
+                cont.style.left = left + "px";
+                cont.style.top = top + -contHeight + -3 + "px";
+            }else if(this.position == "center"){
+                cont.style.left = left + -contWidth/2 + elWidth/2 + "px";
+                cont.style.top = top + -contHeight + -3 + "px";
+            }
         },
         leftOffset:function(el, cont){
-            let left = el.offsetLeft;
-            let top = el.offsetTop;
+            let left = getLeft(el);
+            let top = getTop(el);
             let elWidth = parseInt(el.offsetWidth);
             let elHeight = parseInt(el.offsetHeight);
             let contWidth = parseInt(cont.offsetWidth);
@@ -109,13 +117,12 @@ export default {
             cont.style.top = top + -contHeight/2 + elHeight/2 + "px";
         },
         rightOffset:function(el, cont){
-            let left = el.offsetLeft;
-            let top = el.offsetTop;
+            let left = getLeft(el);
+            let top = getTop(el);
             let elWidth = el.offsetWidth;
             let elHeight = el.offsetHeight;
             let contWidth = cont.offsetWidth;
             let contHeight = cont.offsetHeight;
-
             cont.style.left = left + elWidth + 3 + "px";
             cont.style.top = top + -contHeight/2 + elHeight/2 + "px";
         },

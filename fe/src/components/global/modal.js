@@ -16,7 +16,8 @@ export default (Vue, $root) => {
             show: true,
             type:"",
             text:"取消",
-        }
+        },
+        html:``,
     })
 
     Vue.component("modal", modal)
@@ -29,6 +30,7 @@ export default (Vue, $root) => {
                 content:obj.content,
                 ok:obj.ok,
                 back:obj.back,
+                html:obj.html,
                 okBtn:obj.okBtn?obj.okBtn: {
                     show: true,
                     type:"primary",
@@ -48,6 +50,7 @@ export default (Vue, $root) => {
                 content:"",
                 ok: ()=>{},
                 back: ()=>{},
+                html:``,
                 okBtn:{
                     show: true,
                     type:"primary",

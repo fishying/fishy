@@ -5,7 +5,8 @@
                 <h2>{{data.title}}</h2>
             </div>
             <div class="m-body">
-                <p>{{data.content}}</p>
+                <p v-if="data.content">{{data.content}}</p>
+                {{{data.html}}}
             </div>
             <div class="m-footer">
 
@@ -48,7 +49,7 @@ export default {
     methods:{
         ok: function(){
             if(this.data.ok){
-                this.data.ok();
+                this.data.ok(this);
             }
             this.$Modal.del()
         },

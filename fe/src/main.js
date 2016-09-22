@@ -12,7 +12,6 @@ Vue.config.devtools = true;
 Vue.use( VueResource )
 Vue.use( Router )
 
-
 Vue.use(globalCo, {
 	Modal:true,
 	Notification:true

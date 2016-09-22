@@ -11,6 +11,7 @@
     cursor: pointer;
     text-decoration: none;
     font-family: "Open Sans","Helvetica Neue",Helvetica,"PingFang SC","Microsoft Yahei","WenQuanYi Micro Hei","微软雅黑",Arial,Verdana,sans-serif !important;
+    outline: none;
 }
 .btn-fill(@Color, @FColor, @HFColor:@gray){
     border: 1px @Color solid;
@@ -34,4 +35,9 @@
 }
 .btn-danger {
     .btn-fill(@red, @red, #fff);
+}
+.btn-gray {
+    border: 1px solid;
+    background: lighten(@gray, 25%);
+    color: #fff;
 }

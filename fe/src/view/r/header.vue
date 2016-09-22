@@ -28,6 +28,8 @@ export default {
 .header.menu li{
 	margin-right: 50px;
     line-height: 28px;
+    width: 100%;
+    padding: 6px 12px;
     i {
     	margin-right: 6px;
     }
