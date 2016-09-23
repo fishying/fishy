@@ -80,9 +80,13 @@
                         <span><i class="iconfont icon-message"></i>评论</span>
                     </div>
                 </div>
+                <div class="my-comments-all" @click="comment">
+                    <i class="iconfont icon-solution"></i>全部评论
+                </div>
             </div>
         </div>
-        <comments :isshow.sync="c_isshow"></comments>
+        <comments-all :isshow.sync="c_isshow"></comments-all>
+        <!--<comments></comments>-->
     </div>
 </template>
 <style lang="less">
@@ -179,6 +183,16 @@
                     }
                 }
             }
+            .my-comments-all {
+                cursor: pointer;
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                i.iconfont {
+                    margin-right: 4px;
+                    vertical-align: middle;
+                }
+            }
         }
     }
 }
@@ -203,6 +217,7 @@
 <script>
 import popover from "../components/popover"
 import comments from "./r/comment-modal"
+import commentsAll from "./r/comment-modal-all"
 export default {
     data(){
         return {
@@ -211,7 +226,8 @@ export default {
     },
     components:{
         popover,
-        comments
+        comments,
+        commentsAll
     },
     methods:{
         comment(){

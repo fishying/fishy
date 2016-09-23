@@ -16,6 +16,11 @@ export default (app) => {
 					}
 				}
 			}
+		},
+		"/admin":{
+			component:(resolve) => {
+				require(["./view/admin/index"], resolve)
+			}
 		}
 	})
 }
