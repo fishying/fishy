@@ -1,13 +1,3 @@
 <template>
-    <y-header></y-header>
-    <router-view></router-view>
+	<div>test</div>
 </template>
-<script>
-import yHeader from "./r/header"
-
-export default {
-    components:{
-        yHeader,
-    }
-}
-</script>

@@ -1,23 +1,18 @@
-import Vue from "vue"
-import App from "./App"
-import map from "./router";
-import Router from "vue-router"
-import VueResource from "vue-resource"
-import globalCo from "./components/global"
-import VueAnimatedList from 'vue-animated-list'
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router.js'
+
+import everyone from 'everyone'
+import "everyone/dist/everyone.css"
 
 
-Vue.config.devtools = true;
-
-Vue.use( VueResource )
-Vue.use( Router )
-
-Vue.use(globalCo, {
-	Modal:true,
-	Notification:true
-})
-var router = new Router({hashbang: false,history:true});
+Vue.use(everyone)
 /* eslint-disable no-new */
 
-map(router);
-router.start(App, "#app")
+
+new Vue({
+    router,
+    render: h => h(App)
+}).$mount('#app')

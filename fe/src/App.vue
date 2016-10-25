@@ -1,26 +1,18 @@
 <template>
-  <div>
-      <router-view></router-view>
-      <y-Modal></y-Modal>
-      <y-notification></y-notification>
-  </div>
+    <div id="app">
+        <header-index></header-index>
+        <router-view></router-view>
+    </div>
 </template>
-<style lang="less">
-@import "./assets/style/init";
-body {
-	background: #fbfcfc;
-}
-</style>
 <script>
-
-import yModal from "./components/modal"
-
-import yNotification from "./components/notification"
+import headerIndex from "./components/header-index"
 
 export default {
     components:{
-        yModal,
-        yNotification
+        headerIndex
     }
 }
 </script>
+<style lang="less">
+@import "./styles/init";
+</style>

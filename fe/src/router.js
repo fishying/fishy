@@ -1,26 +1,30 @@
-export default (app) => {
-	app.map({
-		"/":{
-			component: (resolve) => {
-				require(["./view/index"], resolve)
-			},
-			subRoutes:{
-				"/":{
-					component: (resolve) => {
-						require(["./view/i"], resolve)
-					}
-				},
-				"/article":{
-					component: (resolve) => {
-						require(["./view/article"], resolve)
-					}
-				}
-			}
-		},
-		"/admin":{
-			component:(resolve) => {
-				require(["./view/admin/index"], resolve)
-			}
-		}
-	})
-}
+import Vue from 'vue'
+import Router from 'vue-router'
+
+const index = resolve => require(['./view/index'], resolve)
+
+Vue.use(Router)
+
+let router = new Router({
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            component: index
+        }
+    ]
+})
+
+router.beforeEach((to, from, next) => {
+
+    Vue.prototype.$loading.open()
+
+    next()
+})
+router.afterEach(route => {
+
+    Vue.prototype.$loading.success()
+
+})
+
+export default router
