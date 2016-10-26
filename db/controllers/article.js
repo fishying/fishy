@@ -12,16 +12,16 @@ const thunkify = require('thunkify-wrap');
 
 
 exports.index = async(function *(req, res){
-        const page = req.body.t;
+        const page = req.query.t;
         const limit = 10;
         let data = yield thunkify(article.finds)(page, limit)
         try{
-            res.jsonp({
+            res.json({
                 status:"success",
                 data:data
             })
         } catch(err){
-            res.jsonp({
+            res.json({
                 status:"fail",
                 msg:"加载失败"
             })

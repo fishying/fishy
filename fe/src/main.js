@@ -3,12 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router.js'
-
+import 'whatwg-fetch';
+import resource from "vue-resource"
 import everyone from 'everyone'
 import "everyone/dist/everyone.css"
 
 
 Vue.use(everyone)
+Vue.use(resource)
 /* eslint-disable no-new */
 
 
