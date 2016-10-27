@@ -1,7 +1,9 @@
 <template>
     <div id="app">
         <header-index></header-index>
-        <router-view></router-view>
+        <div class="main">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 <script>
@@ -15,4 +17,8 @@ export default {
 </script>
 <style lang="less">
 @import "./styles/init";
+.main {
+    width: 660px;
+    margin: 0 auto;
+}
 </style>
