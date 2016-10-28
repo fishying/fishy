@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const index = resolve => require(['./view/index'], resolve)
+const article = resolve => require(['./view/article'], resolve)
+const login = resolve => require(['./view/login'], resolve)
+const logon = resolve => require(['./view/logon'], resolve)
 
 Vue.use(Router)
 
@@ -11,6 +14,18 @@ let router = new Router({
         {
             path: '/',
             component: index
+        },
+        {
+            path: '/article',
+            component: article
+        },
+        {
+            path: '/login',
+            component: login
+        },
+        {
+            path: '/logon',
+            component: logon
         }
     ]
 })

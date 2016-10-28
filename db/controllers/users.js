@@ -33,7 +33,18 @@ exports.login = async( function*(req, res) {
 })
 exports.logon = async(function* (req, res) {
     req.body.password = md5(req.body.password);
-    users.create(req.body)
+    users.create(req.body, function(err, data){
+        if(err){
+            res.json({
+                "status":"err"
+            })
+        }else {
+            res.json({
+                "status":"success",
+                "data":data
+            })
+        }
+    })
 })
 exports.checkLogin = async(function* (req, res, next){
     if(req.session.sign == "true") {
