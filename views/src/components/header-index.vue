@@ -6,6 +6,7 @@
 			<a href="">Home</a>
 			<a href="">Home</a>
 			<a href="">Home</a>
+			<router-link to="login">Home</router-link>
 		</nav>
 		<div class="menu" @click="navBtn">
 			<span class="t"></span>
@@ -44,9 +45,9 @@ header.index {
 	margin: 0 auto;
 	padding: 30px 0;
 	display: flex;
-	background: #fff;
-    z-index: 999;
+    z-index: 997;
 	&.open {
+		background: #fff;
 		.menu {
 			span.t {
     			transform: rotate(45deg);

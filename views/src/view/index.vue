@@ -1,23 +1,20 @@
 <template>
-    <article class="main">
-        <article-index path="article"></article-index>
-    </article>
+    <div class="indexs">
+        <headers></headers>
+        <div class="main">
+            <router-view></router-view>
+        </div>
+    </div>
 </template>
 <script>
-import articleIndex from "../components/article-index"
+
+import headers from "../components/header-index"
 export default {
-	mounted(){
-		this.$http.post("/api/checklogin")
-		.then(function(response) {
-            return response.json()
-		}).then(function(data) {
-            if(data.status == "success"){
-                this.$notify("已经登陆啦")
-            }
-		})
-	},
+    mounted(){
+        document.body.style.background = "#fff"
+    },
     components:{
-        articleIndex
+        headers
     }
 }
 </script>

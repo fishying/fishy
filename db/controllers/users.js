@@ -11,7 +11,7 @@ exports.login = async( function*(req, res) {
     .findOne({"name":name})
     .exec()
     if(data == null){
-        res.jsonp({
+        res.json({
             "status":"fail",
             "msg":"账号错误"
         })
@@ -20,11 +20,11 @@ exports.login = async( function*(req, res) {
             req.session.name = data.name;
             req.session._id = data._id;
             req.session.sign = "true";
-            res.jsonp({
+            res.json({
                 "status":"success",
             })
         }else if (password != data.password){
-            res.jsonp({
+            res.json({
                 "status":"fail",
                 "msg":"密码错误"
             })
@@ -48,11 +48,19 @@ exports.logon = async(function* (req, res) {
 })
 exports.checkLogin = async(function* (req, res, next){
     if(req.session.sign == "true") {
-        res.jsonp({
-            "status":"success",
-            "name":req.session.name
+        users.findById(req.session._id, {name:1, email:1, avater:1, profile:1, _id:1}, (err, data)=>{
+            if(err){
+                res.json({
+                    "status":"fail",
+                    "msg":"信息查询失败"
+                })
+            }else {
+                res.json({
+                    "status":"success",
+                    "data":data
+                })
+            }
         })
-        next()
     } else {
         res.jsonp({
             "status":"fail"
@@ -64,7 +72,7 @@ exports.requiresLogin = async(function* (req, res, next){
     if(req.session.sign == "true") {
         next()
     } else {
-        res.jsonp({
+        res.json({
             "status":"fail",
             "msg":"请登录！！！！"
         })

@@ -11,10 +11,12 @@ import resource from "vue-resource"
 import everyone from 'everyone'
 import "everyone/dist/everyone.css"
 
+import { sync } from 'vuex-router-sync'
+
+sync(store, router) // done.
+
 Vue.use(everyone)
 Vue.use(resource)
-/* eslint-disable no-new */
-
 
 new Vue({
     router,

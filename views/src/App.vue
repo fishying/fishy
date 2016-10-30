@@ -1,19 +1,18 @@
 <template>
     <div id="app">
-        <header-index></header-index>
-        <div class="main">
-            <router-view></router-view>
-        </div>
+        <router-view></router-view>
     </div>
 </template>
 <script>
-// import store from "./store"
 
 import headerIndex from "./components/header-index"
 
 export default {
     components:{
         headerIndex
+    },
+    mounted(){
+        console.log(this.$route)
     }
 }
 </script>
@@ -36,5 +35,14 @@ body {
     .main {
         width: 100%;
     }
+}
+.opacity {
+  transition: opacity .5s
+}
+.opacity-enter-active, .opacity-leave-active {
+  transition: opacity .5s
+}
+.opacity-enter, .opacity-leave-enter, .opacity-leave-active {
+  opacity: 0
 }
 </style>

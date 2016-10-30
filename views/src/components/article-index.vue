@@ -1,27 +1,27 @@
 <template>
     <article class="index">
-        <h2 class="title"><router-link :to="path">test</router-link></h2>
+        <h2 class="title"><router-link :to="path">{{ data.title }}</router-link></h2>
         <div class="meta">
             <span>
                 <y-tooltips content="test" trigger="hover" theme="dark">
-                    <a href="" slot="html">test </a>
+                    <a href="" slot="html">{{data.author.name}} </a>
                 </y-tooltips>
                   ·  
                 <y-tooltips content="2016-4-4" trigger="hover" theme="dark">
-                    <a href="" slot="html">1 天前 </a>
+                    <a href="" slot="html">{{data.create_time}} </a>
                 </y-tooltips>
             </span>
         </div>
-        <router-link :to="path">
+        <router-link :to="path" v-if="data.index_img">
         <div class="imgs">
             <img src="http://imgpoobbs.b0.upaiyun.com/uploadfile/photo/2016/10/201610242320501572284829.jpg!photo.middle.jpg" class="index-img">
             <div class="mask">
-                <a href="">阅读全文</a>
+                <router-link :to="path" >阅读全文</router-link>
             </div>
         </div>
         </router-link>
         <p class="outline">
-            在我们日常的设计过程中总会遇到些一时难以解决的问题：这个功能放在这里似乎不太对，可是其他位置更不对；在修复一些体验问题时发现页面结构在长期的迭代后做出这种修改的代价过大；
+            {{data.content}}
         </p>
         <p class="read-all"><router-link :to="path">--- 阅读全文 ---</router-link></p>
     </article>
@@ -31,6 +31,8 @@ export default {
     props:{
         path:String,
         data:Object,
+    },
+    mounted(){
     }
 }
 </script>

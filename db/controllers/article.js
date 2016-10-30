@@ -9,12 +9,26 @@ const tag = require("../controllers/tag");
 
 const { wrap: async } = require('co');
 const thunkify = require('thunkify-wrap');
-
+const moment = require('moment')
+moment.locale('zh-cn');
 
 exports.index = async(function *(req, res){
+    var res = yield [
+        1,
+        2,
+        3,
+    ];
+    res.map(data=>{
+        return 1
+    })
+    console.log(res)
+    /*
         const page = req.query.t;
         const limit = 10;
         let data = yield thunkify(article.finds)(page, limit)
+        for(let i of data){
+            i.update_time = [moment(i.update_time).format("lll"), moment(i.update_time).fromNow()]
+        }
         try{
             res.json({
                 status:"success",
@@ -26,6 +40,7 @@ exports.index = async(function *(req, res){
                 msg:"加载失败"
             })
         }
+        */
     })
 exports.edit = async(function *(req, res){
         const id = req.body.id;
@@ -51,13 +66,16 @@ exports.edit = async(function *(req, res){
  * 然后添加标签
  */
 exports.add = async(function *(req, res){
-        let tags = yield req.body.tags;
-        let tagId = yield [];
-        let articles = yield {
+        let tags = req.body.tags;
+        let tagId = [];
+        console.log()
+        let articles = {
             title: req.body.title,
             author: req.session._id,
             enabled: true,
             content: req.body.content,
+            create_time: moment().format(),
+            update_time: moment().format()
         }
 
 
@@ -82,7 +100,10 @@ exports.add = async(function *(req, res){
             type.addArt(articles.type, artInfo._id, ()=>{})
         }
 
-        res.jsonp({"1":tagId})
+        res.json({
+            status:"success",
+            msg:"发布成功"
+        })
 
     })
 /**
