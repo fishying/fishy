@@ -13,6 +13,8 @@ export const checklogin = ({commit, state }) => {
                     resolve(state.login)
                 }
             })
+        }else {
+            resolve(state.login)
         }
     })
 }

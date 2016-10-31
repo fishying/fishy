@@ -13,34 +13,16 @@ const moment = require('moment')
 moment.locale('zh-cn');
 
 exports.index = async(function *(req, res){
-    var res = yield [
-        1,
-        2,
-        3,
-    ];
-    res.map(data=>{
-        return 1
-    })
-    console.log(res)
-    /*
         const page = req.query.t;
         const limit = 10;
-        let data = yield thunkify(article.finds)(page, limit)
-        for(let i of data){
-            i.update_time = [moment(i.update_time).format("lll"), moment(i.update_time).fromNow()]
+        let articles = yield thunkify(article.finds)(page, limit)
+        for (let article of articles) {
+            article.indexImg = "asdas"
         }
-        try{
-            res.json({
-                status:"success",
-                data:data
-            })
-        } catch(err){
-            res.json({
-                status:"fail",
-                msg:"加载失败"
-            })
-        }
-        */
+        return res.json({
+            status:"success",
+            data:articles
+        })
     })
 exports.edit = async(function *(req, res){
         const id = req.body.id;

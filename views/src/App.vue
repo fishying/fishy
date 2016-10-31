@@ -12,7 +12,6 @@ export default {
         headerIndex
     },
     mounted(){
-        console.log(this.$route)
     }
 }
 </script>

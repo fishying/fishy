@@ -2,11 +2,11 @@
 	<header class="index" :class="{'open':menu}">
 		<router-link to="/" class="logo">W</router-link>
 		<nav>
-			<a href="">Home</a>
-			<a href="">Home</a>
-			<a href="">Home</a>
-			<a href="">Home</a>
-			<router-link to="login">Home</router-link>
+			<router-link to="/admin/">Home</a>
+			<router-link to="/">Home</a>
+			<router-link to="/">Home</a>
+			<router-link to="/logon">Home</a>
+			<router-link to="/login">Home</router-link>
 		</nav>
 		<div class="menu" @click="navBtn">
 			<span class="t"></span>

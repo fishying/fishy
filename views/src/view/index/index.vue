@@ -10,7 +10,6 @@ export default {
         articleIndex
     },
     mounted(){
-        console.log(this.$store)
         this.$store.dispatch("getindex")
     },
     computed:{

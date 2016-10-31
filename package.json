@@ -61,5 +61,7 @@
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "moment": "^2.15.2"
+  }
 }

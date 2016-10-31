@@ -45,7 +45,7 @@ article.finds = (page, limit , callback) => {
     if(limit == null) {
         limit = 10;
     }
-    article
+    let data = article
     .find()
     .skip(page*limit)
     .limit(limit)

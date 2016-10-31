@@ -77,18 +77,18 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
     Vue.prototype.$loading.open()
-    next()
-    /*
     store.dispatch("checklogin")
     .then((login)=>{
         if (to.matched.some(record => record.meta.requiresAuth)) {
             if(login.status){
+                Vue.prototype.$loading.success()
                 if(to.name == "login" || to.name == "logon") {
                     next("/")
                 }else {
                     next()
                 }
             }else {
+                Vue.prototype.$loading.success()
                 if(to.name == "login" || to.name == "logon") {
                     next()
                 }else {
@@ -96,11 +96,12 @@ router.beforeEach((to, from, next) => {
                 }
             }
         }else {
+            Vue.prototype.$loading.open()
             next()
         }
     })
-    */
 })
+
 router.afterEach(route => {
     Vue.prototype.$loading.success()
 })
