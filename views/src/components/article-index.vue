@@ -7,8 +7,8 @@
                     <a href="" slot="html">{{data.author.name}} </a>
                 </y-tooltips>
                   ·  
-                <y-tooltips content="2016-4-4" trigger="hover" theme="dark">
-                    <a href="" slot="html">{{data.create_time}} </a>
+                <y-tooltips :content="data.time[0]" trigger="hover" theme="dark">
+                    <a href="" slot="html">{{data.time[1]}} </a>
                 </y-tooltips>
             </span>
         </div>

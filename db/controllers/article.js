@@ -15,10 +15,14 @@ moment.locale('zh-cn');
 exports.index = async(function *(req, res){
         const page = req.query.t;
         const limit = 10;
+        let test
         let articles = yield thunkify(article.finds)(page, limit)
+
         for (let article of articles) {
-            article.indexImg = "asdas"
+            article.time = [moment(article.update_time).format('lll'), moment(article.update_time).fromNow()]
         }
+
+
         return res.json({
             status:"success",
             data:articles
@@ -29,12 +33,12 @@ exports.edit = async(function *(req, res){
         let data = yield thunkify(article.edit)(id)
         try{
             article.update({"_id":data._id},{$inc:{"vistits":1}},()=>{})
-            res.jsonp({
+            res.json({
                 status:"success",
                 data:data
             })
         } catch(err){
-            res.jsonp({
+            res.json({
                 status:"fail",
                 msg:"加载失败"
             })

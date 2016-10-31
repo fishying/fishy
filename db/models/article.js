@@ -32,6 +32,10 @@ var articleSchema = new Schema ({
         type : Date, 
         default: Date.now
     },
+    time:[{
+        type:String,
+        default: ""
+    }],
     indexImg: {
         type:String,
         default: ""
