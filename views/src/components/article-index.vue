@@ -3,11 +3,9 @@
         <h2 class="title"><router-link :to="path">{{ data.title }}</router-link></h2>
         <div class="meta">
             <span>
-                <y-tooltips content="test" trigger="hover" theme="dark">
-                    <a href="" slot="html">{{data.author.name}} </a>
-                </y-tooltips>
+                <a>{{data.author.name}} </a>
                   ·  
-                <y-tooltips :content="data.time[0]" trigger="hover" theme="dark">
+                <y-tooltips :content="data.time[0]" trigger="hover" theme="dark" placement="bottom">
                     <a href="" slot="html">{{data.time[1]}} </a>
                 </y-tooltips>
             </span>

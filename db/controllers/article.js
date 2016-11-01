@@ -6,6 +6,9 @@ const type = require("../controllers/type");
 const users = require("../controllers/users");
 const tag = require("../controllers/tag");
 
+const md = require("../../public/markdown");
+const {trimsHTML} = require("../../public/uitl");
+
 
 const { wrap: async } = require('co');
 const thunkify = require('thunkify-wrap');
@@ -15,11 +18,14 @@ moment.locale('zh-cn');
 exports.index = async(function *(req, res){
         const page = req.query.t;
         const limit = 10;
-        let test
         let articles = yield thunkify(article.finds)(page, limit)
 
         for (let article of articles) {
+            
+            article.content = trimsHTML(md.render(article.content), 150)
+
             article.time = [moment(article.update_time).format('lll'), moment(article.update_time).fromNow()]
+            
         }
 
 
