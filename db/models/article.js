@@ -65,6 +65,7 @@ article.finds = (page, limit , callback) => {
         path: "tags",
         select: "name"
     })
+    .sort({'create_time':-1})
     .exec(callback)
 }
 article.edit = (id, callback) => {
