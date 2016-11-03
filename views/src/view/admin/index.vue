@@ -70,7 +70,10 @@ export default {
         }
     },
     mounted(){
-
+        this.$http.get("/api/article?type=length")
+        .then(response=>{
+            this.info[0].num = response.data.data
+        })
     }
 }
 </script>

@@ -31,9 +31,9 @@ let router = new Router({
                     component: index
                 },
                 {
-                    path: '/article',
+                    path: '/article/:id',
                     name: 'article',
-                    component: article
+                    component: article,
                 },
                 {
                     path: '/login',

@@ -2,7 +2,9 @@
     <div class="indexs">
         <headers></headers>
         <div class="main">
-            <router-view></router-view>
+            <transition name="op">
+                <router-view></router-view>
+            </transition>
         </div>
     </div>
 </template>

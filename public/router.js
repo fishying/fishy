@@ -7,15 +7,17 @@ module.exports = (app) => {
     app.post("/login", user.login)
     app.post("/logon", user.logon)
     app.post("/checklogin", user.checkLogin)
-
-	// 文章
-    app.get("/index", article.index)
-    app.post("/article", article.edit)
-    app.post("/admin/add", user.requiresLogin, article.add)
-    app.delete("/del/article/:id", user.requiresLogin, article.del)
+	// 文章首页
+    app.get("/article", article.index)
+    app.get("/article/:id", article.article)
+    app.post("/article/update", article.edit)
+    // app.post("/admin/index", user.requiresLogin, article.num)
+    app.post("/article", user.requiresLogin, article.add)
+    app.delete("/article/:id", user.requiresLogin, article.del)
     app.post("/admin/update", user.requiresLogin, article.update)
-
     // type
-    app.post("/admin/addtype", user.requiresLogin, type.add)
-    app.get("/types", type.finds)
+    // 添加type
+    app.post("/type", user.requiresLogin, type.add)
+    // 获取type
+    app.get("/type", type.finds)
 }

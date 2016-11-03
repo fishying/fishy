@@ -11,6 +11,8 @@ export const checklogin = ({commit, state }) => {
                 if(data.status == "success"){
                     commit(types.CHECK_LOGIN, data)
                     resolve(state.login)
+                }else {
+                    resolve(state.login)
                 }
             })
         }else {
@@ -19,11 +21,30 @@ export const checklogin = ({commit, state }) => {
     })
 }
 
-export const getindex = ({commit, state}) =>{
-    Vue.http.get("/api/index")
+export const getIndex = ({commit, state}, page, limit) => {
+    Vue.http.get(`/api/article?page=${page ? page : 0}`)
     .then(response=>{
         return response.json()
     }).then(data=>{
         commit(types.GET_INDEX, data.data)
+    })
+}
+
+export const getArticle = ({commit, state}, id) => {
+    Vue.http.get(`/api/article/${id}`)
+    .then(response=>{
+        return response.json()
+    }).then(data=>{
+        console.log(data)
+        commit(types.GET_ARTICLE, data.data)
+    })
+}
+
+export const getadminindex = ({commit, state}) => {
+    Vue.http.get("/api/admin/index")
+    .then(response => {
+        return response.json()
+    }).then(data => {
+        commit(types.GET_ADMIN_INDEX, data.data)
     })
 }

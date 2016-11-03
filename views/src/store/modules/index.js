@@ -1,12 +1,13 @@
 import * as types from '../mutation-types'
 
 const state = {
-    article:[]
+    article:{},
+    articles:[],
 }
 
 const mutations = {
     [types.GET_INDEX](state,data){
-        state.article = data
+        state.articles = data
     }
 }
 export default {

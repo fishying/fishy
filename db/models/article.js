@@ -45,7 +45,7 @@ var articleSchema = new Schema ({
 })
 let article = mongoose.model("article", articleSchema);
 
-article.finds = (page, limit , callback) => {
+article.all = (page, limit , callback) => {
     if(limit == null) {
         limit = 10;
     }
@@ -67,6 +67,32 @@ article.finds = (page, limit , callback) => {
     })
     .sort({'create_time':-1})
     .exec(callback)
+}
+article.one = (id, callback) => {
+    article
+    .findById(id)
+    .populate({
+        path: "author",
+        select: "name _id avatar profile"
+    })
+    .populate({
+        path: "tags",
+        select: "name _id"
+    })
+    .populate({
+        path: "type",
+        select: "name _id"
+    })
+    .exec(callback)
+}
+article.num = (callback) => {
+    article.count((err,data)=>{
+        if(err){
+            callback(err)
+        }else {
+            callback(data)
+        }
+    })
 }
 article.edit = (id, callback) => {
     article

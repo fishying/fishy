@@ -10,11 +10,11 @@ export default {
         articleIndex
     },
     mounted(){
-        this.$store.dispatch("getindex")
+        this.$store.dispatch("getIndex")
     },
     computed:{
         "data":function(){
-            return this.$store.state.index.article
+            return this.$store.state.index.articles
         }
     }
 }

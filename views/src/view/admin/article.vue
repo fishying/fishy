@@ -20,12 +20,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><y-checkbox></y-checkbox></td>
-                                <td>6</td>
-                                <td>7</td>
-                                <td>8</td>
-                                <td>8</td>
+                            <tr v-for="articles in data">
+                                <td><y-checkbox v-model="test" :label="articles._id"></y-checkbox></td>
+                                <td>{{articles.title}}</td>
+                                <td>{{articles.time[1]}}</td>
+                                <td>{{articles.enabled}}</td>
+                                <td><y-button type="ghost"  color="red">删除</y-button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -34,6 +34,23 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    data(){
+        return {
+            test:[]
+        }
+    },
+    created(){
+        this.$store.dispatch("getIndex")
+    },
+    computed:{
+        "data":function(){
+            return this.$store.state.index.articles
+        }
+    }
+}
+</script>
 <style lang="less">
 .admin-main {
     .list {

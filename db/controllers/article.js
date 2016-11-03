@@ -15,41 +15,91 @@ const thunkify = require('thunkify-wrap');
 const moment = require('moment')
 moment.locale('zh-cn');
 
+/**
+ * 文章首页
+ * @param {Number} page     页数
+ * @param {Number} limit    每一页的数量
+ */
 exports.index = async(function *(req, res){
-        const page = req.query.t;
-        const limit = 10;
-        let articles = yield thunkify(article.finds)(page, limit)
+    const page = req.query.page
+    let limit = 0;
+
+    if(req.query.type == "length"){
+        article.num((data)=>{
+            return res.json({
+                status:"success",
+                data:data
+            })
+        })
+    }
+
+    req.query.limit ? limit = req.query.limit : limit = 10
+
+    try {
+        let articles = yield thunkify(article.all)(page, limit)
+
+        // 添加上格式化时间
 
         for (let article of articles) {
             
-            article.content = trimsHTML(md.render(article.content), 150)
+            article.content = trimsHTML(md.render(article.content), 250)
 
             article.time = [moment(article.update_time).format('lll'), moment(article.update_time).fromNow()]
             
         }
-
-
         return res.json({
             status:"success",
             data:articles
         })
-    })
+    }catch(err){
+        return res.json({
+            status:"fail",
+            msg:"加载失败"
+        })
+    }
+})
+/**
+ * 单个文章
+ * @param {params} req.params.id    文章id
+ */
+exports.article = async(function *(req, res){
+    const id = req.params.id
+
+    try{
+
+        let data = yield thunkify(article.one)(id)
+
+        data.time = [moment(data.update_time).format('lll'), moment(data.update_time).fromNow()]
+
+        data.content = md.render(data.content)
+
+        return res.json({
+            status:"success",
+            data:data
+        })
+    }catch(err){
+        return res.json({
+            status:"fail",
+            msg:"没有此文章"
+        })
+    }
+})
 exports.edit = async(function *(req, res){
-        const id = req.body.id;
-        let data = yield thunkify(article.edit)(id)
-        try{
-            article.update({"_id":data._id},{$inc:{"vistits":1}},()=>{})
-            res.json({
-                status:"success",
-                data:data
-            })
-        } catch(err){
-            res.json({
-                status:"fail",
-                msg:"加载失败"
-            })
-        }
-    })
+    const id = req.body.id;
+    let data = yield thunkify(article.edit)(id)
+    try{
+        article.update({"_id":data._id},{$inc:{"vistits":1}},()=>{})
+        res.json({
+            status:"success",
+            data:data
+        })
+    } catch(err){
+        res.json({
+            status:"fail",
+            msg:"加载失败"
+        })
+    }
+})
 /**
  * 添加文章
  * 

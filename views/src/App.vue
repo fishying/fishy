@@ -17,11 +17,21 @@ export default {
 </script>
 <style lang="less">
 @import "./styles/init";
+.op-enter-active, .op-leave-active {
+  transition: opacity .5s
+}
+.op-enter,.enter-active, .op-leave-active, .op-leave {
+  opacity: 0
+}
+::selection {
+    background: #eaeaea;
+}
 html {
     height: 100%;
 }
 body {
     height: 100%;
+    overflow-y: scroll;
 }
 #app {
     height: 100%;
