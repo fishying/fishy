@@ -40,11 +40,17 @@ export const getArticle = ({commit, state}, id) => {
     })
 }
 
-export const getadminindex = ({commit, state}) => {
-    Vue.http.get("/api/admin/index")
-    .then(response => {
-        return response.json()
-    }).then(data => {
-        commit(types.GET_ADMIN_INDEX, data.data)
+export const delArticle = ({commit, state}, id) => {
+    return new Promise((resolve, reject)=>{
+        Vue.http.delete(`/api/article/${id}`)
+        .then(response=>{
+            return response.json()
+        }).then(data=>{
+            if(data.status == "success"){
+                resolve()
+            }else {
+                reject(data.msg)
+            }
+        })
     })
 }

@@ -1,18 +1,18 @@
 <template>
     <header class="admin">
         <nav>
-            <router-link to="/" class="logo">W</router-link>
+            <router-link to="/" class="logo" exact>W</router-link>
             <router-link 
                 :to="info.path" 
                 v-for="info in nav" 
-                :class="{ 'active':$route.path == info.path }"
+                exact
             >
                 <i :class="info.icon"></i>
             </router-link>
         </nav>
         <div class="admin">
-        <router-link to="admin">
-            <i class="ion-ios-gear-outline admin"></i>
+        <router-link to="/admin/add/article">
+            <i class="ion-ios-plus-empty admin"></i>
         </router-link>
         </div>
     </header>
@@ -35,6 +35,10 @@ const nav = [
         path:"/admin/acticless",
         icon:"ion-ios-chatbubble-outline"
     },
+    {
+        path:"/admin/actic",
+        icon:"ion-ios-gear-outline"
+    },
 ]
 export default {
     data(){
@@ -50,20 +54,11 @@ export default {
 <style lang="less">
 header.admin {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    width: 80px;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border: 0;
-    background-color: #3e474e;
+    height: 60px;
+    width: 100%;
+    border: 1px solid #efefef;
     nav,.admin{
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         a {
@@ -75,38 +70,34 @@ header.admin {
             line-height: 60px;
             text-align: center;
             font-size: 32px;
-            color: #fff;
+            color: #666;
             text-decoration: none;
-            opacity: .4;
-            border-radius: 8px;
-            &.active {
-                background: #353c43;
-                opacity: 1;
-                a,i {
-
-                    opacity: 1;
-                }
-            }
+            opacity: .8;
             &:hover {
                 opacity: 1;
             }
+            &.router-link-active {
+                opacity: 1;
+                background: #eaeaea;
+            }
         }   
+    }
+    >.admin {
+        position: absolute;
+        right: 0;
+        a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            i {
+                font-size: 38px;
+            }
+        }
     }
 }
 
 @media (max-width: 940px) {
-    header.admin {
-        width: 60px;
-    }
 }
 @media (max-width: 600px) {
-    header.admin {
-        width: 100%;
-        height: 60px;
-        flex-direction: row !important;
-    }
-    nav,.admin{
-        flex-direction: row !important;
-    }
 }
 </style>

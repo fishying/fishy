@@ -115,9 +115,8 @@ exports.add = async(function *(req, res){
             title: req.body.title,
             author: req.session._id,
             enabled: true,
+            cover: req.body.cover,
             content: req.body.content,
-            create_time: moment().format(),
-            update_time: moment().format()
         }
 
 

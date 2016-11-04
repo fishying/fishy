@@ -1,5 +1,11 @@
 <template>
-	<article class="article">
+	<article class="article" v-if="loading">
+        <div class="imgs" v-if="data.cover">
+            <img :src="data.cover" class="index-img">
+            <div class="mask">
+                <router-link :to="path" >阅读全文</router-link>
+            </div>
+        </div>
 		<h2 class="title">{{ data.title }}</h2>
         <div class="meta">
             <span>
@@ -12,15 +18,18 @@
                 </y-tooltips>
             </span>
         </div>
-        <div class="md" v-html="data.content">
-        </div>
+        <div class="md" ref="md" v-html="data.content"></div>
 	</article>
 </template>
 <script>
+import Vue from "vue"
 export default {
     data(){
         return {
-            data:{}
+            data:{},
+            loading:false,
+            htmls:{},
+            mask:false,
         }
     },
     created(){
@@ -29,13 +38,103 @@ export default {
             return response.json()
         }).then(data=>{
             this.data = data.data
+            this.loading = true
         })
+    },
+    updated(){
+        let imgs = this.$refs.md.getElementsByTagName('img')
+        for(var img of imgs){
+            this.imgOpen(img)
+        }
+    },
+    methods:{
+        imgOpen(img){
+            let self = this
+            img.onload = function(){
+                img.clicks = false
+                self.imgScale(img)
+                self.imgX(img)
+                img.addEventListener("click", function(e){
+                    if(img.clicks){
+                        self.imgEnd(img)
+                    }else {
+                        self.imgOk(img)
+                    }
+                })
+                document.addEventListener("scroll", function(){
+                    if(img.clicks){
+                        self.imgEnd(img)
+                    }
+                })
+                document.addEventListener("resize", function(){
+                    if(img.clicks){
+                        self.imgEnd(img)
+                    }
+                })
+            }
+        },
+        imgOk(img){
+            let self = this
+            let mask = document.createElement("div")
+            mask.className = "mask-img"
+            mask.id = "mask-img"
+            document.body.appendChild(mask)
+            mask.style.opacity = ".8"
+            this.imgX(img)
+            this.imgStyle(img)
+            img.className = "opens-mask"
+            img.clicks = true
+            mask.addEventListener("click", function(){
+                self.imgEnd(img)
+            })
+        },
+        imgEnd(img){
+            let mask = document.getElementById("mask-img")
+            mask.style.opacity = 0
+            img.style.transform = ''
+            img.clicks = false
+            mask.addEventListener("transitionend", function(){
+                document.body.removeChild(mask)
+                img.className = ""
+            })
+        },
+        imgScale(img){
+            let nWidth = img.naturalWidth
+            let cWidth = img.clientWidth
+            if(document.body.clientHeight <= img.naturalWidth){
+                nWidth = document.body.clientHeight
+            }
+            img.scale = nWidth / cWidth
+        },
+        imgX(img){
+            let offsetTop = document.body.scrollTop
+            let imgTop = img.offsetTop
+            let imgHeight = img.naturalHeight
+            let clientHeight = document.body.clientHeight
+
+            let widowCenter = offsetTop + (clientHeight / 2)
+            let imgCenter = imgTop + (img.clientHeight / 2)
+            let imgTTT = img.clientHeight - img.naturalHeight
+            img.xc = -(imgCenter - widowCenter)
+            // console.log(offsetTop)
+            // console.log(imgTop)
+        },
+        imgStyle(img){
+            img.style.transform = "scale(" +img.scale+") translate3d(0, "+ img.xc +"px, 0)"
+        }
     }
 }
 </script>
 <style lang="less">
 @import "../../styles/code.css";
 article.article {
+    .imgs {
+        width: 106%;
+        margin-left: -3%;
+        img {
+            width: 100%;
+        }
+    }
     h2.title {
         font-size: 40px;
     }
@@ -87,6 +186,10 @@ article.article {
             line-height: 22px;
             margin-bottom: 16px;
         }
+        img {
+            display: block;
+            transition: 0.3s all;
+        }
         img.emoji {
             display: inline-block;
             height: 1.2em;
@@ -118,6 +221,14 @@ article.article {
         img {
             width: 106%;
             margin-left: -3%;
+            transform-origin: 50% 25%;
+            max-width: 100%;
+            max-height: 650px;
+            &.opens-mask {
+                position: relative;
+                z-index: 9999;
+                cursor: zoom-out;
+            }
         }
         blockquote {
             padding: 10px 20px;
@@ -142,13 +253,20 @@ article.article {
             border-radius: 0;
         }
     }
-
     @media (max-width: 940px) {
-        padding: 0 12px;
+        .imgs {
+            width: 100%;
+            margin: 0;
+        }
+        .meta {
+            padding: 0 12px;
+        }
         h2.title {
+            padding: 0 12px;
             font-size: 30px;
         }
         .md {
+            padding: 0 12px;
             font-size: 16px;
             h1 {
                 font-size: 26px;
@@ -171,5 +289,19 @@ article.article {
             }
         }
     }
+}
+
+.mask-img {
+    opacity: 0;
+    transition: 0.3s all;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; 
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    z-index: 9998;
 }
 </style>

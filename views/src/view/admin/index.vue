@@ -15,24 +15,6 @@
                 </div>
             </router-link>
         </div>
-        <h3 class="title">最新的文章</h2>
-        <div class="new acticle">
-            <div class="box">
-                <div class="content">
-                    <div class="ion">
-                        <i class="ion-ios-list-outline"></i>
-                    </div>
-                    <div class="info">
-                        <p>文章</p>
-                    </div>
-                </div>
-            </div>
-            <div class="box">
-                <div class="content">
-                    
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 <script>
@@ -83,37 +65,19 @@ export default {
         font-size: 22px;
         font-weight: 400;
     }
-    .box {
-        .content{
-            transition: .3s all;
-            background: #fff;
-            padding: 24px;
-            height: 100%;
-            &:hover {
-                box-shadow: 0 10px 15px -5px #ccc
-            }
-        }
-    }
     .new {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-        margin-left: -12px;
-        margin-right: -12px;
+        width: 880px;
+        margin: 0 auto;
         .box {
-            width: 50%;
+            width: 33.33333%;
             padding: 12px;
             .content {
                 display: flex;
                 align-items: center;
-                .ion {
-                    padding-right: 12px;
-                    margin-right: 12px;
-                    border-right: 1px solid #e9e9e9;
-                    i {
-                        font-size: 46px;
-                    }
-                }
+                padding: 0;
                 .info {
                     h3 {
                         margin: 0;
