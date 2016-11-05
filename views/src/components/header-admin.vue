@@ -2,19 +2,7 @@
     <header class="admin">
         <nav>
             <router-link to="/" class="logo">W</router-link>
-            <router-link 
-                :to="info.path" 
-                v-for="info in nav" 
-                :class="{ 'active':$route.path == info.path }"
-            >
-                <i :class="info.icon"></i>
-            </router-link>
         </nav>
-        <div class="admin">
-        <router-link to="admin">
-            <i class="ion-ios-gear-outline admin"></i>
-        </router-link>
-        </div>
     </header>
 </template>
 <script>
@@ -50,20 +38,13 @@ export default {
 <style lang="less">
 header.admin {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    width: 80px;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border: 0;
-    background-color: #3e474e;
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    ba
     nav,.admin{
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         a {
@@ -75,18 +56,9 @@ header.admin {
             line-height: 60px;
             text-align: center;
             font-size: 32px;
-            color: #fff;
+            color: #666;
             text-decoration: none;
-            opacity: .4;
             border-radius: 8px;
-            &.active {
-                background: #353c43;
-                opacity: 1;
-                a,i {
-
-                    opacity: 1;
-                }
-            }
             &:hover {
                 opacity: 1;
             }

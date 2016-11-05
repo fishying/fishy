@@ -25,11 +25,11 @@
             title="添加封面"
         >
             <template slot="content">
-                <input v-model="input1">
+                <input>
             </template>
             <template slot="footer">
                 <y-button type="ghost" @click.native="imgBtn = false">取消</y-button>
-                <y-button type="primary" @click.native="close1">确认</y-button>
+                <y-button type="primary" @click.native="imgOk">确认</y-button>
             </template>
         </y-dialog>
     </div>
@@ -95,6 +95,9 @@ export default {
         },
         indeximg(){
             this.imgBtn = true
+        },
+        imgOk(){
+            
         }
     }
 }

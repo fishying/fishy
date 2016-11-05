@@ -11,9 +11,6 @@ export default {
     components:{
         headers
     },
-    mounted(){
-        document.body.style.background = "#ececec"
-    }
 }
 </script>
 <style lang="less">
