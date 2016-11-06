@@ -10,13 +10,13 @@
                 </y-tooltips>
             </span>
         </div>
-        <router-link :to="path" v-if="data.index_img">
-        <div class="imgs">
-            <img src="http://imgpoobbs.b0.upaiyun.com/uploadfile/photo/2016/10/201610242320501572284829.jpg!photo.middle.jpg" class="index-img">
-            <div class="mask">
-                <router-link :to="path" >阅读全文</router-link>
+        <router-link :to="path" v-if="data.cover">
+            <div class="imgs">
+                <img :src="data.cover" class="index-img">
+                <div class="mask">
+                    <router-link :to="path" >阅读全文</router-link>
+                </div>
             </div>
-        </div>
         </router-link>
         <p class="outline">
             {{data.content}}

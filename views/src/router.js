@@ -14,11 +14,15 @@ const admin = resolve => require(['./view/admin'], resolve)
 const admin_index = resolve => require(['./view/admin/index'], resolve)
 const admin_article = resolve => require(['./view/admin/article'], resolve)
 const admin_addarticle = resolve => require(['./view/admin/addArticle'], resolve)
+const admin_type = resolve => require(['./view/admin/type'], resolve)
 
 Vue.use(Router)
 
 let router = new Router({
     mode: 'history',
+    scrollBehavior (to, from, savedPosition) {
+        return { x: 0, y: 0 }
+    },
     routes: [
         {
             path: '/',
@@ -69,6 +73,11 @@ let router = new Router({
                     path: 'add/article',
                     name:"addArticle",
                     component: admin_addarticle
+                },
+                {
+                    path: 'type',
+                    name:"adminType",
+                    component: admin_type
                 }
             ]
         }

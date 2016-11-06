@@ -36,7 +36,7 @@ var articleSchema = new Schema ({
         type:String,
         default: ""
     }],
-    indexImg: {
+    cover: {
         type:String,
         default: ""
     },

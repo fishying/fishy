@@ -3,34 +3,34 @@
         <h2 class="title">
             文章列表
         </h2>
-        <div class="box">
-            <div class="content">
-                <div class="new">
-                    <y-button>新建文章</y-button>
-                </div>
-                <div class="list">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th width="20px"><y-checkbox></y-checkbox></th>
-                                <th>文章标题</th>
-                                <th>最近更新</th>
-                                <th>文章状态</th>
-                                <th>文章操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="articles in data">
-                                <td><y-checkbox v-model="test" :label="articles._id"></y-checkbox></td>
-                                <td>{{articles.title}}</td>
-                                <td>{{articles.time[1]}}</td>
-                                <td>{{articles.enabled}}</td>
-                                <td><y-button type="ghost"  color="red">删除</y-button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="list">
+            <table>
+                <thead>
+                    <tr>
+                        <th width="92"><y-checkbox></y-checkbox>全选</th>
+                        <th>文章标题</th>
+                        <th>最近更新</th>
+                        <th>文章状态</th>
+                        <th>文章操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="articles in data">
+                        <td><y-checkbox v-model="test" :label="articles._id" content></y-checkbox></td>
+                        <td class="title">{{articles.title}}</td>
+                        <td class="time">{{articles.time[1]}}</td>
+                        <td class="enabled">{{articles.enabled}}</td>
+                        <td class="t">
+
+                        <y-popconfirm
+                            title="是否删除该文章？"
+                        >
+                             <y-button type="ghost" color="red" slot="html">删除</y-button>
+                        </y-popconfirm>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
@@ -39,6 +39,15 @@ export default {
     data(){
         return {
             test:[]
+        }
+    },
+    methods:{
+        delArticle(id){
+            this.$store.dispatch("delArticle", id)
+            .then(test=>{
+                this.$notify("删除成功")
+                this.$store.dispatch("getIndex")
+            })
         }
     },
     created(){
@@ -54,32 +63,43 @@ export default {
 <style lang="less">
 .admin-main {
     .list {
-        table {
-            width: 100%;
-            overflow: auto;
-            thead{
-                tr {
-                    th{
-                        padding: 4px 6px;
-                        text-align: left;
-                        font-weight: 400;
-                        color: #9ba3af;
-                    }
-                }
-            }
-            tbody {
-                border: 1px solid #e9e9e9;
-                padding: 6px 0;
-                tr {
-                    padding: 6px 0;
-                    td {
-                        padding: 6px 0;
-                        padding: 4px 6px;
-                        text-align: left;
-                        font-weight: 400;
-                    }
-                }
-            }
+        overflow: auto;
+        table thead tr th{
+            font-weight:700
+        }
+        table{
+            border:1px solid #e9e9e9
+        }
+        table thead{
+            background:#f7f7f7
+        }
+        table thead tr{
+            border-bottom:1px solid #e9e9e9
+        }
+        table thead tr th{
+            padding:6px 0;
+            border-left:1px solid #e9e9e9
+        }
+        table tbody tr{
+            border-bottom:1px solid #e9e9e9;
+            vertical-align:middle;
+        }
+        table tbody tr td{
+            padding:12px 18px;
+            border-left:1px solid #e9e9e9;
+            vertical-align:middle;
+        }
+        .title {
+            min-width: 265px;
+        }
+        .time {
+            min-width: 105px;
+        }
+        .enabled {
+            min-width: 80px;
+        }
+        .title {
+            min-width: 265px;
         }
     }
 }

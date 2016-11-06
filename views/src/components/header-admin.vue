@@ -1,8 +1,20 @@
 <template>
     <header class="admin">
         <nav>
-            <router-link to="/" class="logo">W</router-link>
+            <router-link to="/" class="logo" exact>W</router-link>
+            <router-link 
+                :to="info.path" 
+                v-for="info in nav" 
+                exact
+            >
+                <i :class="info.icon"></i>
+            </router-link>
         </nav>
+        <div class="admin">
+        <router-link to="/admin/add/article">
+            <i class="ion-ios-plus-empty admin"></i>
+        </router-link>
+        </div>
     </header>
 </template>
 <script>
@@ -23,6 +35,10 @@ const nav = [
         path:"/admin/acticless",
         icon:"ion-ios-chatbubble-outline"
     },
+    {
+        path:"/admin/actic",
+        icon:"ion-ios-gear-outline"
+    },
 ]
 export default {
     data(){
@@ -38,11 +54,9 @@ export default {
 <style lang="less">
 header.admin {
     display: flex;
-    width: 100%;
     height: 60px;
-    background-color: #fff;
-    border-bottom: 1px solid #efefef;
-    ba
+    width: 100%;
+    border: 1px solid #efefef;
     nav,.admin{
         display: flex;
         justify-content: center;
@@ -58,27 +72,32 @@ header.admin {
             font-size: 32px;
             color: #666;
             text-decoration: none;
-            border-radius: 8px;
+            opacity: .8;
             &:hover {
                 opacity: 1;
             }
+            &.router-link-active {
+                opacity: 1;
+                background: #eaeaea;
+            }
         }   
+    }
+    >.admin {
+        position: absolute;
+        right: 0;
+        a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            i {
+                font-size: 38px;
+            }
+        }
     }
 }
 
 @media (max-width: 940px) {
-    header.admin {
-        width: 60px;
-    }
 }
 @media (max-width: 600px) {
-    header.admin {
-        width: 100%;
-        height: 60px;
-        flex-direction: row !important;
-    }
-    nav,.admin{
-        flex-direction: row !important;
-    }
 }
 </style>

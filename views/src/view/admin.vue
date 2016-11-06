@@ -20,7 +20,6 @@ export default {
 }
 
 .admin-main {
-    margin-left: 80px;
     box-sizing: border-box;
     padding: 22px;
     h2.title {
@@ -33,21 +32,12 @@ export default {
             background: #fff;
             padding: 24px;
             height: 100%;
+            border: 1px solid #d6d6d6;
+            border-radius: 2px;
             &:hover {
                 box-shadow: 0 10px 15px -5px #ccc
             }
         }
-    }
-}
-@media (max-width: 940px) {
-    .admin-main {
-        margin-left: 60px;
-    }
-}
-@media (max-width: 600px) {
-    .admin-main {
-        margin-left: 0;
-        margin-top: 60px;
     }
 }
 </style>
