@@ -36,12 +36,17 @@ body {
 #app {
     height: 100%;
 }
-.main {
+.container {
     width: 660px;
     margin: 0 auto;
 }
+.f-container {
+    width: 100%;
+    background-color: #f6f6f6;
+    padding: 22px 0;
+}
 @media (max-width: 940px) {
-    .main {
+    .container {
         width: 100%;
     }
 }

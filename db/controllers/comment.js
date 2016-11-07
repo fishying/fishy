@@ -4,6 +4,9 @@ const users = require("../controllers/users");
 const { wrap: async } = require('co');
 const thunkify = require('thunkify-wrap');
 
+const moment = require('moment')
+moment.locale('zh-cn');
+
 
 
 exports.add = async(function *(req, res){
@@ -29,11 +32,11 @@ exports.add = async(function *(req, res){
 
 exports.finds = async(function *(req, res){
     let data = yield thunkify(comment.finds)(req.query.article)
-    let test = [{fadf:"sdfaf"}, {sadf:"fad"}]
-    for (let comment of test) {
-        comment.tets = "fadfasdf"
+
+    for (let comment of data) {
+        comment.time = [moment(comment.create_time).format('lll'), moment(comment.create_time).fromNow()]
     }
-    console.log(test)
+
     return res.json({
         status:"success",
         data:data

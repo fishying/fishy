@@ -1,32 +1,33 @@
 <template>
 	<article class="article" v-if="loading">
-        <div class="imgs" v-if="data.cover">
-            <img :src="data.cover" class="index-img">
-            <div class="mask">
-                <router-link :to="path" >阅读全文</router-link>
+        <article class="article-content container">
+            <div class="imgs" v-if="data.cover">
+                <img :src="data.cover" class="index-img">
+                <div class="mask">
+                    <router-link :to="path" >阅读全文</router-link>
+                </div>
             </div>
-        </div>
-		<h2 class="title">{{ data.title }}</h2>
-        <div class="meta">
-            <span>
-                <y-tooltips :content="data.author.profile" trigger="hover" theme="dark" placement="bottom">
-                    <a href="" slot="html">{{ data.author.name }}</a>
-                </y-tooltips>
-                  ·  
-                <y-tooltips :content="data.time[0]" trigger="hover" theme="dark" placement="bottom">
-                    <a href="" slot="html">{{data.time[1]}} </a>
-                </y-tooltips>
-            </span>
-        </div>
-        <div class="md" ref="md" v-html="data.content"></div>
-        <div class="comment">
+            <h2 class="title">{{ data.title }}</h2>
+            <div class="meta">
+                <span>
+                    <y-tooltips :content="data.author.profile" trigger="hover" theme="dark" placement="bottom">
+                        <a href="" slot="html">{{ data.author.name }}</a>
+                    </y-tooltips>
+                      ·  
+                    <y-tooltips :content="data.time[0]" trigger="hover" theme="dark" placement="bottom">
+                        <a href="" slot="html">{{data.time[1]}} </a>
+                    </y-tooltips>
+                </span>
+            </div>
+            <div class="md" ref="md" v-html="data.content"></div>
             <input type="" name="" v-model="comment">
             <y-button @click.native="addComment">评论</y-button>
-        </div>
+            <comment :data="comments"></comment>
+        </article>
 	</article>
 </template>
 <script>
-import Vue from "vue"
+import comment from "../../components/comment/comment"
 export default {
     data(){
         return {
@@ -136,6 +137,9 @@ export default {
                 console.log(response)
             })
         }
+    },
+    components:{
+        comment
     }
 }
 </script>

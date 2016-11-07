@@ -1,5 +1,5 @@
 <template>
-    <article class="main">
+    <article class="main container">
         <article-index :path="`/article/${article._id}`" :data="article" v-for="article in data"></article-index>
     </article>
 </template>

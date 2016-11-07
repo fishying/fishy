@@ -31,11 +31,14 @@ var commentSchema = Schema ({
         default : ''
     },
     /* 评论时间 */
-    careat_at : {
+    create_time : {
         type : Date,
         default : Date.now
-    }
-    
+    },
+    time:[{
+        type:String,
+        default: ""
+    }],
 })
 
 let comment = mongoose.model("comment", commentSchema)
@@ -53,6 +56,10 @@ comment.add = (data, callback) => {
 comment.finds = (article, callback) => {
     comment.find({article:article})
     .where("reply").exists(false)
+    .populate({
+        path: "from.admin",
+        select: "name _id avatar profile"
+    })
     .exec(callback)
 }
 
