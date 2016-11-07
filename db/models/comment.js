@@ -6,23 +6,20 @@ let ObjectId = Schema.Types.ObjectId
 var commentSchema = Schema ({
     /* 谁评论 */
     from : {
-        required : true,
-        type : ObjectId ,
-        ref : "User"
+        admin:{
+            type:ObjectId,
+            ref:"user"
+        },
+        user:{
+            type:Object,
+        }
     },
     /* 评论谁*/
-    reply:[
-        {	
-        	from:{
-        		type:ObjectId,ref:'User'
-        	},
-         	to:{
-		        type:ObjectId,ref:'User'
-	        },
-	        content:String,
-        }
-	],
-    /* 评论什么 */
+    reply:{
+        type:ObjectId,
+        ref:'comment'
+    },
+    /* 评论的文章 */
     article : {
         required : true,
         type: ObjectId,
@@ -40,3 +37,23 @@ var commentSchema = Schema ({
     }
     
 })
+
+let comment = mongoose.model("comment", commentSchema)
+
+comment.add = (data, callback) => {
+    comment.create(data, (err, data) => {
+        if(err){
+
+        }else {
+            callback(data)
+        }
+    })
+}
+
+comment.finds = (article, callback) => {
+    comment.find({article:article})
+    .where("reply").exists(false)
+    .exec(callback)
+}
+
+module.exports = comment

@@ -2,37 +2,47 @@
 let mongoose = require("mongoose");
 let type = require("../models/type");
 let article = require("./article")
+const { wrap: async } = require('co');
 
 // 添加标签
-exports.add = (req, res)=>{
+exports.add = async(function *(req, res){
     type.create(req.body, (err, data)=>{
         if(err){
-            res.jsonp({
+            res.json({
                 "status":"fail",
                 "msg":"发布失败"
             })
         }else {
-            res.jsonp({
+            res.json({
                 "status":"success",
             })
         }
     });
-}
-exports.finds = (req, res)=>{
-    type.find({}, (err, data)=>{
-        if(err){
-            res.jsonp({
-                "status":"fail",
-                "msg":"发布失败"
+})
+exports.finds = async(function *(req, res){
+    if(req.query.type == "length"){
+        type.num((data)=>{
+            res.json({
+                status:"success",
+                data:data
             })
-        }else {
-            res.jsonp({
-                "status":"success",
-                "data":data
-            })
-        }
-    });
-}
+        })
+    }else {
+        type.all((err, data)=>{
+            if(err){
+                return res.json({
+                    "status":"fail",
+                    "msg":"发布失败"
+                })
+            }else {
+                return res.json({
+                    "status":"success",
+                    "data":data
+                })
+            }
+        });
+    }
+})
 
 // 添加标签文章
 exports.addArt = (tag,id,callback) => {

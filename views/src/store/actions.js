@@ -22,21 +22,32 @@ export const checklogin = ({commit, state }) => {
 }
 
 export const getIndex = ({commit, state}, page, limit) => {
-    Vue.http.get(`/api/article?page=${page ? page : 0}`)
-    .then(response=>{
-        return response.json()
-    }).then(data=>{
-        commit(types.GET_INDEX, data.data)
+    return new Promise((resolve, reject)=>{
+        Vue.http.get(`/api/article?page=${page ? page : 0}`)
+        .then(response=>{
+            return response.json()
+        }).then(data=>{
+            if(data.status == "success"){
+                resolve(data.data)
+            }else {
+                reject(data.msg)
+            }
+        })
     })
 }
 
 export const getArticle = ({commit, state}, id) => {
-    Vue.http.get(`/api/article/${id}`)
-    .then(response=>{
-        return response.json()
-    }).then(data=>{
-        console.log(data)
-        commit(types.GET_ARTICLE, data.data)
+    return new Promise((resolve, reject)=>{
+        Vue.http.get(`/api/article/${id}`)
+        .then(response=>{
+            return response.json()
+        }).then(data=>{
+            if(data.status == "success"){
+                resolve(data.data)
+            }else {
+                reject(data.msg)
+            }
+        })
     })
 }
 
@@ -61,5 +72,34 @@ export const getType = ({commit, state}) => {
         return response.json()
     }).then(data=>{
         commit(types.GET_TYPE, data.data)
+    })
+}
+
+export const addType = ({commit, state}, type) => {
+    return new Promise((resolve, reject) => {
+        Vue.http.post("/api/type", type)
+        .then(response=>{
+            return response.json()
+        }).then(data=>{
+            if(data.status != "success") {
+                reject(data.msg)
+            }else {
+                resolve()
+            }
+        })
+    })
+}
+export const getOneComment = ({commit, state}, article) => {
+    return new Promise((resolve, reject) => {
+        Vue.http.get(`/api/comment?article=${article}`)
+        .then(response=>{
+            return response.json()
+        }).then(data=>{
+            if(data.status != "success") {
+                reject(data.msg)
+            }else {
+                resolve(data.data)
+            }
+        })
     })
 }

@@ -1,7 +1,11 @@
 <template>
     <div class="admins">
         <headers></headers>
-        <div class="admin-main"><router-view></router-view></div>
+        <div class="admin-main">
+            <transition name="op" mode="out-in">
+                <router-view></router-view>
+            </transition>
+        </div>
     </div>
 </template>
 <script>

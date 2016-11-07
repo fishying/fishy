@@ -45,9 +45,6 @@ export default {
         return {
             nav:nav
         }
-    },
-    mounted(){
-        console.log(this.$route)
     }
 }
 </script>

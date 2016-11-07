@@ -23,10 +23,7 @@
             <div class="content">
                 <p class="title">分类</p>
                 <y-radio-group v-model="type">
-                    <y-radio-button label="1" checked>disabled</y-radio-button>
-                    <y-radio-button label="2" disabled>disabled</y-radio-button>
-                    <y-radio-button label="4">disabled</y-radio-button>
-                    <y-radio-button label="3" >disabled</y-radio-button>
+                    <y-radio-button :label="type._id" v-for="type in types">{{type.name}}</y-radio-button>
                 </y-radio-group>
             </div>
         </div>
@@ -153,6 +150,9 @@ export default {
             type:""
         }
     },
+    created(){
+        this.$store.dispatch("getType")
+    },
     methods:{
         add(){
             this.$http.post("/api/article",{
@@ -175,6 +175,11 @@ export default {
                 this.coverUrlBtn = true
                 this.coverBtn = false
             }
+        }
+    },
+    computed:{
+        types:function(){
+            return this.$store.state.index.types
         }
     }
 }

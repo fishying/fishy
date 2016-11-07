@@ -51,10 +51,14 @@ export default {
             info:info
         }
     },
-    mounted(){
+    created(){
         this.$http.get("/api/article?type=length")
         .then(response=>{
             this.info[0].num = response.data.data
+        })
+        this.$http.get("/api/type?type=length")
+        .then(response=>{
+            this.info[1].num = response.data.data
         })
     }
 }

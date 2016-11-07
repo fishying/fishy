@@ -14,8 +14,30 @@ let typeSchema = new Schema({
 		ref:"atricle"
 	}]
 })
+
 let type = mongoose.model("type", typeSchema);
 
-
+type.all = (callback) => {
+    let data = type
+    .find()
+    .exec(callback)
+}
+type.allArticle = (id, callback) => {
+    let data = type
+    .findById(id)
+    .populate({
+        path: "article",
+    })
+    .exec(callback)
+}
+type.num = (callback) => {
+    type.count((err,data)=>{
+        if(err){
+            callback(err)
+        }else {
+            callback(data)
+        }
+    })
+}
 
 module.exports = type;

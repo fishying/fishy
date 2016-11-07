@@ -19,6 +19,10 @@
             </span>
         </div>
         <div class="md" ref="md" v-html="data.content"></div>
+        <div class="comment">
+            <input type="" name="" v-model="comment">
+            <y-button @click.native="addComment">评论</y-button>
+        </div>
 	</article>
 </template>
 <script>
@@ -30,15 +34,19 @@ export default {
             loading:false,
             htmls:{},
             mask:false,
+            comment:"",
+            comments:[]
         }
     },
     created(){
-        this.$http.get(`/api/article/${this.$route.params.id}`)
-        .then(response=>{
-            return response.json()
-        }).then(data=>{
-            this.data = data.data
+        this.$store.dispatch("getArticle", this.$route.params.id)
+        .then(article=>{
             this.loading = true
+            this.data = article
+        })
+        this.$store.dispatch("getOneComment", this.$route.params.id)
+        .then(comment=>{
+            this.comments = comment
         })
     },
     /*updated(){
@@ -120,6 +128,14 @@ export default {
             img.style.transform = "scale(" +img.scale+") translate3d(0, "+ img.xc +"px, 0)"
         }
         */
+        addComment(){
+            this.$http.post("/api/comment", {
+                article:this.$route.params.id,
+                content:this.comment
+            }).then(response=>{
+                console.log(response)
+            })
+        }
     }
 }
 </script>

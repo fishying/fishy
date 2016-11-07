@@ -2,6 +2,7 @@
 const article = require("../db/controllers/article");
 const user = require("../db/controllers/users");
 const type = require("../db/controllers/type");
+const comment = require("../db/controllers/comment");
 module.exports = (app) => {
     // user 
     app.post("/login", user.login)
@@ -20,4 +21,7 @@ module.exports = (app) => {
     app.post("/type", user.requiresLogin, type.add)
     // 获取type
     app.get("/type", type.finds)
+    // comment
+    app.post("/comment", comment.add)
+    app.get("/comment", comment.finds)
 }

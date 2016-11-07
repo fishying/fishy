@@ -6,16 +6,21 @@
 <script>
 import articleIndex from "../../components/article-index"
 export default {
+    data(){
+        return {
+            data:[]
+        }
+    },
     components:{
         articleIndex
     },
-    mounted(){
+    created(){
         this.$store.dispatch("getIndex")
-    },
-    computed:{
-        "data":function(){
-            return this.$store.state.index.articles
-        }
+        .then(data=>{
+            this.data = data
+        }).catch(err=>{
+            
+        })
     }
 }
 </script>

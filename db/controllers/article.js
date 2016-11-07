@@ -277,11 +277,11 @@ exports.update = async(function* (req, res){
     // 更新article
     article.update({"_id":data._id},news, (err, data)=>{
         if(err){
-            res.jsonp({
+            res.json({
                 status:"fail"
             })
         }else {
-            res.jsonp({
+            res.json({
                 status:"success"
             })
         }

@@ -38,7 +38,8 @@
 export default {
     data(){
         return {
-            test:[]
+            test:[],
+            data:[]
         }
     },
     methods:{
@@ -52,11 +53,11 @@ export default {
     },
     created(){
         this.$store.dispatch("getIndex")
-    },
-    computed:{
-        "data":function(){
-            return this.$store.state.index.articles
-        }
+        .then(data=>{
+            this.data = data
+        }).catch(err=>{
+            
+        })
     }
 }
 </script>
@@ -64,31 +65,6 @@ export default {
 .admin-main {
     .list {
         overflow: auto;
-        table thead tr th{
-            font-weight:700
-        }
-        table{
-            border:1px solid #e9e9e9
-        }
-        table thead{
-            background:#f7f7f7
-        }
-        table thead tr{
-            border-bottom:1px solid #e9e9e9
-        }
-        table thead tr th{
-            padding:6px 0;
-            border-left:1px solid #e9e9e9
-        }
-        table tbody tr{
-            border-bottom:1px solid #e9e9e9;
-            vertical-align:middle;
-        }
-        table tbody tr td{
-            padding:12px 18px;
-            border-left:1px solid #e9e9e9;
-            vertical-align:middle;
-        }
         .title {
             min-width: 265px;
         }

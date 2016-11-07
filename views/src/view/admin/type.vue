@@ -10,12 +10,14 @@
                         <th width="92"><y-checkbox></y-checkbox>全选</th>
                         <th>名称</th>
                         <th>文章数</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="articles in data">
-                        <td><y-checkbox v-model="test" :label="articles._id" content></y-checkbox></td>
-                        <td class="title">{{articles.title}}</td>
+                    <tr v-for="type in data">
+                        <td><y-checkbox v-model="test" :label="type._id" content></y-checkbox></td>
+                        <td class="title">{{type.name}}</td>
+                        <td class="num">{{type.article.length}}</td>
                         <td class="t">
 
                             <y-popconfirm
@@ -34,11 +36,16 @@
 export default {
     data(){
         return {
-            data:[]
+            test:[]
         }
     },
     created(){
         this.$store.dispatch("getType")
+    },
+    computed:{
+        data:function(){
+            return this.$store.state.index.types
+        }
     }
 }
 </script>
