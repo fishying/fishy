@@ -159,7 +159,7 @@ export default {
                 title:this.title,
                 content:this.content,
                 cover:this.coverUrl,
-                tags:[""]
+                tags:["asd"]
             }).then((response,err) => {
                 console.log(response)
                 console.log(err)

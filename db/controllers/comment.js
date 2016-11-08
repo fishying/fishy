@@ -4,6 +4,7 @@ const users = require("../controllers/users");
 const { wrap: async } = require('co');
 const thunkify = require('thunkify-wrap');
 
+const md5 = require("md5");
 const moment = require('moment')
 moment.locale('zh-cn');
 
@@ -16,8 +17,6 @@ exports.add = async(function *(req, res){
         data[i] = req.body[i]
     }
 
-    console.log(data)
-
     if(req.session.sign){
         data.from.admin = req.session._id
     }
@@ -26,19 +25,18 @@ exports.add = async(function *(req, res){
         res.json({
             status:"success",
             data:data
-        })
+        }) 
     })
 })
 
 exports.finds = async(function *(req, res){
-    let data = yield thunkify(comment.finds)(req.query.article)
-
-    for (let comment of data) {
-        comment.time = [moment(comment.create_time).format('lll'), moment(comment.create_time).fromNow()]
+    let data = yield comment.finds(req.query.article)
+    let comm = data
+    for(let comments of comm){
+        comments.create_time = [moment(comments.create_time).format('lll'), moment(comments.create_time).fromNow()]
     }
-
     return res.json({
         status:"success",
-        data:data
+        data:comm
     })
 })

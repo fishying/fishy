@@ -31,39 +31,35 @@ exports.login = async( function*(req, res) {
         }
     }
 })
+
 exports.logon = async(function* (req, res) {
     req.body.password = md5(req.body.password);
-    users.create(req.body, function(err, data){
-        if(err){
-            res.json({
-                "status":"err"
-            })
-        }else {
-            res.json({
-                "status":"success",
-                "data":data
-            })
-        }
+    req.body.emailmd5 = md5(req.body.email)
+    users.create(req.body)
+    .then(data=>{
+        res.json({
+            "status":"success",
+            "data":data
+        })
+    })
+    .catch(err=>{
+        res.json({
+            "status":"err"
+        })
     })
 })
 exports.checkLogin = async(function* (req, res, next){
     if(req.session.sign == "true") {
-        users.findById(req.session._id, {name:1, email:1, avater:1, profile:1, _id:1}, (err, data)=>{
-            if(err){
-                res.json({
-                    "status":"fail",
-                    "msg":"信息查询失败"
-                })
-            }else {
-                res.json({
-                    "status":"success",
-                    "data":data
-                })
-            }
+        let data = yield users.finds(req.session._id)
+
+        res.json({
+            "status":"success",
+            "data":data
         })
     } else {
-        res.jsonp({
-            "status":"fail"
+        res.json({
+            "status":"fail",
+            "msg":"没有登陆"
         })
         return false;
     }
@@ -77,4 +73,15 @@ exports.requiresLogin = async(function* (req, res, next){
             "msg":"请登录！！！！"
         })
     }
+})
+exports.logout = async(function* (req, res){
+    req.session.destroy(function(err){
+        if(err){
+
+        }else {
+            res.json({
+                "status":"success"
+            })
+        }
+    })
 })

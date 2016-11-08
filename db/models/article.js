@@ -45,11 +45,11 @@ var articleSchema = new Schema ({
 })
 let article = mongoose.model("article", articleSchema);
 
-article.all = (page, limit , callback) => {
+article.all = (page, limit) => {
     if(limit == null) {
         limit = 10;
     }
-    let data = article
+    return article
     .find()
     .skip(page*limit)
     .limit(limit)
@@ -66,10 +66,10 @@ article.all = (page, limit , callback) => {
         select: "name"
     })
     .sort({'create_time':-1})
-    .exec(callback)
+    .exec()
 }
-article.one = (id, callback) => {
-    article
+article.one = (id) => {
+    return article
     .findById(id)
     .populate({
         path: "author",
@@ -83,32 +83,13 @@ article.one = (id, callback) => {
         path: "type",
         select: "name _id"
     })
-    .exec(callback)
+    .exec()
 }
-article.num = (callback) => {
-    article.count((err,data)=>{
-        if(err){
-            callback(err)
-        }else {
-            callback(data)
-        }
-    })
+article.num = () => {
+    return article.count().exec()
 }
-article.edit = (id, callback) => {
-    article
-    .findById(id)
-    .populate({
-        path: "tags",
-        select: "name _id"
-    })
-    .populate({
-        path: "type",
-        select: "name _id"
-    })
-    .exec(callback)
-}
-article.add = (data, callback) => {
-    article.create(data, callback)
+article.add = (data) => {
+    return article.create(data)
 }
 
 article.addTag = (id, tag, callback) => {

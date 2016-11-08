@@ -8,10 +8,12 @@ export const checklogin = ({commit, state }) => {
             .then(function(response) {
                 return response.json()
             }).then(function(data) {
+                console.log(data)
                 if(data.status == "success"){
                     commit(types.CHECK_LOGIN, data)
                     resolve(state.login)
                 }else {
+                    commit(types.CHECK_LOGIN, data)
                     resolve(state.login)
                 }
             })

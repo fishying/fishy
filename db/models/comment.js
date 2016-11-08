@@ -8,7 +8,7 @@ var commentSchema = Schema ({
     from : {
         admin:{
             type:ObjectId,
-            ref:"user"
+            ref:"user",
         },
         user:{
             type:Object,
@@ -39,6 +39,9 @@ var commentSchema = Schema ({
         type:String,
         default: ""
     }],
+    os:{
+        type : String
+    }
 })
 
 let comment = mongoose.model("comment", commentSchema)
@@ -53,14 +56,16 @@ comment.add = (data, callback) => {
     })
 }
 
-comment.finds = (article, callback) => {
-    comment.find({article:article})
+comment.finds = (article) => {
+    return comment.find({article:article})
+    .lean()
     .where("reply").exists(false)
     .populate({
         path: "from.admin",
-        select: "name _id avatar profile"
+        select: "name _id profile emailmd5"
     })
-    .exec(callback)
+    .sort({'create_time':-1})
+    .exec()
 }
 
 module.exports = comment

@@ -1,16 +1,18 @@
 <template>
     <div class="comment">
         <div class="comment-item" v-for="comment in data">
-            <div class="comment-avatar">
-                
+            <div class="comment-avater">
+                <img :src="`http://gravatar.duoshuo.com/avatar/${comment.from.admin.emailmd5}?s=50`">
             </div>
             <div class="comment-box">
                 <div class="content">
                     <p class="comment-info">
-                        <span v-text="comment.from.admin.name" v-if="comment.from.admin" class="comment-name"></span>
-                        <span v-text="comment.from.user.name" v-if="comment.from.user" class="comment-name"></span>
+                        <span v-if="comment.from.admin" class="comment-name">{{comment.from.admin.name}}</span>
+                        <span v-if="comment.from.user" class="comment-name">{{comment.from.user.name}}</span>
                         <span class="comment-xz"> · </span>
-                        <span class="comment-time">{{ comment.time[1] }} </span>
+                        <span class="comment-os comment-tag">{{ comment.os }} </span>
+                        <span class="comment-xz"> · </span>
+                        <span class="comment-time comment-tag">{{ comment.create_time[1] }} </span>
                     </p>
                     <div class="comment-content">
                         {{comment.content}}
@@ -28,7 +30,7 @@
     .comment-item {
         display: flex;
         padding-bottom: 22px;
-        .comment-avatar {
+        .comment-avater {
             box-shadow: 0 0 26px -10px #ccc;
             width: 50px;
             min-width: 50px;
@@ -36,6 +38,7 @@
             min-height: 50px;
             border-radius: 100%;
             background: #ccc;
+            overflow: hidden;
         }
         .comment-box {
             box-sizing: border-box;
@@ -56,8 +59,8 @@
                         color: #404040; 
                         padding-bottom: 6px;
                     }
-                    .comment-time {
-                        font-size: 16px;
+                    .comment-tag {
+                        font-size: 14px;
                         color: #aaa;
                     }
                     .comment-xz {
@@ -69,21 +72,20 @@
                     padding-bottom: 6px;
                     color: #666;
                 }
-                .comment-tag {
-                    span {
-                        font-size: 14px;
-                        color: #aaa;
-                    }
-                }
             }
         }
     }
 }
 </style>
 <script>
+import {detectOS} from "../../uilt";
+
 export default {
     props:{
         data:Array,
+    },
+    created(){
+        detectOS()
     }
 }
 </script>

@@ -27,6 +27,7 @@
 	</article>
 </template>
 <script>
+import {detectOS} from "../../uilt";
 import comment from "../../components/comment/comment"
 export default {
     data(){
@@ -132,7 +133,8 @@ export default {
         addComment(){
             this.$http.post("/api/comment", {
                 article:this.$route.params.id,
-                content:this.comment
+                content:this.comment,
+                os:detectOS()
             }).then(response=>{
                 console.log(response)
             })

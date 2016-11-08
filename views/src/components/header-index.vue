@@ -7,6 +7,7 @@
 			<router-link to="/">Home</router-link>
 			<router-link to="/logon">Home</router-link>
 			<router-link to="/login">Home</router-link>
+			<button @click="logout">logout</button>
 		</nav>
 		<div class="menu" @click="navBtn">
 			<span class="t"></span>
@@ -34,6 +35,12 @@ export default {
 	methods:{
 		navBtn(){
 			this.menu ? this.menu = false : this.menu = true
+		},
+		logout(){
+			this.$http.post("/api/logout")
+			.then(data=>{
+				console.log(data)
+			})
 		}
 	}
 }

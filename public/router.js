@@ -8,10 +8,11 @@ module.exports = (app) => {
     app.post("/login", user.login)
     app.post("/logon", user.logon)
     app.post("/checklogin", user.checkLogin)
+    app.post("/logout", user.logout)
 	// 文章首页
     app.get("/article", article.index)
     app.get("/article/:id", article.article)
-    app.post("/article/update", article.edit)
+    // app.post("/article/update", article.edit)
     // app.post("/admin/index", user.requiresLogin, article.num)
     app.post("/article", user.requiresLogin, article.add)
     app.delete("/article/:id", user.requiresLogin, article.del)
