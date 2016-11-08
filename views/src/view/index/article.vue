@@ -20,8 +20,6 @@
                 </span>
             </div>
             <div class="md" ref="md" v-html="data.content"></div>
-            <input type="" name="" v-model="comment">
-            <y-button @click.native="addComment">评论</y-button>
             <comment :data="comments"></comment>
         </article>
 	</article>
@@ -198,6 +196,7 @@ article.article {
         p {
             margin: 16px 0;
             font-size: 18px;
+            line-height: 1.6;
         }
         pre {
             background: #f7f7f7;

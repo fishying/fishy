@@ -30,8 +30,6 @@ export default {
         path:String,
         data:Object,
     },
-    mounted(){
-    }
 }
 </script>
 <style lang="less">

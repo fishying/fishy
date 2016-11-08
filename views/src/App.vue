@@ -40,10 +40,16 @@ body {
     width: 660px;
     margin: 0 auto;
 }
+@media (max-width: 940px) {
+    .p-12 {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
 .f-container {
     width: 100%;
     background-color: #f6f6f6;
-    padding: 22px 0;
+    padding: 12px 0;
 }
 @media (max-width: 940px) {
     .container {
