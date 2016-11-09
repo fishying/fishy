@@ -37,7 +37,7 @@ body {
     height: 100%;
 }
 .container {
-    width: 660px;
+    width: 740px;
     margin: 0 auto;
 }
 @media (max-width: 940px) {
