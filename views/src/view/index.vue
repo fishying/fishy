@@ -21,6 +21,12 @@ export default {
 }
 </script>
 <style lang="less">
+.indexs {
+    padding-top: 65px;
+    .main {
+        padding: 22px 0 42px 0;
+    }
+}
 @media (max-width: 940px) {
     article.main {
         width: 600px;

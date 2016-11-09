@@ -1,13 +1,9 @@
 <template>
     <article class="index">
-        <h2 class="title"><router-link :to="path">{{ data.title }}</router-link></h2>
+        <h1 class="title y"><router-link :to="path">{{ data.title }}</router-link></h1>
         <div class="meta">
             <span>
-                <a>{{data.author.name}} </a>
-                  ·  
-                <y-tooltips :content="data.time[0]" trigger="hover" theme="dark" placement="bottom">
-                    <a href="" slot="html">{{data.time[1]}} </a>
-                </y-tooltips>
+                <a href="" slot="html">{{data.time[1]}} </a>
             </span>
         </div>
         <router-link :to="path" v-if="data.cover">
@@ -21,7 +17,6 @@
         <p class="outline">
             {{data.content}}
         </p>
-        <p class="read-all"><router-link :to="path">--- 阅读全文 ---</router-link></p>
     </article>
 </template>
 <script>
@@ -36,12 +31,8 @@ export default {
 article.index {
     width: 100%;
     margin-bottom: 62px;
-    h2.title {
-        font-size: 26px;
-        font-weight: 400;
-        color: #404040;
+    h1.title {
         text-align: center;
-        margin: 0;
         a {
             color: #404040;
             text-decoration: none;

@@ -14,6 +14,9 @@
                 <span class="t"></span>
                 <span class="b"></span>
             </div>
+            <div class="search">
+                <i class="ion-search"></i>
+            </div>
         </div>
     </header>
 </template>
@@ -49,14 +52,19 @@ export default {
 </script>
 <style lang="less">
 header.index {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     margin: 0 auto;
     z-index: 997;
-    border-bottom: 1px solid #f5f5f5;
+    background: rgba(255, 255, 255, .98);
+    border-bottom: 1px solid rgba(0, 0, 0, .04);
     .container {
         padding: 6px 0;
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
     &.open {
         background: #fff;
@@ -78,11 +86,11 @@ header.index {
         }
     }
     .logo {
+        width: 36px;
         font-size: 38px;
         font-weight: 700;
         text-decoration: none;
-        color: #6b6b6b;
-        margin-right: 22px;
+        color: rgba(0,0,0,0.7);
     }
     nav {
         padding: 12px 6px;
@@ -100,8 +108,8 @@ header.index {
         }
     }
     .menu {
-        margin-top: 16px;
         position: relative;
+        display: none;
         opacity: 0;
         width: 25px;
         height: 14px;
@@ -112,7 +120,7 @@ header.index {
             display: block;
             width: 100%;
             height: 2px;
-            background: #111;
+            background: rgba(0,0,0,0.7);
             &.t {
                 top: 0;
             }
@@ -120,6 +128,16 @@ header.index {
                 bottom: 0;
             }
         }
+    }
+    .search {
+        text-align: right;
+        width: 36px;
+        height: 42px;
+        i {
+            line-height: 42px;
+            display: block;
+        }
+        font-size: 24px;
     }
 }
 
@@ -152,6 +170,7 @@ header.index {
         }
         .menu {
             opacity: 1;
+            display: block;
         }
     }
 }
