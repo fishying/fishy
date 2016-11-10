@@ -32,6 +32,7 @@ article.index {
     width: 100%;
     margin-bottom: 62px;
     h1.title {
+        margin-bottom: 6px;
         text-align: center;
         a {
             color: #404040;
@@ -42,6 +43,9 @@ article.index {
         position: relative;
         width: 106%;
         margin: 12px 0 12px -3%;
+        margin-bottom: 24px;
+        border-radius: 4px;
+        overflow: hidden;
         img {
             display: block;
             width: 100%;
@@ -95,9 +99,8 @@ article.index {
     }
     div.meta {
         color: #666;
-        margin-bottom: 12px;
+        margin-bottom: 24px;
         text-align: center;
-        margin-top: 6px;
         a {
             color: #999;
             text-decoration: none;

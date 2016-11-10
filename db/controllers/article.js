@@ -39,7 +39,7 @@ exports.index = async(function *(req, res){
     .then(articles=>{
         for (let article of articles) {
             
-            article.content = trimsHTML(md.render(article.content), 250)
+            article.content = trimsHTML(md.render(article.content), 100)
 
             article.time = [moment(article.update_time).format('lll'), moment(article.update_time).fromNow()]
             

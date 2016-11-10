@@ -1,14 +1,11 @@
 <template>
 	<article class="article" v-if="loading">
-        <article class="article-content container">
-            <div class="imgs" v-if="data.cover">
+        <article class="article-content">
+            <div class="imgs container" v-if="data.cover">
                 <img :src="data.cover" class="index-img">
-                <div class="mask">
-                    <router-link :to="path" >阅读全文</router-link>
-                </div>
             </div>
-            <h2 class="title">{{ data.title }}</h2>
-            <div class="meta">
+            <h2 class="title container">{{ data.title }}</h2>
+            <div class="meta container">
                 <span>
                     <y-tooltips :content="data.author.profile" trigger="hover" theme="dark" placement="bottom">
                         <a href="" slot="html">{{ data.author.name }}</a>
@@ -19,7 +16,7 @@
                     </y-tooltips>
                 </span>
             </div>
-            <div class="md" ref="md" v-html="data.content"></div>
+            <div class="md container" ref="md" v-html="data.content"></div>
             <comment :data="comments"></comment>
         </article>
 	</article>
@@ -147,19 +144,22 @@ export default {
 @import "../../styles/code.css";
 article.article {
     .imgs {
-        width: 106%;
-        margin-left: -3%;
+        margin-bottom: 12px;
         img {
-            width: 100%;
+            border-radius: 4px;
+            overflow: hidden;
+            width: 106%;
+            margin-left: -3%;
         }
     }
     h2.title {
+        margin-bottom: 12px;
         font-size: 40px;
     }
     .meta {
-        margin-bottom: 32px;
+        margin-bottom: 24px;
         a {
-            color: #666;
+            color: fade(#000, 70%);
             text-decoration: none;
         }
     }

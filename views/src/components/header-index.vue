@@ -14,9 +14,6 @@
                 <span class="t"></span>
                 <span class="b"></span>
             </div>
-            <div class="search">
-                <i class="ion-search"></i>
-            </div>
         </div>
     </header>
 </template>
@@ -58,8 +55,8 @@ header.index {
     width: 100%;
     margin: 0 auto;
     z-index: 997;
-    background: rgba(255, 255, 255, .98);
-    border-bottom: 1px solid rgba(0, 0, 0, .04);
+    background: fade(#fff, 98%);
+    border-bottom: 1px solid fade(#000, 4%);
     .container {
         padding: 6px 0;
         display: flex;
@@ -90,21 +87,21 @@ header.index {
         font-size: 38px;
         font-weight: 700;
         text-decoration: none;
-        color: rgba(0,0,0,0.7);
+        color: fade(#000, 70%);
     }
     nav {
         padding: 12px 6px;
         transition: all .3s cubic-bezier(.645,.045,.355,1);
         text-align: center;
         a {
+            transition: color .3s cubic-bezier(.645,.045,.355,1);
             text-decoration: none;
-            color: #b3b3b3;
+            color:  fade(#000, 45%);
             margin-right: 22px;
-            font-size: 14px;
-        }
-        i {
-            font-size: 54px;
-            color: #666;
+            font-size: 16px;
+            &:hover {
+                color: #47b8e0;
+            }
         }
     }
     .menu {
