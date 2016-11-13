@@ -17,15 +17,16 @@
                 <tbody>
                     <tr v-for="articles in data">
                         <td><y-checkbox v-model="test" :label="articles._id" content></y-checkbox></td>
-                        <td class="title">{{articles.title}}</td>
+                        <td class="title"><router-link :to="`/admin/up/article/${articles._id}`">{{articles.title}}</router-link></td>
                         <td class="time">{{articles.time[1]}}</td>
                         <td class="enabled">{{articles.enabled}}</td>
                         <td class="t">
 
                         <y-popconfirm
                             title="是否删除该文章？"
+                            :ok-cbk="delArticle.bind(this, articles._id)"
                         >
-                             <y-button type="ghost" color="red" slot="html">删除</y-button>
+                            <y-button type="ghost" color="red" slot="html">删除</y-button>
                         </y-popconfirm>
                         </td>
                     </tr>
@@ -39,25 +40,28 @@ export default {
     data(){
         return {
             test:[],
-            data:[]
+            data:[],
+            tests:false
         }
     },
     methods:{
         delArticle(id){
+            console.log(id)
             this.$store.dispatch("delArticle", id)
             .then(test=>{
                 this.$notify("删除成功")
-                this.$store.dispatch("getIndex")
+                this.getIndex()
+            })
+        },
+        getIndex(){
+            this.$store.dispatch("getIndex")
+            .then(data=>{
+                this.data = data
             })
         }
     },
     created(){
-        this.$store.dispatch("getIndex")
-        .then(data=>{
-            this.data = data
-        }).catch(err=>{
-            
-        })
+        this.getIndex()
     }
 }
 </script>

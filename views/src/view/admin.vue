@@ -44,4 +44,101 @@ export default {
         }
     }
 }
+
+.add-article {
+    width: 800px;
+    margin: 0 auto;
+    >.img {
+        cursor: pointer;
+        background: #efefef;
+        margin-bottom: 24px;
+        .coverimg {
+            display: block;
+            width: 100%;
+        }
+        p {
+            padding: 12px;
+            i {
+                font-size: 42px;
+            }
+            text-align: center;
+            font-size: 28px;
+            color: #ccc;
+        }
+    }
+    >.type {
+        margin-bottom: 24px;
+        font-size: 24px;
+        .content {
+            display: flex;
+            align-items: center;
+            p.title {
+                color: #a9a9a9;
+                font-size: 24px;
+                margin-right: 24px;
+            }
+            .y-radio-group {
+                margin-left: 24px;
+                display: flex;
+                align-items: center;
+                .y-radio {
+                    margin: 0 4px;
+                }
+                .y-btn {
+                    border: 1px #ccc solid;
+                    border-radius: 2px;
+                }
+            }
+        }
+    }
+    >.title {
+        margin-bottom: 24px;
+        input {
+            width: 100%;
+            font-size: 32px;
+            outline: none;
+            border: none;
+            resize:none;
+            height: 1.3em;
+        }
+    }
+    >.content {
+        textarea {
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            font-size: 16px;
+            outline: none;
+            border: none;
+            resize:none;
+            height: 1.3em;
+            min-height: 260px;
+        }
+    }
+    >.y-dialog-body {
+        textarea {
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            border: 1px solid #ccc;
+            font-size: 24px;
+            border-radius: 4px;
+            padding: 4px 6px;
+            outline: none;
+        }
+    }
+    >.tags {
+        margin-bottom: 24px;
+        .content {
+            input {
+                width: 100%;
+                font-size: 18px;
+                outline: none;
+                border: none;
+                resize: none;
+                height: 1.3em;
+            }
+        }
+    }
+}
 </style>

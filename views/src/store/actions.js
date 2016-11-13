@@ -38,9 +38,10 @@ export const getIndex = ({commit, state}, page, limit) => {
     })
 }
 
-export const getArticle = ({commit, state}, id) => {
+export const getArticle = ({commit, state}, id, types) => {
+    console.log(id)
     return new Promise((resolve, reject)=>{
-        Vue.http.get(`/api/article/${id}`)
+        Vue.http.get(`/api/article/${id}${types ? '?type='+type : ''}`)
         .then(response=>{
             return response.json()
         }).then(data=>{

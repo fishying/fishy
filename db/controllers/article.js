@@ -32,17 +32,16 @@ exports.index = async(function *(req, res){
             })
         })
     }
-
     req.query.limit ? limit = req.query.limit : limit = 10
 
     yield article.all(page, limit)
     .then(articles=>{
         for (let article of articles) {
-            
+
             article.content = trimsHTML(md.render(article.content), 100)
 
             article.time = [moment(article.update_time).format('lll'), moment(article.update_time).fromNow()]
-            
+
         }
         return res.json({
             status:"success",
@@ -63,14 +62,16 @@ exports.index = async(function *(req, res){
  */
 exports.article = async(function *(req, res){
     const id = req.params.id
-
+    console.log(req.query)
     yield article.one(id)
     .then(data=>{
         article.update({"_id":data._id},{$inc:{"vistits":1}},()=>{})
 
         data.time = [moment(data.update_time).format('lll'), moment(data.update_time).fromNow()]
-
-        data.content = md.render(data.content)
+        
+        if(req.query.md !== "no"){
+            data.content = md.render(data.content)
+        }
 
         return res.json({
             status:"success",
@@ -87,7 +88,7 @@ exports.article = async(function *(req, res){
 })
 /**
  * 添加文章
- * 
+ *
  * 先添加文章内容
  * 然后添加分类
  * 然后添加标签
@@ -142,12 +143,12 @@ exports.add = async(function *(req, res){
 })
 /**
  * 删除文章
- * 
+ *
  * 查询文章详情
  * 删除文章
  * 删除type关联
  * 删除tag关联
- * 
+ *
  */
 exports.del = async(function* (req, res){
     const id = req.params.id;
@@ -155,7 +156,7 @@ exports.del = async(function* (req, res){
     .findById(id)
     .exec();
     if(data.type == null && data.tags == null) {
-        let dels = yield thunkify(article.del)(id)
+        let dels = yield article.del(id)
         res.json({
             status:"success",
             msg:"删除成功"
@@ -171,15 +172,15 @@ exports.del = async(function* (req, res){
                 }
             })
         }
-        if(data.tags !=null){
+        if(data.tags != null){
             yield data.tags.map((i)=>{
-                let a = tag.del(i, data._id);
-                a.then((t)=>{
+                tag.del(i, data._id)
+                .then((t)=>{
                     return t
                 })
             })
         }
-        yield thunkify(article.del)(id)
+        yield article.del(id)
         res.json({
             status:"success"
         })
@@ -202,7 +203,7 @@ exports.update = async(function* (req, res){
         })
         .exec();
     // type
-    
+
     if(news.type != null){
         // 假如更改了type，删除旧type关联
         if(news.type != data.type) {
@@ -231,7 +232,7 @@ exports.update = async(function* (req, res){
         for(let j of news.tags){
             if(i.name == j){
                 num++;
-            } 
+            }
         }
         if(num == 0) {
             let a = tag.del(i.id, data._id);
@@ -248,8 +249,8 @@ exports.update = async(function* (req, res){
     //  都是使用tag名来做判断
     news.tags = yield news.tags.map((i)=>{
         if(data.tags.length == 0){
-            let a = tag.link(i, data._id);
-            a.then((result)=>{
+            let a = tag.link(i, data._id)
+            .then((result)=>{
                 a = result;
             })
             return a;
@@ -258,8 +259,8 @@ exports.update = async(function* (req, res){
                 if(i == j.name){
                     return j._id;
                 }else {
-                    let a = tag.link(i, data._id);
-                    a.then((result)=>{
+                    let a = tag.link(i, data._id)
+                    .then((result)=>{
                         return result;
                     })
                     return a;

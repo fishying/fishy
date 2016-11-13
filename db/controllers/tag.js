@@ -24,8 +24,8 @@ exports.link = async(function* (tagName, art){
     }*/
 })
 exports.del = async(function* (tagId, art){
-    tag.delArticle(tagId, art, (err, data)=>{})
-    let data = yield thunkify(tag.findId)(tagId);
+    yield tag.delArticle(tagId, art)
+    let data = yield tag.findId(tagId);
     if(data.article.length == 0){
         tag.del(tagId, ()=>{})
     }

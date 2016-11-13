@@ -51,36 +51,41 @@
 export default {
     data(){
         return {
-            data:{
-                title:"",
-                content:"",
-                cover:"",
-                type:"",
-                tags:""
-            },
+            data:{},
+            title:"",
+            content:"",
             coverBtn:false,
+            coverUrl:"",
+            coverUrlBtn:false,
         }
     },
     created(){
         this.$store.dispatch("getType")
+        this.$http.get(`/api/article/${this.$route.params.id}?md=no`)
+        .then(response=>{
+            return response.json()
+        })
+        .then(article=>{
+            this.data = article.data
+        })
     },
     methods:{
         add(){
             this.data.tags = this.data.tags.split(",")
-            this.$http.post("/api/article",this.data)
-            .then(response => {
-                console.log(response)
+            this.$http.post("/api/admin/update",{
+                data:this.data,
+                id:this.$route.params.id
             })
-            .catch(err=>{
-
+            .then((response,err) => {
+                console.log(response)
+                console.log(err)
             })
         },
         coverDiaOn(){
             this.coverBtn = true
         },
         coverDiaOk(){
-
-            if(this.coverUrl == "") {
+            if(this.$refs.coverUrl.value == "") {
                 this.$notify.danger("不能为空")
             }else {
                 this.data.cover = this.$refs.coverUrl.value

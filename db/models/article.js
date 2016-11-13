@@ -25,11 +25,11 @@ var articleSchema = new Schema ({
         ref:"tag"
     }],
     create_time:{
-        type : Date, 
+        type : Date,
         default: Date.now
     },
     update_time:{
-        type : Date, 
+        type : Date,
         default: Date.now
     },
     time:[{
@@ -96,6 +96,6 @@ article.addTag = (id, tag, callback) => {
     article.update({"_id":id},{"$addToSet":{"tags":tag}},callback)
 }
 article.del = (id,callback) => {
-    article.remove({"_id":id},callback);
+    return article.remove({"_id":id});
 }
 module.exports = article;

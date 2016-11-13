@@ -14,6 +14,7 @@ const admin = resolve => require(['./view/admin'], resolve)
 const admin_index = resolve => require(['./view/admin/index'], resolve)
 const admin_article = resolve => require(['./view/admin/article'], resolve)
 const admin_addarticle = resolve => require(['./view/admin/addArticle'], resolve)
+const admin_uparticle = resolve => require(['./view/admin/upArticle'], resolve)
 const admin_type = resolve => require(['./view/admin/type'], resolve)
 const admin_addtype = resolve => require(['./view/admin/addType'], resolve)
 
@@ -74,6 +75,11 @@ let router = new Router({
                     path: 'add/article',
                     name:"addArticle",
                     component: admin_addarticle
+                },
+                {
+                    path: 'up/article/:id',
+                    name:"upArticle",
+                    component: admin_uparticle
                 },
                 {
                     path: 'type',

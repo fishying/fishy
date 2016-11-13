@@ -20,7 +20,7 @@ tag.add = function(data){
 }
 
 tag.findId = function(id, callback){
-    tag.findById(id, callback)
+    return tag.findById(id).exec()
 }
 
 tag.findName = function(name){
@@ -55,7 +55,7 @@ tag.addArticle = function(tags,id){
 }
 // 删除文章到tag：article
 tag.delArticle = function(tags,id,callback){
-    tag.update({"_id":tags},{"$pull":{"article":id}},callback)
+    return tag.update({"_id":tags},{"$pull":{"article":id}})
 }
 
 
