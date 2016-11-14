@@ -44,7 +44,7 @@ exports.logon = async(function* (req, res) {
     })
     .catch(err=>{
         res.json({
-            "status":"err"
+            "status":"fail"
         })
     })
 })

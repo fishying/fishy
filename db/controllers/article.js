@@ -31,29 +31,30 @@ exports.index = async(function *(req, res){
                 data:data
             })
         })
+    }else {
+        req.query.limit ? limit = req.query.limit : limit = 10
+
+        yield article.all(page, limit)
+        .then(articles=>{
+            for (let article of articles) {
+
+                article.content = trimsHTML(md.render(article.content), 100)
+
+                article.time = [moment(article.update_time).format('lll'), moment(article.update_time).fromNow()]
+
+            }
+            return res.json({
+                status:"success",
+                data:articles
+            })
+        })
+        .catch(err=>{
+            return res.json({
+                status:"fail",
+                msg:"加载失败"
+            })
+        })
     }
-    req.query.limit ? limit = req.query.limit : limit = 10
-
-    yield article.all(page, limit)
-    .then(articles=>{
-        for (let article of articles) {
-
-            article.content = trimsHTML(md.render(article.content), 100)
-
-            article.time = [moment(article.update_time).format('lll'), moment(article.update_time).fromNow()]
-
-        }
-        return res.json({
-            status:"success",
-            data:articles
-        })
-    })
-    .catch(err=>{
-        return res.json({
-            status:"fail",
-            msg:"加载失败"
-        })
-    })
 
 })
 /**
@@ -72,7 +73,6 @@ exports.article = async(function *(req, res){
         if(req.query.md !== "no"){
             data.content = md.render(data.content)
         }
-
         return res.json({
             status:"success",
             data:data
