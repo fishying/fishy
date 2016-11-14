@@ -23,13 +23,22 @@
             <div class="content">
                 <p class="title">分类</p>
                 <y-select v-model="data.type" clearable>
-                    <y-option :value="type._id" v-for="type in types">{{type.name}}</y-option>
+                    <y-option :value="type._id" :label="type.name" v-for="type in types">{{type.name}}
+                    </y-option>
                 </y-select>
             </div>
         </div>
         <div class="tags">
             <div class="content">
-                <input type="text" placeholder="请输入标签，用逗号隔开" v-model="data.tags">
+                <div class="tag">
+                    <y-tag type="gray" v-for="i in tags" closable>{{i}}</y-tag>
+                </div>
+                <input 
+                    type="text" 
+                    placeholder="输入标签，回车添加" 
+                    v-model="tag"
+                    @keyup.enter="addTag"
+                >
             </div>
         </div>
         <y-button @click.native="add">提交</y-button>
@@ -58,6 +67,8 @@ export default {
                 type:"",
                 tags:""
             },
+            tag:"", // input输入
+            tags:[], // tags
             coverBtn:false,
         }
     },
@@ -85,6 +96,12 @@ export default {
             }else {
                 this.data.cover = this.$refs.coverUrl.value
                 this.coverBtn = false
+            }
+        },
+        addTag(){
+            if(this.tag != ""){
+                this.tags.push(this.tag)
+                this.tag = ""
             }
         }
     },

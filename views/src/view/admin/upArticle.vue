@@ -22,14 +22,17 @@
         <div class="type">
             <div class="content">
                 <p class="title">分类</p>
-                <y-select v-model="data.type" clearable>
-                    <y-option :value="type._id" v-for="type in types">{{type.name}}</y-option>
+                <y-select v-model="type" clearable>
+                    <y-option :value="type._id" :label="type.name" v-for="type in types">{{type.name}}</y-option>
                 </y-select>
             </div>
         </div>
         <div class="tags">
             <div class="content">
-                <input type="text" placeholder="请输入标签，用逗号隔开" v-model="data.tags">
+                <div class="tags" v-if="data !=={}">
+                    <y-tag type="gray" closable>1</y-tag>
+                </div>
+                <input type="text" placeholder="请输入标签，用逗号隔开" v-model="tag">
             </div>
         </div>
         <y-button @click.native="add">提交</y-button>
@@ -52,6 +55,7 @@ export default {
     data(){
         return {
             data:{},
+            type:"",
             title:"",
             content:"",
             coverBtn:false,
@@ -66,6 +70,7 @@ export default {
             return response.json()
         })
         .then(article=>{
+            this.type = article.data.type._id
             this.data = article.data
         })
     },
