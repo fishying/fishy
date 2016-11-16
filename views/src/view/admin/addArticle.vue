@@ -1,5 +1,5 @@
 <template>
-    <div class="add-article">
+    <div class="add-article container">
         <div class="img" @click="coverDiaOn">
             <img :src="data.cover" class="coverimg" v-if="data.cover != ''">
             <div class="content" v-else>
@@ -23,25 +23,26 @@
             <div class="content">
                 <p class="title">分类</p>
                 <y-select v-model="data.type" clearable>
-                    <y-option :value="type._id" :label="type.name" v-for="type in types">{{type.name}}
-                    </y-option>
+                    <y-option :value="type._id" :label="type.name" v-for="type in types">{{type.name}}</y-option>
                 </y-select>
             </div>
         </div>
         <div class="tags">
             <div class="content">
-                <div class="tag">
-                    <y-tag type="gray" v-for="i in tags" closable>{{i}}</y-tag>
-                </div>
-                <input 
-                    type="text" 
-                    placeholder="输入标签，回车添加" 
-                    v-model="tag"
-                    @keyup.enter="addTag"
-                >
+                <transition-group name="y-tag" class="tag" :class="{ none : tag.length == 0}">
+                    <y-tag 
+                        type="gray" 
+                        closable 
+                        v-for="(tags, index) in tag" 
+                        :close="deltag.bind(this,index)"
+                        :key="tags.key"
+                    >{{tags.name}}</y-tag>
+                </transition-group>
+                <input type="text" placeholder="请输入标签，回车添加" @keyup.enter="addtag">
             </div>
         </div>
-        <y-button @click.native="add">提交</y-button>
+        <y-button type="ghost" @click.native="add" v-if="$route.name !== 'upArticle'">提交</y-button>
+        <y-button type="ghost"  @click.native="update" v-else>更新</y-button>
         <y-dialog
             v-model="coverBtn"
             title="添加封面"
@@ -67,24 +68,66 @@ export default {
                 type:"",
                 tags:""
             },
-            tag:"", // input输入
-            tags:[], // tags
+            tagKey:0,
+            tag:[],
             coverBtn:false,
         }
     },
     created(){
+        if(this.$route.name == "upArticle"){
+            this.$http.get(`/api/article/${this.$route.params.id}?md=no`)
+            .then(response=>{
+                return response.json()
+            })
+            .then(article=>{
+                this.data = article.data
+                // 处理一下原有tag
+                this.tag = this.data.tags.map(tag => {
+                    this.tagKey++
+                    return {key:this.tagKey, name:tag.name}
+                })
+            })
+        }
+        // 
         this.$store.dispatch("getType")
     },
     methods:{
         add(){
-            this.data.tags = this.data.tags.split(",")
-            this.$http.post("/api/article",this.data)
-            .then(response => {
-                console.log(response)
+            let tag = this.tag.map((e)=>{
+                return e.name
+            })
+
+            this.data.tags = tag
+
+            this.$store.dispatch("addArticle", this.data)
+            .then(data=>{
+                this.$router.push("/admin")
+                this.$notify("文章发布成功")
             })
             .catch(err=>{
-
+                this.$notify.warning("文章发布失败")
             })
+        },
+        update(){
+
+            let tag = this.tag.map((e)=>{
+                return e.name
+            })
+
+            this.data.tags = tag
+
+            this.$store.dispatch("upArticle", {
+                article: this.data,
+                id: this.$route.params.id
+            })
+            .then(data=>{
+                this.$router.push("/admin")
+                this.$notify("文章更新成功")
+            })
+            .catch(err=>{
+                this.$notify.warning("文章更新失败")
+            })
+            
         },
         coverDiaOn(){
             this.coverBtn = true
@@ -98,12 +141,21 @@ export default {
                 this.coverBtn = false
             }
         },
-        addTag(){
-            if(this.tag != ""){
-                this.tags.push(this.tag)
-                this.tag = ""
+        deltag(i){
+            this.tag.splice(i, 1)
+        },
+        addtag(e){
+            if(this.tag.length >= 5) {
+                return
+            }else {
+                this.tagKey++
+                this.tag.push({
+                    key:this.tagKey,
+                    name:e.target.value
+                })
+                e.target.value = ""
             }
-        }
+        },
     },
     computed:{
         types:function(){

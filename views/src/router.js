@@ -23,7 +23,7 @@ Vue.use(Router)
 let router = new Router({
     mode: 'history',
     scrollBehavior (to, from, savedPosition) {
-        return { x: 0, y: 0 }
+      return { x: 0, y: 0 }
     },
     routes: [
         {
@@ -79,7 +79,7 @@ let router = new Router({
                 {
                     path: 'up/article/:id',
                     name:"upArticle",
-                    component: admin_uparticle
+                    component: admin_addarticle
                 },
                 {
                     path: 'type',

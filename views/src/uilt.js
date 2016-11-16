@@ -32,3 +32,25 @@ export const detectOS = function() {
 
     }
 }
+
+export const debounce = function(func, wait, immediate) {
+    // 定时器变量
+    var timeout;
+    return function() {
+        // 每次触发 scroll handler 时先清除定时器
+        clearTimeout(timeout);
+        // 指定 xx ms 后触发真正想进行的操作 handler
+        timeout = setTimeout(func, wait);
+    };
+};
+export const scroll = function ( fn ) {
+    var beforeScrollTop = document.body.scrollTop,
+        fn = fn || function() {};
+    window.addEventListener("scroll", function() {
+        var afterScrollTop = document.body.scrollTop,
+            delta = afterScrollTop - beforeScrollTop;
+        if( delta === 0 ) return false;
+        fn( delta > 0 ? 1 : 0 );
+        beforeScrollTop = afterScrollTop;
+    }, false);
+}

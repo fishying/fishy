@@ -1,5 +1,5 @@
 <template>
-    <div class="comment p-12">
+    <div class="comment">
         <comment-from></comment-from>
         <div class="comment-item" v-for="comment in data">
             <div class="comment-avater">

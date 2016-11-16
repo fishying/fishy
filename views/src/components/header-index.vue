@@ -1,27 +1,35 @@
 <template>
-    <header class="index" :class="{'open':menu}">
-        <div class="container">
-            <router-link to="/" class="logo">W</router-link>
-            <nav>
-                <router-link to="/admin">Home</router-link>
-                <router-link to="/">Home</router-link>
-                <router-link to="/">Home</router-link>
-                <router-link to="/logon">Home</router-link>
-                <router-link to="/login">Home</router-link>
-                <router-link to="/login">logout</router-link>
-            </nav>
-            <div class="menu" @click="navBtn">
-                <span class="t"></span>
-                <span class="b"></span>
+    <transition name="index-header" appear>
+        <header class="index" :class="{
+            'open':menu,
+            'border': scrolls == 0,
+            'display': scrolls == 1,
+        }">
+            <div class="container">
+                <router-link to="/" class="logo">W</router-link>
+                <nav>
+                    <router-link to="/admin">Home</router-link>
+                    <router-link to="/">Home</router-link>
+                    <router-link to="/">Home</router-link>
+                    <router-link to="/logon">Home</router-link>
+                    <router-link to="/login">Home</router-link>
+                    <router-link to="/login">logout</router-link>
+                </nav>
+                <div class="menu" @click="navBtn">
+                    <span class="t"></span>
+                    <span class="b"></span>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
+    </transition>
 </template>
 <script>
+import {debounce, scroll} from "../uilt"
 export default {
     data(){
         return {
             menu:false,
+            scrolls:0,
         }
     },
     mounted(){
@@ -33,6 +41,16 @@ export default {
                 return
             }
         })
+        window.addEventListener("scroll", function(){
+            if(self.menu) {
+                self.menu = false
+            }else {
+                return
+            }
+        })
+        scroll(function(e){
+            self.scroll(e)
+        })
     },
     methods:{
         navBtn(){
@@ -43,6 +61,28 @@ export default {
             .then(data=>{
                 console.log(data)
             })
+        },
+        scroll(e){
+            if(document.body.scrollTop == 0){
+                this.scrolls = 0
+            }else if(document.body.scrollTop >= 120){
+                if(e){
+                    this.scrolls = 1
+                }else {
+                    this.scrolls = -1
+                }
+            }else {
+                this.scrolls = -1
+            }
+        }
+    },
+    watch:{
+        "$route":function(value){
+            if(this.menu) {
+                this.menu = false
+            }else {
+                return
+            }
         }
     }
 }
@@ -57,6 +97,13 @@ header.index {
     z-index: 997;
     background: fade(#fff, 98%);
     border-bottom: 1px solid fade(#000, 4%);
+    transition: 0.3s transform;
+    &.border {
+        border-bottom: 1px solid fade(#000, 0%);
+    }
+    &.display {
+        transform: translateY(-100%);
+    }
     .container {
         padding: 6px 0;
         display: flex;
@@ -152,13 +199,14 @@ header.index {
 @media (max-width: 600px) {
     header.index {
         nav {
+            position: absolute;
+            top: 60px;
             max-height: 0;
             overflow: hidden;
             opacity: 0;
             left: 0;
             position: absolute;
             width: 100%;
-            margin-top: 60px;
             background: #fff;
             a {
                 padding: 12px;
@@ -170,5 +218,11 @@ header.index {
             display: block;
         }
     }
+}
+.index-header-enter-active, .index-header-leave-active {
+    transition: transform .5s
+}
+.index-header-enter, .index-header-leave-active {
+    transform: translateY(-100%);
 }
 </style>

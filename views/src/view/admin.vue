@@ -29,6 +29,7 @@ export default {
     h2.title {
         font-size: 22px;
         font-weight: 400;
+        margin-bottom: 12px;
     }
     .box {
         .content{
@@ -46,7 +47,6 @@ export default {
 }
 
 .add-article {
-    width: 800px;
     margin: 0 auto;
     >.img {
         cursor: pointer;
@@ -115,23 +115,16 @@ export default {
             min-height: 260px;
         }
     }
-    >.y-dialog-body {
-        textarea {
-            width: 100%;
-            min-width: 100%;
-            max-width: 100%;
-            border: 1px solid #ccc;
-            font-size: 24px;
-            border-radius: 4px;
-            padding: 4px 6px;
-            outline: none;
-        }
-    }
     >.tags {
         margin-bottom: 24px;
         .content {
+            display: flex;
+            .tag {
+                display: block;
+                height: 22px;
+                margin-bottom: 12px;
+            }
             input {
-                width: 100%;
                 font-size: 18px;
                 outline: none;
                 border: none;
@@ -139,6 +132,18 @@ export default {
                 height: 1.3em;
             }
         }
+    }
+}
+.y-dialog-body {
+    textarea {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        border: 1px solid #ccc;
+        font-size: 24px;
+        border-radius: 4px;
+        padding: 4px 6px;
+        outline: none;
     }
 }
 </style>

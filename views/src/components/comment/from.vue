@@ -17,8 +17,8 @@
             <input type="text" placeholder="主页">
         </div>
         <div class="comment-btn" v-if="open">
-            <y-button @click.native="addComment">评论</y-button>
-            <y-button @click.native="textOut" type="ghost">取消</y-button>
+            <a @click.native="addComment">评论</a>
+            <a @click.native="textOut" type="ghost">取消</a>
         </div>
     </div>
 </template>
