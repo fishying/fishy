@@ -63,7 +63,6 @@ exports.index = async(function *(req, res){
  */
 exports.article = async(function *(req, res){
     const id = req.params.id
-    console.log(req.query)
     yield article.one(id)
     .then(data=>{
         article.update({"_id":data._id},{$inc:{"vistits":1}},()=>{})
@@ -227,47 +226,49 @@ exports.update = async(function* (req, res){
     // 用旧的tag匹配新的tag
     //  假如匹配到，返回
     //  假如没匹配到，tagdel
-    data.tags.map((i)=>{
-        let num = 0;
-        for(let j of news.tags){
-            if(i.name == j){
-                num++;
-            }
-        }
-        if(num == 0) {
-            let a = tag.del(i.id, data._id);
-            a.then((result)=>{
-                a = result;
-            })
-            return true;
-        }
-    })
-    // 添加新的type关联
-    // 用新的tag匹配旧的tag,
-    //  假如匹配到，返回id
-    //  假如没匹配到，taglink
-    //  都是使用tag名来做判断
-    news.tags = yield news.tags.map((i)=>{
-        if(data.tags.length == 0){
-            let a = tag.link(i, data._id)
-            .then((result)=>{
-                a = result;
-            })
-            return a;
-        }else {
-            for(let j of data.tags){
-                if(i == j.name){
-                    return j._id;
-                }else {
-                    let a = tag.link(i, data._id)
-                    .then((result)=>{
-                        return result;
-                    })
-                    return a;
+    if(data.tags) {
+        data.tags.map((i)=>{
+            let num = 0;
+            for(let j of news.tags){
+                if(i.name == j){
+                    num++;
                 }
             }
-        }
-    })
+            if(num == 0) {
+                let a = tag.del(i.id, data._id);
+                a.then((result)=>{
+                    a = result;
+                })
+                return true;
+            }
+        })
+        // 添加新的type关联
+        // 用新的tag匹配旧的tag,
+        //  假如匹配到，返回id
+        //  假如没匹配到，taglink
+        //  都是使用tag名来做判断
+        news.tags = yield news.tags.map((i)=>{
+            if(data.tags.length == 0){
+                let a = tag.link(i, data._id)
+                .then((result)=>{
+                    a = result;
+                })
+                return a;
+            }else {
+                for(let j of data.tags){
+                    if(i == j.name){
+                        return j._id;
+                    }else {
+                        let a = tag.link(i, data._id)
+                        .then((result)=>{
+                            return result;
+                        })
+                        return a;
+                    }
+                }
+            }
+        })
+    }
     // 更新article
     article.update({"_id":data._id},news, (err, data)=>{
         if(err){

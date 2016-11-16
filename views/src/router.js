@@ -79,7 +79,7 @@ let router = new Router({
                 {
                     path: 'up/article/:id',
                     name:"upArticle",
-                    component: admin_uparticle
+                    component: admin_addarticle
                 },
                 {
                     path: 'type',

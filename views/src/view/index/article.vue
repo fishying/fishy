@@ -17,7 +17,15 @@
                 </span>
             </div>
             <div class="md container" ref="md" v-html="data.content"></div>
-            <comment :data="comments"></comment>
+            <div class="tag container">
+                <span class="tag-list" v-for="tag in data.tags">{{tag.name}}</span>
+            </div>
+            <div class="posts-end container">
+                <i class="ion-ios-minus-empty"></i>
+            </div>
+            <div class="comment-box container">
+                <comment :data="comments"></comment>
+            </div>
         </article>
 	</article>
 </template>
@@ -270,6 +278,19 @@ article.article {
             white-space: pre-wrap;
             background-color: transparent;
             border-radius: 0;
+        }
+    }
+    .tag {
+        margin-top: 24px;
+        margin-bottom: 24px;
+        .tag-list {
+            line-height: 22px;
+            display: inline-block;
+            padding: 4px 12px;
+            background: fade(#000, 5%);
+            color: fade(#000, 50%);
+            margin-right: 12px;
+            border-radius: 12px;
         }
     }
     @media (max-width: 940px) {

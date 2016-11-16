@@ -23,7 +23,7 @@
             <div class="content">
                 <p class="title">分类</p>
                 <y-select v-model="data.type" clearable>
-                    <y-option :value="type._id" v-for="type in types">{{type.name}}</y-option>
+                    <y-option :value="type._id" :label="type.name" v-for="type in types">{{type.name}}</y-option>
                 </y-select>
             </div>
         </div>

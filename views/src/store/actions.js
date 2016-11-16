@@ -92,6 +92,7 @@ export const addType = ({commit, state}, type) => {
         })
     })
 }
+
 export const getOneComment = ({commit, state}, article) => {
     return new Promise((resolve, reject) => {
         Vue.http.get(`/api/comment?article=${article}`)
@@ -102,6 +103,41 @@ export const getOneComment = ({commit, state}, article) => {
                 reject(data.msg)
             }else {
                 resolve(data.data)
+            }
+        })
+    })
+}
+
+export const addArticle = ({commit, state}, article) => {
+    return new Promise((resolve, reject) => {
+        Vue.http.post("/api/article",article)
+        .then(response=>{
+            return response.json()
+        }).then(data=>{
+            if(data.status != "success") {
+                reject(data.msg)
+            }else {
+                resolve(data.msg)
+            }
+        })
+    })
+}
+export const upArticle = ({commit, state}, data) => {
+    let article = data.article
+    let id = data.id
+
+    return new Promise((resolve, reject) => {
+        Vue.http.post("/api/admin/update",{
+            data:article,
+            id:id
+        })
+        .then(response=>{
+            return response.json()
+        }).then(data=>{
+            if(data.status != "success") {
+                reject(data.msg)
+            }else {
+                resolve(data.msg)
             }
         })
     })

@@ -14,8 +14,9 @@
                         <th>文章操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr v-for="articles in data">
+
+                <transition-group name="table" v-if="data.length !==0" tag="tbody">
+                    <tr v-for="articles in data" :key="articles._id">
                         <td><y-checkbox v-model="test" :label="articles._id" content></y-checkbox></td>
                         <td class="title"><router-link :to="`/admin/up/article/${articles._id}`">{{articles.title}}</router-link></td>
                         <td class="time">{{articles.time[1]}}</td>
@@ -30,7 +31,7 @@
                         </y-popconfirm>
                         </td>
                     </tr>
-                </tbody>
+                </transition-group>
             </table>
         </div>
     </div>
@@ -82,5 +83,16 @@ export default {
             min-width: 265px;
         }
     }
+}
+.table-move, .table-enter-active, .table-leave-active {
+    transition:all .5s cubic-bezier(.55,0,.1,1)
+}
+.table-enter{
+  opacity:0;
+  transform:translate(30px, 0);
+}
+.table-leave-active {
+  position:absolute;
+  opacity:0;
 }
 </style>

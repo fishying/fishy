@@ -37,4 +37,32 @@ export default {
         width: 100%;
     }
 }
+.posts-end {
+    position: relative;
+    text-align: center;
+    display: block;
+    margin: 20px auto;
+    &:before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 340px;
+        height: 1px;
+        left: 50%;
+        margin-top: -2px;
+        margin-left: -170px;
+        background: rgba(0,0,0,.1);
+    }
+    i {
+        padding: 0 12px;
+        position: relative;
+        font-size: 42px;
+        color: fade(#000, 40%);
+        background: #fff;
+        &:before {
+            
+            transform: rotate(-45deg);
+        }
+    }
+}
 </style>
