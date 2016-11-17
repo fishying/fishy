@@ -23,7 +23,14 @@ Vue.use(Router)
 let router = new Router({
     mode: 'history',
     scrollBehavior (to, from, savedPosition) {
-        return { x: 0, y: 0 }
+
+        if (to.hash) {
+            return {
+                selector: to.hash
+            }
+        }else {
+            return { x: 0, y: 0 }
+        }
     },
     routes: [
         {
@@ -113,7 +120,8 @@ router.beforeEach((to, from, next) => {
                 if(to.name == "login" || to.name == "logon") {
                     next()
                 }else {
-                    next("login")
+                    Vue.prototype.$notify.warning("私人领域~请先登录~")
+                    next("/login")
                 }
             }
         }else {

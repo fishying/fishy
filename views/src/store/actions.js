@@ -8,7 +8,6 @@ export const checklogin = ({commit, state }) => {
             .then(function(response) {
                 return response.json()
             }).then(function(data) {
-                console.log(data)
                 if(data.status == "success"){
                     commit(types.CHECK_LOGIN, data)
                     resolve(state.login)
@@ -20,6 +19,20 @@ export const checklogin = ({commit, state }) => {
         }else {
             resolve(state.login)
         }
+    })
+}
+
+export const logout = ({commit, state}) =>{
+    return new Promise((resolve, reject)=>{
+        Vue.http.post("/api/logout")
+        .then(function(response) {
+            return response.json()
+        }).then(data=>{
+            if(data.status == "success") {
+                commit(types.CHECK_LOGIN, {status:"fail", data:null})
+                resolve()
+            }
+        })
     })
 }
 
@@ -39,7 +52,6 @@ export const getIndex = ({commit, state}, page, limit) => {
 }
 
 export const getArticle = ({commit, state}, id, types) => {
-    console.log(id)
     return new Promise((resolve, reject)=>{
         Vue.http.get(`/api/article/${id}${types ? '?type='+type : ''}`)
         .then(response=>{

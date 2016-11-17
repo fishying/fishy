@@ -1,10 +1,10 @@
 <template>
     <div class="admin-type">
         <h2 class="title">
-            文章列表
+            标签列表
         </h2>
         <div class="list">
-            <table>
+            <table v-if="data.length!=0">
                 <thead>
                     <tr>
                         <th width="92"><y-checkbox></y-checkbox>全选</th>
@@ -29,6 +29,7 @@
                     </tr>
                 </tbody>
             </table>
+            <p class="none" v-else>还没有标签~ <router-link to="/admin/add/type">添加一个标签</router-link></p>
         </div>
     </div>
 </template>

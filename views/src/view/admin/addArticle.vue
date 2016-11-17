@@ -1,5 +1,5 @@
 <template>
-    <div class="add-article">
+    <div class="add-article container">
         <div class="img" @click="coverDiaOn">
             <img :src="data.cover" class="coverimg" v-if="data.cover != ''">
             <div class="content" v-else>
@@ -93,19 +93,23 @@ export default {
     },
     methods:{
         add(){
-            let tag = this.tag.map((e)=>{
-                return e.name
-            })
+            this.check()
+            .then(()=>{
+                
+                let tag = this.tag.map((e)=>{
+                    return e.name
+                })
 
-            this.data.tags = tag
+                this.data.tags = tag
 
-            this.$store.dispatch("addArticle", this.data)
-            .then(data=>{
-                this.$router.push("/admin")
-                this.$notify("文章发布成功")
-            })
-            .catch(err=>{
-                this.$notify.warning("文章发布失败")
+                this.$store.dispatch("addArticle", this.data)
+                .then(data=>{
+                    this.$router.push("/admin")
+                    this.$notify("文章发布成功")
+                })
+                .catch(err=>{
+                    this.$notify.warning("文章发布失败")
+                })
             })
         },
         update(){
@@ -127,13 +131,11 @@ export default {
             .catch(err=>{
                 this.$notify.warning("文章更新失败")
             })
-            
         },
         coverDiaOn(){
             this.coverBtn = true
         },
         coverDiaOk(){
-
             if(this.coverUrl == "") {
                 this.$notify.danger("不能为空")
             }else {
@@ -156,6 +158,19 @@ export default {
                 e.target.value = ""
             }
         },
+        check(next){
+            return new Promise((resolve, reject)=>{
+                if(this.data.title == ""){
+                    this.$notify("请输入正确的标题")
+                    return 
+                }else if(this.data.content == ""){
+                    this.$notify("请输入正确的内容")
+                    return
+                }else {
+                    resolve()
+                }
+            })
+        }
     },
     computed:{
         types:function(){

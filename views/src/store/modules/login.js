@@ -11,6 +11,8 @@ const mutations = {
             state.status = true
             state.userInfo = data.data
         }else {
+            state.status = false
+            state.userInfo = null
             return
         }
     }

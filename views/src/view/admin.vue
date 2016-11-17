@@ -47,7 +47,6 @@ export default {
 }
 
 .add-article {
-    width: 800px;
     margin: 0 auto;
     >.img {
         cursor: pointer;

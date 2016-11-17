@@ -47,19 +47,44 @@ var commentSchema = Schema ({
 let comment = mongoose.model("comment", commentSchema)
 
 comment.add = (data, callback) => {
-    comment.create(data, (err, data) => {
-        if(err){
-
-        }else {
-            callback(data)
-        }
-    })
+    return comment.create(data)
 }
 
 comment.finds = (article) => {
     return comment.find({article:article})
     .lean()
     .where("reply").exists(false)
+    .populate({
+        path: "from.admin",
+        select: "name _id profile emailmd5"
+    })
+    .sort({'create_time':-1})
+    .exec()
+}
+
+comment.findChild = (id) => {
+    return comment.find()
+    .where("reply").equals(id)
+    .lean()
+    .populate({
+        path: "from.admin",
+        select: "name _id profile emailmd5"
+    })
+    .sort({'create_time':-1})
+    .exec()
+}
+
+comment.findsChildNum = (id) => {
+    return comment.count()
+    .where("reply").equals(id)
+    .lean()
+    .exec()
+}
+
+comment.findsChild = (article) => {
+    return comment.find({article:article})
+    .lean()
+    .where("reply").exists(true)
     .populate({
         path: "from.admin",
         select: "name _id profile emailmd5"

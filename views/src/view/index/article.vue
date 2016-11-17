@@ -4,8 +4,8 @@
             <div class="imgs container" v-if="data.cover">
                 <img :src="data.cover" class="index-img">
             </div>
-            <h2 class="title container">{{ data.title }}</h2>
-            <div class="meta container">
+            <h2 class="title container p-12">{{ data.title }}</h2>
+            <div class="meta container p-12">
                 <span>
                     <y-tooltips :content="data.author.profile" trigger="hover" theme="dark" placement="bottom">
                         <a href="" slot="html">{{ data.author.name }}</a>
@@ -16,14 +16,14 @@
                     </y-tooltips>
                 </span>
             </div>
-            <div class="md container" ref="md" v-html="data.content"></div>
-            <div class="tag container">
+            <div class="md container p-12" ref="md" v-html="data.content"></div>
+            <div class="tag container p-12">
                 <span class="tag-list" v-for="tag in data.tags">{{tag.name}}</span>
             </div>
             <div class="posts-end container">
                 <i class="ion-ios-minus-empty"></i>
             </div>
-            <div class="comment-box container">
+            <div class="comment-box container p-12" id="comment">
                 <comment :data="comments"></comment>
             </div>
         </article>
@@ -297,16 +297,16 @@ article.article {
         .imgs {
             width: 100%;
             margin: 0;
-        }
-        .meta {
-            padding: 0 12px;
+            img {
+                width: 100%;
+                margin-left: 0; 
+                border-radius: 0;
+            }
         }
         h2.title {
-            padding: 0 12px;
             font-size: 30px;
         }
         .md {
-            padding: 0 12px;
             font-size: 16px;
             h1 {
                 font-size: 26px;

@@ -75,10 +75,9 @@ exports.requiresLogin = async(function* (req, res, next){
     }
 })
 exports.logout = async(function* (req, res){
-    req.session.destroy(function(err){
-        if(err){
-
-        }else {
+    req.session.destroy(function(err, data){
+        req.session = null
+        if(!err){
             res.json({
                 "status":"success"
             })

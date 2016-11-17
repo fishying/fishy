@@ -1,31 +1,53 @@
 <template>
     <div class="comment-form">
-        <div class="comment-input">
-            <div 
-                contenteditable="true" 
-                class="text"
-                @input="test" 
-                @focus="textOpen"
-                ref="text"  
-                :class="{open:valueBtn}"
-            >
+        <div class="comment-form-user" v-if="!$store.state.login.status">
+            <div class="comment-input">
+                <div 
+                    contenteditable="true" 
+                    class="text"
+                    @input="test" 
+                    @focus="textOpen"
+                    ref="text"  
+                    :class="{open:valueBtn}"
+                    id="comment-text"
+                >
+                </div>
+            </div>
+            <div class="comment-users" v-if="open">
+                <input type="text" placeholder="邮箱" v-model="user.email">
+                <input type="text" placeholder="昵称" v-model="user.name">
+                <input type="text" placeholder="主页" v-model="user.www">
             </div>
         </div>
-        <div class="comment-users" v-if="open">
-            <input type="text" placeholder="邮箱">
-            <input type="text" placeholder="昵称">
-            <input type="text" placeholder="主页">
+        <div class="comment-form-admin" v-else>
+            <div class="comment-form-avater">
+                <img :src="`http://gravatar.duoshuo.com/avatar/${$store.state.login.userInfo.emailmd5}?s=50`">
+            </div>
+            <div class="comment-input">
+                <div 
+                    contenteditable="true" 
+                    class="text"
+                    @input="test" 
+                    @focus="textOpen"
+                    ref="text"  
+                    :class="{open:valueBtn}"
+                    id="comment-text"
+                >
+                </div>
+            </div>
         </div>
         <div class="comment-btn" v-if="open">
-            <y-button @click.native="addComment">评论</y-button>
-            <y-button @click.native="textOut" type="ghost">取消</y-button>
+            <a @click="addComment">评论</a>
+            <a @click="textOut" type="ghost">取消</a>
         </div>
     </div>
 </template>
 <style lang="less">
 div.comment-form{
-    margin-bottom: 42px;
+    margin-bottom: 62px;
     .comment-input {
+        width: 100%;
+        max-width: 100%;
         .text {
             position: relative;
             width: 100%;
@@ -59,42 +81,77 @@ div.comment-form{
             color: #9b9b9b;
         }
     }
-    .comment-btn {
-        .btn-primary {
-            background: none;
-            border: none;
-            color: #47b8e0;
-            font-size: 22px;
+    .comment-form-admin {
+        display: flex;
+        align-items: center;
+        min-height: 55px;
+        margin-bottom: 12px;
+        .comment-form-avater {
+            position: absolute;
+            border-radius: 100%;
+            overflow: hidden;
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
         }
-        .btn-ghost {
-            background: none;
-            border: none;
-            color: #ccc;
-            font-size: 22px;
+        .comment-input {
+            padding-left: 67px;
+        }
+    }
+    .comment-btn {
+        a {
+            cursor:pointer;
         }
     }
 }
 
 </style>
 <script>
+import {detectOS, In} from "../../uilt"
 export default {
+    props:{
+        reply:String
+    },
     data(){
         return {
             comment:"",
             open:false,
             textHeight:38,
             valueBtn:true,
+            user:{
+                name:"",
+                email:"",
+                www:"",
+            }
         }
+    },
+    mounted(){
+        document.addEventListener('click',this.ifEl)
     },
     methods:{
         addComment(){
-            this.$http.post("/api/comment", {
-                article:this.$route.params.id,
-                content:this.comment,
-                os:detectOS()
-            }).then(response=>{
-                console.log(response)
-            })
+            if(this.$store.state.login.status){
+                this.$http.post("/api/comment", {
+                    article:this.$route.params.id,
+                    content:this.$refs.text.innerText,
+                    os:detectOS(),
+                    reply:this.reply
+                }).then(response=>{
+                    console.log(response)
+                })
+            }else{
+                this.$http.post("/api/comment", {
+                    article:this.$route.params.id,
+                    content:this.$refs.text.innerText,
+                    os:detectOS(),
+                    user:this.user,
+                    reply:this.reply
+                }).then(response=>{
+                    console.log(response)
+                })
+            }
         },
         test(){
             if(this.$refs.text.innerText){
@@ -110,7 +167,15 @@ export default {
             this.$refs.text.innerText = ""
             this.valueBtn = true
             this.open = false
-        }
+        },
+        ifEl:function(e){
+            if(!this.open) {
+                return
+            }
+            if(!In(e.target, this.$el)){
+                this.open = false
+            }
+        },
     }
 }
 </script>

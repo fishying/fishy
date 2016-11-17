@@ -25,4 +25,5 @@ module.exports = (app) => {
     // comment
     app.post("/comment", comment.add)
     app.get("/comment", comment.finds)
+    app.get("/comment/child/:id", comment.findChilds)
 }

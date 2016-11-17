@@ -19,21 +19,49 @@ exports.add = async(function *(req, res){
 
     if(req.session.sign){
         data.from.admin = req.session._id
+    }else {
+        console.log(req.body)
+        data.from.user = req.body.user
     }
 
-    comment.add(data, (data)=>{
+    if(req.body.reply) {
+        data.reply = req.body.reply
+    }
+    comment.add(data)
+    .then((datas)=>{
         res.json({
             status:"success",
-            data:data
+            data:datas
         }) 
     })
+})
+
+exports.findChilds = async(function *(req, res){
+    const id = req.params.id
+
+    let data = yield comment.findChild(id)
+
+    res.json({
+        status:"success",
+        data:data
+    }) 
 })
 
 exports.finds = async(function *(req, res){
     let data = yield comment.finds(req.query.article)
     let comm = data
+
     for(let comments of comm){
+        let i = yield comment.findsChildNum(comments._id)
         comments.create_time = [moment(comments.create_time).format('lll'), moment(comments.create_time).fromNow()]
+
+        if(comments.from.user) {
+            comments.from.user.email = md5(comments.from.user.email)
+        }
+
+        if(i>0) {
+            comments.child = true
+        }
     }
     return res.json({
         status:"success",

@@ -4,7 +4,7 @@
             文章列表
         </h2>
         <div class="list">
-            <table>
+            <table  v-if="data.length !==0">
                 <thead>
                     <tr>
                         <th width="92"><y-checkbox></y-checkbox>全选</th>
@@ -15,7 +15,7 @@
                     </tr>
                 </thead>
 
-                <transition-group name="table" v-if="data.length !==0" tag="tbody">
+                <transition-group name="table" tag="tbody">
                     <tr v-for="articles in data" :key="articles._id">
                         <td><y-checkbox v-model="test" :label="articles._id" content></y-checkbox></td>
                         <td class="title"><router-link :to="`/admin/up/article/${articles._id}`">{{articles.title}}</router-link></td>
@@ -33,6 +33,7 @@
                     </tr>
                 </transition-group>
             </table>
+            <p class="none" v-else>还没有发布文章~快来写一篇吧~ <router-link to="/admin/add/article">添加</router-link></p>
         </div>
     </div>
 </template>

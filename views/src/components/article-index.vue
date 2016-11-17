@@ -113,6 +113,7 @@ article.index {
         .imgs{
             width: 100%;
             margin-left: 0;
+            border-radius: 0;
         }
         p.outline {
             padding: 0 16px;
