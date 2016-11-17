@@ -8,10 +8,10 @@ import App from './App'
 import router from './router.js'
 import 'whatwg-fetch';
 import resource from "vue-resource"
-import everyone from 'everyone'
-import "everyone/dist/everyone.css"
+import everyone from 'everyone-ui'
 
 Vue.use(everyone)
+
 Vue.use(resource)
 
 new Vue({

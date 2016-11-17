@@ -6,7 +6,14 @@
             'display': scrolls == 1,
         }">
             <div class="container">
-                <router-link to="/" class="logo">W</router-link>
+                <router-link to="/" class="logo">
+                    <div class="logos">
+                        <span class="t"></span>
+                        <span class="b"></span>
+                        <span class="l"></span>
+                        <span class="r"></span>
+                    </div>
+                </router-link>
                 <nav>
                     <router-link to="/admin">Home</router-link>
                     <router-link to="/">Home</router-link>
@@ -133,6 +140,41 @@ header.index {
         font-weight: 700;
         text-decoration: none;
         color: fade(#000, 70%);
+        .logos {
+            position: relative;
+            width: 35px;
+            height: 14px;
+            cursor: pointer;
+            span {
+                transition: all .3s cubic-bezier(.645,.045,.355,1);
+                position: absolute;
+                display: block;
+                height: 2px;
+                background: rgb(75, 75, 75);
+                &.l {
+                    width: 80%;
+                    transform: rotate(-26deg);
+                    top: 0;
+                    left: -21px;
+                }
+                &.r {
+                    width: 80%;
+                    transform: rotate(26deg);
+                    bottom: 0;
+                    left: -21px;
+                }
+                &.t {
+                    width: 80%;
+                    transform: rotate(40deg);
+                    top: 4px;
+                }
+                &.b {
+                    width: 80%;
+                    transform: rotate(-40deg);
+                    bottom: 4px;
+                }
+            }
+        }
     }
     nav {
         padding: 12px 6px;

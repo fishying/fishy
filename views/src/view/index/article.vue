@@ -23,7 +23,7 @@
             <div class="posts-end container">
                 <i class="ion-ios-minus-empty"></i>
             </div>
-            <div class="comment-box container p-12" id="comment">
+            <div class="comment-box container p-12" id="comment" v-if="comment">
                 <comment :data="comments"></comment>
             </div>
         </article>
@@ -39,8 +39,8 @@ export default {
             loading:false,
             htmls:{},
             mask:false,
-            comment:"",
-            comments:[]
+            comments:[], 
+            comment:false,
         }
     },
     created(){
@@ -52,6 +52,7 @@ export default {
         this.$store.dispatch("getOneComment", this.$route.params.id)
         .then(comment=>{
             this.comments = comment
+            this.comment = true
         })
     },
     /*updated(){

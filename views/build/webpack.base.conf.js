@@ -18,7 +18,8 @@ module.exports = {
     alias: {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components')
+      'components': path.resolve(__dirname, '../src/components'),
+      'everyone-ui': 'everyone/components'
     }
   },
   resolveLoader: {
@@ -60,6 +61,10 @@ module.exports = {
         test: /\.less$/,
         loader: 'style-loader!css-loader!less-loader!autoprefixer' 
       },
+      {
+        test: /everyone.components.*?js$/,
+        loader: 'babel'
+      }
     ]
   },
   vue: {

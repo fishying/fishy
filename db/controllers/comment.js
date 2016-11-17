@@ -41,6 +41,9 @@ exports.findChilds = async(function *(req, res){
 
     let data = yield comment.findChild(id)
 
+    for(let comments of data){
+        comments.create_time = [moment(comments.create_time).format('lll'), moment(comments.create_time).fromNow()]
+    }
     res.json({
         status:"success",
         data:data
