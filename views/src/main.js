@@ -10,6 +10,10 @@ import 'whatwg-fetch';
 import resource from "vue-resource"
 import everyone from 'everyone-ui'
 
+import directive from "./directives"
+
+Vue.use(directive)
+
 Vue.use(everyone)
 
 Vue.use(resource)

@@ -35,12 +35,13 @@ var commentSchema = Schema ({
         type : Date,
         default : Date.now
     },
-    time:[{
-        type:String,
-        default: ""
-    }],
     os:{
         type : String
+    },
+    // 0正常，1待审，-1删除
+    state:{
+        type : Number,
+        default : 0
     }
 })
 
@@ -49,11 +50,24 @@ let comment = mongoose.model("comment", commentSchema)
 comment.add = (data, callback) => {
     return comment.create(data)
 }
-
+// 文章页面的评论
 comment.finds = (article) => {
     return comment.find({article:article})
     .lean()
-    .where("reply").exists(false)
+    .populate("reply")
+    .populate({
+        path: "from.admin",
+        select: "name _id profile emailmd5"
+    })
+    .where("state").equals(0)
+    //.sort({'create_time':-1})
+    .exec()
+}
+
+comment.all = (article) => {
+    return comment.find()
+    .lean()
+    .populate("reply")
     .populate({
         path: "from.admin",
         select: "name _id profile emailmd5"
@@ -61,23 +75,26 @@ comment.finds = (article) => {
     .sort({'create_time':-1})
     .exec()
 }
-
+comment.findsId = (id) => {
+    return comment.findById(id)
+    .lean()
+    .populate({
+        path: "from.admin",
+        select: "name _id profile emailmd5"
+    })
+    .populate("reply")
+    .exec()
+}
 comment.findChild = (id) => {
     return comment.find()
     .where("reply").equals(id)
     .lean()
+    .populate("reply")
     .populate({
         path: "from.admin",
         select: "name _id profile emailmd5"
     })
     .sort({'create_time':-1})
-    .exec()
-}
-
-comment.findsChildNum = (id) => {
-    return comment.count()
-    .where("reply").equals(id)
-    .lean()
     .exec()
 }
 
@@ -91,6 +108,9 @@ comment.findsChild = (article) => {
     })
     .sort({'create_time':-1})
     .exec()
+}
+comment.del = (id) => {
+    return comment.update({state:-1})
 }
 
 module.exports = comment

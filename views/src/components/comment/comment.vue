@@ -20,29 +20,31 @@
                         <div class="comment-footer">
                             <span class="comment-time comment-tag">{{ reply.create_time[1] }} </span>
                         </div>
-                        <div class="top" @click="replyBtn = false;reply = {}">取消</div>
+                        <div class="top" @click="replyBtn = false;reply = {};">取消</div>
                     </div>
                 </div>
             </div>
         </div>
         <comment-from :reply="reply._id"></comment-from>
         <comment-item 
-            v-for="comment in data" 
+            v-for="(comment, index) in data" 
             :data="comment" 
             @commentBtn="commentBtn"
             @commentMore="commentMore"
+            :index="index"
         ></comment-item>
         <y-dialog 
             v-model="childDialog"
         >
             <template slot="content" v-if="commentChild.status == 'success'">
                 <comment-item 
-                    v-for="comment in commentChild.data"
+                    v-for="(comment, index) in commentChild.data"
                     :data="comment" 
-                    more
-                    cm
                     @commentBtn="commentBtn"
                     @commentMore="commentMore"
+                    :index="index"
+                    more
+                    cm
                 ></comment-item>
             </template>
         </y-dialog>

@@ -1,6 +1,6 @@
 const comment = require("../models/comment")
 
-const users = require("../controllers/users");
+const users = require("../models/users");
 const { wrap: async } = require('co');
 const thunkify = require('thunkify-wrap');
 
@@ -16,10 +16,21 @@ exports.add = async(function *(req, res){
     for(var i in req.body){
         data[i] = req.body[i]
     }
-
     if(req.session.sign){
         data.from.admin = req.session._id
     }else {
+        if(data.name == ''){
+            res.json({
+                status:"fail",
+                msg:"请输入内容"
+            }) 
+        }
+        if(data.email == ''){
+            res.json({
+                status:"fail",
+                msg:"请输入内容"
+            }) 
+        }
         console.log(req.body)
         data.from.user = req.body.user
     }
@@ -38,36 +49,92 @@ exports.add = async(function *(req, res){
 
 exports.findChilds = async(function *(req, res){
     const id = req.params.id
-
-    let data = yield comment.findChild(id)
+    let datas = []
+    rr(id)
+    function rr(ids){
+        comment.findsId(ids)
+        .then(data=>{
+            data.create_time = [moment(data.create_time).format('lll'), moment(data.create_time).fromNow()]
+            if(data.state != 0){
+                data.from = {}
+                data.content = "此评论已被删除。"
+                data.from = {
+                        user:{
+                            name:"评论已被删除",
+                            email:"---"
+                        }
+                    }
+                data.os = "无"
+            }
+            if(data.reply){
+                if(data.reply.from.admin){
+                    users.finds(data.reply.from.admin)
+                    .then(e=>{
+                        data.reply.from.admin = e
+                    })
+                }
+                datas.push(data)
+                rr(data.reply)
+            }else {
+                datas.push(data)
+                res.json({
+                    status:"success",
+                    data:datas.reverse()
+                }) 
+            }
+        }).catch(err=>{
+            res.json({
+                status:"fail"
+            }) 
+        })
+    }
+})
+exports.findAll = async(function *(req, res){
+    let data = yield comment.all(req.params.id)
 
     for(let comments of data){
+
         comments.create_time = [moment(comments.create_time).format('lll'), moment(comments.create_time).fromNow()]
     }
-    res.json({
+    
+    return res.json({
         status:"success",
         data:data
-    }) 
+    })
 })
-
 exports.finds = async(function *(req, res){
-    let data = yield comment.finds(req.query.article)
+    let data = yield comment.finds(req.params.id)
     let comm = data
 
     for(let comments of comm){
-        let i = yield comment.findsChildNum(comments._id)
+
         comments.create_time = [moment(comments.create_time).format('lll'), moment(comments.create_time).fromNow()]
 
         if(comments.from.user) {
             comments.from.user.email = md5(comments.from.user.email)
         }
 
-        if(i>0) {
+        if(comments.reply) {
             comments.child = true
+            if(comments.reply.from.admin){
+                let admin = yield users.finds(comments.reply.from.admin)
+                comments.reply.from.admin = admin
+            }
         }
     }
     return res.json({
         status:"success",
         data:comm
+    })
+})
+exports.del = async(function *(req, res){
+    let id = req.params.id
+    comment.del(id)
+    .then(e=>{
+        console.log(e)
+        res.json({
+            status:"success",
+            data:e
+        })
     })
 })

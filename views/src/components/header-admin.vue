@@ -11,9 +11,15 @@
             </router-link>
         </nav>
         <div class="admin">
-        <router-link to="/admin/add/article">
-            <i class="ion-ios-plus-empty admin"></i>
-        </router-link>
+        <y-tooltips theme="white"  trigger="hover" placement="bottom-right">
+            <a slot="html">
+                <i class="ion-ios-plus-empty admin"></i>
+            </a>
+            <div slot="content" class="add">
+                <router-link to="/admin/add/article" tag="div">文章</router-link>
+                <router-link to="/admin/add/type" tag="div">标签</router-link>
+            </div>>
+        </y-tooltips>
         </div>
     </header>
 </template>
@@ -32,7 +38,7 @@ const nav = [
         icon:"ion-ios-pricetag-outline"
     },
     {
-        path:"/admin/acticless",
+        path:"/admin/comment",
         icon:"ion-ios-chatbubble-outline"
     },
     {
@@ -49,6 +55,15 @@ export default {
 }
 </script>
 <style lang="less">
+.y-tooltips-box {
+    .add {
+        width: 150px;
+        div {
+            cursor: pointer;
+            padding: 6px 0;
+        }
+    }
+}
 header.admin {
     display: flex;
     height: 60px;

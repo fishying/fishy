@@ -27,11 +27,11 @@
                 <div 
                     contenteditable="true" 
                     class="text"
-                    @input="test" 
-                    @focus="textOpen"
+                    @input="test"
                     ref="text"  
                     :class="{open:valueBtn}"
                     id="comment-text"
+                    @focus="textOpen"
                 >
                 </div>
             </div>
@@ -42,6 +42,66 @@
         </div>
     </div>
 </template>
+<script>
+import {detectOS, In} from "../../uilt"
+export default {
+    props:{
+        reply:String
+    },
+    data(){
+        return {
+            comment:"",
+            open:false,
+            textHeight:38,
+            valueBtn:true,
+            user:{
+                name:"",
+                email:"",
+                www:"",
+            }
+        }
+    },
+    methods:{
+        addComment(){
+            if(this.$store.state.login.status){
+                this.$http.post("/api/comment", {
+                    article:this.$route.params.id,
+                    content:this.$refs.text.innerText,
+                    os:detectOS(),
+                    reply:this.reply
+                }).then(response=>{
+                    
+                })
+            }else{
+                this.$http.post("/api/comment", {
+                    article:this.$route.params.id,
+                    content:this.$refs.text.innerText,
+                    os:detectOS(),
+                    user:this.user,
+                    reply:this.reply
+                }).then(response=>{
+
+                })
+            }
+        },
+        test(){
+            if(this.$refs.text.innerText){
+                this.valueBtn = false
+            }else {
+                this.valueBtn = true
+            }
+        },
+        textOpen(){
+            this.open = true
+        },
+        textOut(){
+            this.$refs.text.innerText = ""
+            this.valueBtn = true
+            this.open = false
+        },
+    }
+}
+</script>
 <style lang="less">
 div.comment-form{
     margin-bottom: 62px;
@@ -103,79 +163,9 @@ div.comment-form{
     .comment-btn {
         a {
             cursor:pointer;
+            margin-right: 12px;
         }
     }
 }
 
 </style>
-<script>
-import {detectOS, In} from "../../uilt"
-export default {
-    props:{
-        reply:String
-    },
-    data(){
-        return {
-            comment:"",
-            open:false,
-            textHeight:38,
-            valueBtn:true,
-            user:{
-                name:"",
-                email:"",
-                www:"",
-            }
-        }
-    },
-    mounted(){
-        document.addEventListener('click',this.ifEl)
-    },
-    methods:{
-        addComment(){
-            if(this.$store.state.login.status){
-                this.$http.post("/api/comment", {
-                    article:this.$route.params.id,
-                    content:this.$refs.text.innerText,
-                    os:detectOS(),
-                    reply:this.reply
-                }).then(response=>{
-                    console.log(response)
-                })
-            }else{
-                this.$http.post("/api/comment", {
-                    article:this.$route.params.id,
-                    content:this.$refs.text.innerText,
-                    os:detectOS(),
-                    user:this.user,
-                    reply:this.reply
-                }).then(response=>{
-                    console.log(response)
-                })
-            }
-        },
-        test(){
-            if(this.$refs.text.innerText){
-                this.valueBtn = false
-            }else {
-                this.valueBtn = true
-            }
-        },
-        textOpen(){
-            this.open = true
-        },
-        textOut(){
-            this.$refs.text.innerText = ""
-            this.valueBtn = true
-            this.open = false
-        },
-        ifEl:function(e){
-            if(!this.open) {
-                return
-            }
-            if(!In(e.target, this.$el)){
-                this.open = false
-            }
-        },
-    }
-}
-</script>

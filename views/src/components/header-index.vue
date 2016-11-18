@@ -7,12 +7,15 @@
         }">
             <div class="container">
                 <router-link to="/" class="logo">
+                    <!--
                     <div class="logos">
                         <span class="t"></span>
                         <span class="b"></span>
                         <span class="l"></span>
                         <span class="r"></span>
                     </div>
+                    -->
+                    <logos :width="50" color="rgba(0, 0, 0, 0.6)"></logos>
                 </router-link>
                 <nav>
                     <router-link to="/admin">Home</router-link>
@@ -32,6 +35,7 @@
 </template>
 <script>
 import {debounce, scroll} from "../uilt"
+import logos from "./logo"
 export default {
     data(){
         return {
@@ -89,10 +93,14 @@ export default {
                 return
             }
         }
+    },
+    components:{
+        logos
     }
 }
 </script>
 <style lang="less">
+.cls-1{fill:none;stroke:#231815;stroke-miterlimit:10;stroke-width:4px;}
 header.index {
     position: fixed;
     top: 0;
@@ -142,8 +150,8 @@ header.index {
         color: fade(#000, 70%);
         .logos {
             position: relative;
-            width: 35px;
-            height: 14px;
+            width: 72px;
+            height: 42px;
             cursor: pointer;
             span {
                 transition: all .3s cubic-bezier(.645,.045,.355,1);
@@ -152,26 +160,28 @@ header.index {
                 height: 2px;
                 background: rgb(75, 75, 75);
                 &.l {
-                    width: 80%;
+                    width: 32px;
                     transform: rotate(-26deg);
-                    top: 0;
-                    left: -21px;
+                    top: 13px;
+                    left: 0;
                 }
                 &.r {
-                    width: 80%;
+                    width: 32px;
                     transform: rotate(26deg);
-                    bottom: 0;
-                    left: -21px;
+                    bottom: 13px;
+                    left: 0;
                 }
                 &.t {
-                    width: 80%;
+                    width: 32px;
                     transform: rotate(40deg);
-                    top: 4px;
+                    left: 25px;
+                    top: 18px;
                 }
                 &.b {
-                    width: 80%;
+                    width: 32px;
                     transform: rotate(-40deg);
-                    bottom: 4px;
+                    left: 25px;
+                    bottom: 18px;
                 }
             }
         }

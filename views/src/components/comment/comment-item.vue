@@ -9,6 +9,13 @@
                 <p class="comment-info">
                     <span v-if="data.from.admin" class="comment-name">{{data.from.admin.name}}</span>
                     <span v-else class="comment-name">{{data.from.user.name}}</span>
+                    <template v-if="data.reply">
+                        <span class="comment-xz">  </span>
+                        <span class="comment-tag">回复</span>
+                        <span class="comment-xz">  </span>
+                        <span v-if="data.reply.from.admin" class="comment-name">{{data.reply.from.admin.name}}</span>
+                        <span v-else class="comment-name">{{data.reply.from.user.name}}</span>
+                    </template>
                     <span class="comment-xz">  </span>
                     <span class="comment-os comment-tag">{{ data.os }} </span>
                 </p>
@@ -23,7 +30,7 @@
                         @click="$emit('commentBtn',data._id)"
                     >评论</span>
                     <span class="comment-tag more" 
-                        v-if="data.child && !more"
+                        v-if="data.reply"
                         @click="$emit('commentMore',data._id)"
                     >展开评论</span>
                 </div>
@@ -42,7 +49,8 @@ export default {
         cm:{
             type:Boolean,
             default:false
-        }
+        },
+        index:Number
     }
 }
 </script>
@@ -51,6 +59,13 @@ export default {
 .comment-item {
     display: flex;
     padding-bottom: 22px;
+    &:hover {
+        .comment-footer {
+            .comment-btn,.more {
+                opacity: 1 !important;
+            }
+        }
+    }
     .comment-avater {
         box-shadow: 0 0 26px -10px #ccc;
         width: 50px;
@@ -69,12 +84,14 @@ export default {
         .comment-tag {
             font-size: 14px;
             color: #aaa;
+            transition: .3s all;
         }
         .comment-xz {
             color: #aaa;
             margin: 0 6px;
         }
         .content {
+            position: relative;
             box-sizing: border-box;
             padding: 0 12px 12px 12px;
             border-radius: 8px;
@@ -96,9 +113,24 @@ export default {
             .comment-footer {
                 position: relative;
                 .more {
+                    opacity: 0;
                     cursor: pointer;
                     position: absolute;
                     right: 0;
+                }
+                .comment-btn {
+                    opacity: 0;
+                }
+            }
+            .comment-index {
+                height: 52px;
+                line-height: 52px;
+                position: absolute;
+                right: 0;
+                top: 0;
+                span {
+                    font-size: 52px;
+                    color: fade(#000, 6%);
                 }
             }
         }

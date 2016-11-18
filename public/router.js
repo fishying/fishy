@@ -24,6 +24,8 @@ module.exports = (app) => {
     app.get("/type", type.finds)
     // comment
     app.post("/comment", comment.add)
-    app.get("/comment", comment.finds)
+    app.get("/comment", comment.findAll)
+    app.get("/comment/:id", comment.finds)
     app.get("/comment/child/:id", comment.findChilds)
+    app.delete("/comment/:id", user.requiresLogin, comment.del)
 }

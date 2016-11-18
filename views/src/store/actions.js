@@ -107,7 +107,22 @@ export const addType = ({commit, state}, type) => {
 
 export const getOneComment = ({commit, state}, article) => {
     return new Promise((resolve, reject) => {
-        Vue.http.get(`/api/comment?article=${article}`)
+        Vue.http.get(`/api/comment/${article}`)
+        .then(response=>{
+            return response.json()
+        }).then(data=>{
+            if(data.status != "success") {
+                reject(data.msg)
+            }else {
+                resolve(data.data)
+            }
+        })
+    })
+}
+
+export const getComment = ({commit, state}) => {
+    return new Promise((resolve, reject) => {
+        Vue.http.get("/api/comment")
         .then(response=>{
             return response.json()
         }).then(data=>{

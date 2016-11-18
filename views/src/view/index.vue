@@ -6,27 +6,32 @@
                 <router-view></router-view>
             </transition>
         </div>
+        <footers></footers>
     </div>
 </template>
 <script>
 
 import headers from "../components/header-index"
+import footers from "../components/footer-index"
 export default {
     mounted(){
         document.body.style.background = "#fff"
     },
     components:{
-        headers
+        headers,
+        footers
     }
 }
 </script>
 <style lang="less">
 .indexs {
     padding-top: 65px;
+    height: 100%;
     .main {
         padding: 22px 0 42px 0;
         width: 740px;
         margin: 0 auto;
+        min-height: 100%;
     }
 }
 @media (max-width: 940px) {
