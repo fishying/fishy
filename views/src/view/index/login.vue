@@ -4,11 +4,11 @@
             <h2 class="index-title">登陆</h2>
             <label>
                 <p>账号：</p>
-                <input type="text" v-model="name">
+                <input type="text" v-model="name" @keyup.enter="login">
             </label>
             <label>
                 <p>密码：</p>
-                <input type="password" v-model="password">
+                <input type="password" v-model="password" @keyup.enter="login">
             </label>
             <y-button type="ghost" @click.native="login">登陆</y-button>
         </div>
@@ -24,19 +24,24 @@ export default {
     },
     methods:{
         login(){
-            this.$http.post("/api/login",{
+            if(name == ""){
+                this.$notify.warning("用户名不能为空~")
+                return
+            }
+            if(name == ""){
+                this.$notify.warning("密码不能为空~")
+                return
+            }
+            this.$store.dispatch("login",{
                 name:this.name,
                 password: this.password
-            }).then((response)=>{
-                return response.json()
-            }).then((data)=>{
-                if(data.status == "success"){
-                    this.$notify("登陆成功~")
-                    this.$router.push("/admin")
-                }else {
-                    this.$notify.warning("登陆失败~")
-                    this.$router.push("/")
-                }
+            })
+            .then(data=>{
+                this.$notify("登陆成功~")
+                this.$router.push("/admin")
+            })
+            .catch(err=>{
+                this.$notify.warning("登陆失败,账号或密码错误~")
             })
         }
     }
@@ -49,21 +54,6 @@ export default {
     h2.index-title {
         text-align: center;
         font-size: 28px;
-    }
-    label {
-        p {
-            margin: 8px 0;
-        }
-        input {
-            width: 100%;
-            display: block;
-            outline: none;
-            padding: 8px 12px;
-            font-size: 18px;
-            color: #111;
-            border: 1px #cfcfcf solid;
-            border-radius: 4px;
-        }
     }
     .y-btn {
         font-size: 16px;

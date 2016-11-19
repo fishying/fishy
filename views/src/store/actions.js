@@ -36,6 +36,45 @@ export const logout = ({commit, state}) =>{
     })
 }
 
+export const login = ({commit, state}, data) =>{
+    return new Promise((resolve, reject)=>{
+        Vue.http.post("/api/login",{
+            name:data.name,
+            password: data.password
+        })
+        .then(function(response) {
+            return response.json()
+        })
+        .then(data=>{
+            if(data.status == "success") {
+                resolve()
+            }else {
+                reject()
+            }
+        })
+    })
+}
+
+export const logon = ({commit, state}, data) =>{
+    return new Promise((resolve, reject)=>{
+        Vue.http.post("/api/logon",{
+            name:data.name,
+            email:data.email,
+            password: data.password
+        })
+        .then(function(response) {
+            return response.json()
+        })
+        .then(data=>{
+            if(data.status == "success") {
+                resolve()
+            }else {
+                reject()
+            }
+        })
+    })
+}
+
 export const getIndex = ({commit, state}, page, limit) => {
     return new Promise((resolve, reject)=>{
         Vue.http.get(`/api/article?page=${page ? page : 0}`)
@@ -149,6 +188,7 @@ export const addArticle = ({commit, state}, article) => {
         })
     })
 }
+
 export const upArticle = ({commit, state}, data) => {
     let article = data.article
     let id = data.id

@@ -3,7 +3,7 @@
         <div class="login">
             <h2 class="index-title">注册</h2>
             <label>
-                <p>邮箱：
+                <p>* 邮箱：
                     <y-tooltips content="请输入正确的邮箱" trigger="hover">
                         <span class="point" slot="html">提示</span>
                     </y-tooltips>
@@ -11,7 +11,7 @@
                 <input type="text" v-model="email">
             </label>
             <label>
-                <p>账号：
+                <p>* 账号：
                     <y-tooltips content="这是登陆id" trigger="hover">
                         <span class="point" slot="html">提示</span>
                     </y-tooltips>
@@ -19,7 +19,7 @@
                 <input type="text" v-model="name">
             </label>
             <label>
-                <p>密码：
+                <p>* 密码：
                     <y-tooltips content="password >= 6 && password <= 16" trigger="hover">
                         <span class="point" slot="html">提示</span>
                     </y-tooltips>
@@ -31,6 +31,7 @@
     </div>
 </template>
 <script>
+import {isEmail} from "../../uilt"
 export default {
     data(){
         return {
@@ -41,20 +42,39 @@ export default {
     },
     methods:{
         logon(){
-            this.$http.post("/api/logon",{
+            if(this.email == "") {
+                this.$notify.warning("邮箱地址不能为空")
+                return
+            }else {
+                if(!isEmail(this.email)) {
+                    this.$notify.warning("请输入正确的邮箱地址")
+                    return
+                }
+            }
+            if(this.name == "") {
+                this.$notify.warning("名字不能为空")
+                return
+            }
+            if(this.password == "") {
+                this.$notify.warning("密码不能为空")
+                return
+            }else {
+                if(this.password.length >6 && this.password.length<16) {
+                    this.$notify.warning("密码不能少于6位大于16位")
+                }
+            }
+            this.$store.dispatch("logon",{
                 name:this.name,
                 email:this.email,
                 password: this.password
-            }).then((response)=>{
-                return response.json()
-            }).then((data)=>{
-                if(data.status == "success"){
-                    this.$notify("注册成功~")
-                    this.$router.push("/login")
-                }else {
-                    this.$notify.warning("注册失败~")
-                    this.$router.push("/")
-                }
+            })
+            .then(data=>{
+                this.$notify("注册成功~")
+                this.$router.push("/login")
+            })
+            .catch(err=>{
+                this.$notify.warning("注册失败~")
+                this.$router.push("/")
             })
         }
     }
@@ -78,16 +98,6 @@ export default {
                 padding: 2px 6px;
                 border-radius: 4px;
             }
-        }
-        input {
-            width: 100%;
-            display: block;
-            outline: none;
-            padding: 8px 12px;
-            font-size: 18px;
-            color: #111;
-            border: 1px #cfcfcf solid;
-            border-radius: 4px;
         }
     }
     .y-btn {

@@ -42,6 +42,5 @@ jspm_packages
 node_modules/
 dist/
 npm-debug.log
-selenium-debug.log
-test/unit/coverage
-test/e2e/reports
+
+logs/

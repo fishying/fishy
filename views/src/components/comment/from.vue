@@ -14,8 +14,8 @@
                 </div>
             </div>
             <div class="comment-users" v-if="open">
-                <input type="text" placeholder="邮箱" v-model="user.email">
-                <input type="text" placeholder="昵称" v-model="user.name">
+                <input type="text" placeholder="邮箱 *" v-model="user.email">
+                <input type="text" placeholder="昵称 *" v-model="user.name">
                 <input type="text" placeholder="主页" v-model="user.www">
             </div>
         </div>
@@ -43,7 +43,7 @@
     </div>
 </template>
 <script>
-import {detectOS, In} from "../../uilt"
+import {detectOS, In, isEmail} from "../../uilt"
 export default {
     props:{
         reply:String
@@ -63,6 +63,19 @@ export default {
     },
     methods:{
         addComment(){
+            if(!this.$store.state.login.status){
+                if(this.user.name == ""){
+                    this.$notify.warning("用户名不能为空~")
+                    return
+                }
+                if(this.user.email == ""){
+                    this.$notify.warning("邮箱不能为空~")
+                    if(!isEmail(this.user.email)){
+                        this.$notify.warning("邮箱格式不正确~")
+                        return
+                    }
+                }
+            }
             if(this.$store.state.login.status){
                 this.$http.post("/api/comment", {
                     article:this.$route.params.id,
@@ -70,7 +83,7 @@ export default {
                     os:detectOS(),
                     reply:this.reply
                 }).then(response=>{
-                    
+                    this.$notify.warning("评论成功~")
                 })
             }else{
                 this.$http.post("/api/comment", {
@@ -80,9 +93,10 @@ export default {
                     user:this.user,
                     reply:this.reply
                 }).then(response=>{
-
+                    this.$notify.warning("评论成功~")
                 })
             }
+            this.$parent.getComment()
         },
         test(){
             if(this.$refs.text.innerText){

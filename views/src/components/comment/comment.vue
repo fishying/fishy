@@ -110,9 +110,11 @@ export default {
             this.childDialog = true
             this.$http.get(`/api/comment/child/${id}`)
             .then(e=>{
-                console.log(e)
                 this.commentChild = e.data
             })
+        },
+        getComment(){
+            this.$emit("get-comment")
         }
     },
     mounted(){

@@ -30,7 +30,7 @@
                         @click="$emit('commentBtn',data._id)"
                     >评论</span>
                     <span class="comment-tag more" 
-                        v-if="data.reply"
+                        v-if="data.reply && !cm"
                         @click="$emit('commentMore',data._id)"
                     >展开评论</span>
                 </div>
@@ -55,7 +55,6 @@ export default {
 }
 </script>
 <style lang="less">
-
 .comment-item {
     display: flex;
     padding-bottom: 22px;

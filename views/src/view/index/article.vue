@@ -24,7 +24,7 @@
                 <i class="ion-ios-minus-empty"></i>
             </div>
             <div class="comment-box container p-12" id="comment" v-if="comment">
-                <comment :data="comments"></comment>
+                <comment :data="comments" @get-comment="getComment"></comment>
             </div>
         </article>
 	</article>
@@ -49,11 +49,7 @@ export default {
             this.loading = true
             this.data = article
         })
-        this.$store.dispatch("getOneComment", this.$route.params.id)
-        .then(comment=>{
-            this.comments = comment
-            this.comment = true
-        })
+        this.getComment()
     },
     /*updated(){
         let imgs = this.$refs.md.getElementsByTagName('img')
@@ -64,6 +60,13 @@ export default {
         }
     },*/
     methods:{
+        getComment(){
+            this.$store.dispatch("getOneComment", this.$route.params.id)
+            .then(comment=>{
+                this.comments = comment
+                this.comment = true
+            })
+        },
         /*
         imgOpen(img){
             let self = this
@@ -153,7 +156,7 @@ export default {
 @import "../../styles/code.css";
 article.article {
     .imgs {
-        margin-bottom: 12px;
+        margin-bottom: 22px;
         img {
             border-radius: 4px;
             overflow: hidden;
@@ -168,7 +171,7 @@ article.article {
     .meta {
         margin-bottom: 24px;
         a {
-            color: fade(#000, 70%);
+            color: fade(#000, 60%);
             text-decoration: none;
         }
     }
@@ -291,7 +294,7 @@ article.article {
             background: fade(#000, 5%);
             color: fade(#000, 50%);
             margin-right: 12px;
-            border-radius: 12px;
+            border-radius: 22px;
         }
     }
     @media (max-width: 940px) {

@@ -14,9 +14,6 @@
 import headers from "../components/header-index"
 import footers from "../components/footer-index"
 export default {
-    mounted(){
-        document.body.style.background = "#fff"
-    },
     components:{
         headers,
         footers

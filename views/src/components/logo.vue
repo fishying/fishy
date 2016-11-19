@@ -9,7 +9,7 @@
                 y1="151.7" 
                 x2="180.01" 
                 y2="14.9" 
-                style="fill:none;stroke-miterlimit:10;stroke-width:10px"
+                style="fill:none;stroke-miterlimit:10;stroke-width:14px"
                 :style="{stroke:color}"
             />
         </g>
@@ -19,7 +19,7 @@
                 y1="4.49" 
                 x2="2.26" 
                 y2="103.75" 
-                style="fill:none;stroke-miterlimit:10;stroke-width:10px"
+                style="fill:none;stroke-miterlimit:10;stroke-width:14px"
                 :style="{stroke:color}"
             />
         </g>
@@ -29,7 +29,7 @@
                 y1="206.53" 
                 x2="2.26" 
                 y2="103.75" 
-                style="fill:none;stroke-miterlimit:10;stroke-width:10px"
+                style="fill:none;stroke-miterlimit:10;stroke-width:14px"
                 :style="{stroke:color}"
             />
         </g>
@@ -39,7 +39,7 @@
                 y1="54.64" 
                 x2="178.37" 
                 y2="193.86" 
-                style="fill:none;stroke-miterlimit:10;stroke-width:10px"
+                style="fill:none;stroke-miterlimit:10;stroke-width:14px"
                 :style="{stroke:color}"
             />
         </g>

@@ -29,8 +29,8 @@ export const detectOS = function() {
 
         var isWin10 = sUserAgent.indexOf("Windows NT 10") > -1 ;
         if (isWin10) return "Win10";
-
     }
+    return Or
 }
 
 export const debounce = function(func, wait, immediate) {
@@ -63,4 +63,13 @@ export const In = function(target, parent){
         parentNode = parentNode.parentNode
     }
     return path.indexOf(parent) !== -1
+}
+
+export const isEmail = function(text) {
+    let email = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    if(!email.test(text)) {
+        return false
+    } else {
+        return true
+    }
 }

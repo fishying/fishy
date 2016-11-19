@@ -8,6 +8,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const data = require("./settings");
 
+// 日志
+const winston = require('winston');
+const expressWinston = require('express-winston');
 
 app.use(session({
     secret: '12345',
@@ -22,7 +25,8 @@ app.use(session({
 }));
 
 
-app.all("*", function (req, res, next) {
+// 日志
+/*app.all("*", function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
@@ -31,13 +35,38 @@ app.all("*", function (req, res, next) {
     } else {
         next();
     }
-});
+});*/
+
+app.use(expressWinston.logger({
+  transports: [
+    new (winston.transports.Console)({
+      json: true,
+      colorize: true
+    }),
+    new winston.transports.File({
+      filename: 'logs/success.log'
+    })
+  ]
+}));
 
 app.use(require('express-promise')());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 router(app);
+
+// 错误请求的日志
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console({
+      json: true,
+      colorize: true
+    }),
+    new winston.transports.File({
+      filename: 'logs/error.log'
+    })
+  ]
+}));
 
 app.listen(3000, function(){
     console.log('App (dev) is now running on port 3000!');
