@@ -42,7 +42,8 @@
     "thunkify-wrap": "^1.0.4",
     "twemoji": "^2.1.0",
     "winston": "^2.3.0",
-    "express-winston": "^2.0.0"
+    "express-winston": "^2.0.0",
+    "validator": "^6.1.0"
   },
   "dependencies": {
     "mocha": "^3.1.2",

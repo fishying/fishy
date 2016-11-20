@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const users = require("../models/users")
 const { wrap: async } = require('co');
 const md5 = require("md5");
+var {isEmail, isEmpty, isLength} = require('validator');
 
 exports.login = async( function*(req, res) {
     let name = req.body.name;
@@ -33,17 +34,48 @@ exports.login = async( function*(req, res) {
 })
 
 exports.logon = async(function* (req, res) {
+    if(isEmpty(req.body.email)){
+        return res.json({
+            "status":"fail",
+            "msg":"邮箱为空"
+        })
+    }else {
+        if(!isEmail(req.body.email)) {
+            return res.json({
+                "status":"fail",
+                "msg":"邮箱格式不正确"
+            })
+        }
+    }
+    if(isEmpty(req.body.name)){
+        return res.json({
+            "status":"fail",
+            "msg":"名称为空"
+        })
+    }
+    if(isEmpty(req.body.password)){
+        return res.json({
+            "status":"fail",
+            "msg":"密码为空"
+        })
+    }else if(!isLength(req.body.password, {min:6, max: 16})){
+        return res.json({
+            "status":"fail",
+            "msg":"密码太长或太短"
+        })
+    }
+
     req.body.password = md5(req.body.password);
     req.body.emailmd5 = md5(req.body.email)
     users.create(req.body)
     .then(data=>{
-        res.json({
+        return res.json({
             "status":"success",
             "data":data
         })
     })
     .catch(err=>{
-        res.json({
+        return res.json({
             "status":"fail"
         })
     })

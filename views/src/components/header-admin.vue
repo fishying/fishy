@@ -42,7 +42,7 @@ const nav = [
         icon:"ion-ios-chatbubble-outline"
     },
     {
-        path:"/admin/actic",
+        path:"/admin/setting",
         icon:"ion-ios-gear-outline"
     },
 ]

@@ -9,6 +9,7 @@ const tag = require("../controllers/tag");
 const md = require("../../public/markdown");
 const {trimsHTML} = require("../../public/uitl");
 
+var {isEmail, isEmpty, isLength} = require('validator');
 
 const { wrap: async } = require('co');
 const thunkify = require('thunkify-wrap');
@@ -108,6 +109,20 @@ exports.add = async(function *(req, res){
         content: req.body.content,
     }
 
+    if(isEmpty(articles.title)){
+        return res.json({
+            status:"fail",
+            msg:"请输入内容"
+        }) 
+    }
+
+    if(isEmpty(articles.content)){
+        return res.json({
+            status:"fail",
+            msg:"请输入内容"
+        }) 
+    }
+
     if(req.body.type != ""){
         articles.type = req.body.type
     }
@@ -202,6 +217,19 @@ exports.update = async(function* (req, res){
         })
         .exec();
     // type
+    if(isEmpty(news.title)){
+        return res.json({
+            status:"fail",
+            msg:"请输入内容"
+        }) 
+    }
+    
+    if(isEmpty(news.content)){
+        return res.json({
+            status:"fail",
+            msg:"请输入内容"
+        }) 
+    }
 
     if(news.type != null){
         // 假如更改了type，删除旧type关联

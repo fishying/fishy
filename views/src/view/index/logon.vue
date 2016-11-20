@@ -59,7 +59,7 @@ export default {
                 this.$notify.warning("密码不能为空")
                 return
             }else {
-                if(this.password.length >6 && this.password.length<16) {
+                if(!this.password.length >6 && !this.password.length<16) {
                     this.$notify.warning("密码不能少于6位大于16位")
                 }
             }
@@ -73,8 +73,7 @@ export default {
                 this.$router.push("/login")
             })
             .catch(err=>{
-                this.$notify.warning("注册失败~")
-                this.$router.push("/")
+                this.$notify.warning(err)
             })
         }
     }

@@ -69,7 +69,7 @@ export const logon = ({commit, state}, data) =>{
             if(data.status == "success") {
                 resolve()
             }else {
-                reject()
+                reject(data.msg)
             }
         })
     })
@@ -154,6 +154,28 @@ export const getOneComment = ({commit, state}, article) => {
                 reject(data.msg)
             }else {
                 resolve(data.data)
+            }
+        })
+    })
+}
+
+export const addComment = ({commit, state}, data) => {
+    return new Promise((resolve, reject) => {
+        Vue.http.post(`/api/comment/`, {
+            article: data.id,
+            content: data.content,
+            os: data.os,
+            user: data.user,
+            reply: data.reply
+        })
+        .then(response=>{
+            console.log(response)
+            return response.json()
+        }).then(u=>{
+            if(u.status != "success") {
+                reject(u.msg)
+            }else {
+                resolve()
             }
         })
     })

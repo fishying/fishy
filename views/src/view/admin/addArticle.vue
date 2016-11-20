@@ -93,27 +93,40 @@ export default {
     },
     methods:{
         add(){
-            this.check()
-            .then(()=>{
                 
-                let tag = this.tag.map((e)=>{
-                    return e.name
-                })
+            if(this.data.title == ""){
+                this.$notify("请输入正确的标题")
+                return 
+            }else if(this.data.content == ""){
+                this.$notify("请输入正确的内容")
+                return
+            }
 
-                this.data.tags = tag
+            let tag = this.tag.map((e)=>{
+                return e.name
+            })
 
-                this.$store.dispatch("addArticle", this.data)
-                .then(data=>{
-                    this.$router.push("/admin")
-                    this.$notify("文章发布成功")
-                })
-                .catch(err=>{
-                    this.$notify.warning("文章发布失败")
-                })
+            this.data.tags = tag
+
+            this.$store.dispatch("addArticle", this.data)
+            .then(data=>{
+                this.$router.push("/admin")
+                this.$notify("文章发布成功")
+            })
+            .catch(err=>{
+                this.$notify.warning("文章发布失败")
             })
         },
         update(){
 
+            if(this.data.title == ""){
+                this.$notify("请输入正确的标题")
+                return 
+            }else if(this.data.content == ""){
+                this.$notify("请输入正确的内容")
+                return
+            }
+            
             let tag = this.tag.map((e)=>{
                 return e.name
             })
@@ -159,17 +172,6 @@ export default {
             }
         },
         check(next){
-            return new Promise((resolve, reject)=>{
-                if(this.data.title == ""){
-                    this.$notify("请输入正确的标题")
-                    return 
-                }else if(this.data.content == ""){
-                    this.$notify("请输入正确的内容")
-                    return
-                }else {
-                    resolve()
-                }
-            })
         }
     },
     computed:{

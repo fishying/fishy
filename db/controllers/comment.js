@@ -4,6 +4,7 @@ const users = require("../models/users");
 const { wrap: async } = require('co');
 const thunkify = require('thunkify-wrap');
 
+var {isEmail, isEmpty, isLength} = require('validator');
 const md5 = require("md5");
 const moment = require('moment')
 moment.locale('zh-cn');
@@ -19,22 +20,25 @@ exports.add = async(function *(req, res){
     if(req.session.sign){
         data.from.admin = req.session._id
     }else {
-        if(data.name == ''){
-            res.json({
+        if(isEmpty(data.user.name)){
+            return res.json({
                 status:"fail",
-                msg:"请输入内容"
-            }) 
+                msg:"请输入昵称"
+            })
         }
-        if(data.email == ''){
-            res.json({
+        if(isEmpty(data.user.email)){
+            return res.json({
                 status:"fail",
-                msg:"请输入内容"
+                msg:"请输入email"
             }) 
+        }else if(!isEmail(data.user.email)){
+            return res.json({
+                "status":"fail",
+                "msg":"邮箱格式不正确"
+            })
         }
-        console.log(req.body)
         data.from.user = req.body.user
     }
-
     if(req.body.reply) {
         data.reply = req.body.reply
     }

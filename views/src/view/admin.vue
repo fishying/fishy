@@ -94,6 +94,7 @@ export default {
     >.title {
         margin-bottom: 24px;
         input {
+            width: 100%;
             font-size: 32px;
             outline: none;
             border: none;

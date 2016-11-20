@@ -6,6 +6,21 @@ const { wrap: async } = require('co');
 
 // 添加标签
 exports.add = async(function *(req, res){
+
+    if(isEmpty(req.body.name)){
+        res.json({
+            status:"fail",
+            msg:"请输入内容"
+        }) 
+    }
+    
+    if(isEmpty(req.body.profile)){
+        res.json({
+            status:"fail",
+            msg:"请输入内容"
+        }) 
+    }
+    
     type.create(req.body, (err, data)=>{
         if(err){
             res.json({

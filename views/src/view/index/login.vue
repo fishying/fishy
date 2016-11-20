@@ -24,11 +24,11 @@ export default {
     },
     methods:{
         login(){
-            if(name == ""){
+            if(this.name == ""){
                 this.$notify.warning("用户名不能为空~")
                 return
             }
-            if(name == ""){
+            if(this.password == ""){
                 this.$notify.warning("密码不能为空~")
                 return
             }

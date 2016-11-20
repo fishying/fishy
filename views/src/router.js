@@ -18,6 +18,7 @@ const admin_uparticle = resolve => require(['./view/admin/upArticle'], resolve)
 const admin_type = resolve => require(['./view/admin/type'], resolve)
 const admin_addtype = resolve => require(['./view/admin/addType'], resolve)
 const admin_comment = resolve => require(['./view/admin/comment'], resolve)
+const admin_setting = resolve => require(['./view/admin/setting'], resolve)
 
 Vue.use(Router)
 
@@ -103,6 +104,11 @@ let router = new Router({
                     path: 'comment',
                     name:"adminComment",
                     component: admin_comment
+                },
+                {
+                    path: 'setting',
+                    name:"adminSetting",
+                    component: admin_setting
                 }
             ]
         }

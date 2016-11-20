@@ -7,5 +7,5 @@ module.exports = {
         }else {
             return data;
         }
-    }
+    },
 }

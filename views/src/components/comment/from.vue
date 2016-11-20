@@ -76,27 +76,18 @@ export default {
                     }
                 }
             }
-            if(this.$store.state.login.status){
-                this.$http.post("/api/comment", {
-                    article:this.$route.params.id,
-                    content:this.$refs.text.innerText,
-                    os:detectOS(),
-                    reply:this.reply
-                }).then(response=>{
-                    this.$notify.warning("评论成功~")
-                })
-            }else{
-                this.$http.post("/api/comment", {
-                    article:this.$route.params.id,
-                    content:this.$refs.text.innerText,
-                    os:detectOS(),
-                    user:this.user,
-                    reply:this.reply
-                }).then(response=>{
-                    this.$notify.warning("评论成功~")
-                })
-            }
-            this.$parent.getComment()
+            this.$store.dispatch("addComment", {
+                id:this.$route.params.id,
+                content:this.$refs.text.innerText,
+                os:detectOS(),
+                user:this.user,
+                reply:this.reply
+            }).then(response=>{
+                this.$notify("评论成功~")
+                this.$parent.getComment()
+            }).catch(err=>{
+                this.$notify.warning(err)
+            })
         },
         test(){
             if(this.$refs.text.innerText){
