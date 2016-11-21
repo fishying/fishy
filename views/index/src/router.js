@@ -9,23 +9,11 @@ const article = resolve => require(['./view/index/article'], resolve)
 const login = resolve => require(['./view/index/login'], resolve)
 const logon = resolve => require(['./view/index/logon'], resolve)
 
-
-const admin = resolve => require(['./view/admin'], resolve)
-const admin_index = resolve => require(['./view/admin/index'], resolve)
-const admin_article = resolve => require(['./view/admin/article'], resolve)
-const admin_addarticle = resolve => require(['./view/admin/addArticle'], resolve)
-const admin_uparticle = resolve => require(['./view/admin/upArticle'], resolve)
-const admin_type = resolve => require(['./view/admin/type'], resolve)
-const admin_addtype = resolve => require(['./view/admin/addType'], resolve)
-const admin_comment = resolve => require(['./view/admin/comment'], resolve)
-const admin_setting = resolve => require(['./view/admin/setting'], resolve)
-
 Vue.use(Router)
 
 let router = new Router({
     mode: 'history',
     scrollBehavior (to, from, savedPosition) {
-
         if (to.hash) {
             return {
                 selector: to.hash
@@ -64,54 +52,6 @@ let router = new Router({
                 },
             ]
         },
-        {
-            path: '/admin',
-            name: 'admin',
-            component: admin,
-            meta: { requiresAuth: true },
-            children:[
-                {
-                    path: '',
-                    name:"adminIndex",
-                    component: admin_index
-                },
-                {
-                    path: 'article',
-                    name:"adminArticle",
-                    component: admin_article
-                },
-                {
-                    path: 'add/article',
-                    name:"addArticle",
-                    component: admin_addarticle
-                },
-                {
-                    path: 'up/article/:id',
-                    name:"upArticle",
-                    component: admin_addarticle
-                },
-                {
-                    path: 'type',
-                    name:"adminType",
-                    component: admin_type
-                },
-                {
-                    path: 'add/type',
-                    name:"addType",
-                    component: admin_addtype
-                },
-                {
-                    path: 'comment',
-                    name:"adminComment",
-                    component: admin_comment
-                },
-                {
-                    path: 'setting',
-                    name:"adminSetting",
-                    component: admin_setting
-                }
-            ]
-        }
     ]
 })
 

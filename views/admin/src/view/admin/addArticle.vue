@@ -74,7 +74,7 @@ export default {
         }
     },
     created(){
-        if(this.$route.name == "upArticle"){
+        if(this.$route.params.id){
             this.$http.get(`/api/article/${this.$route.params.id}?md=no`)
             .then(response=>{
                 return response.json()

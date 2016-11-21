@@ -1,0 +1,29 @@
+.op-enter-active, .op-leave-active {
+    transition: all .8s cubic-bezier(.55,0,.1,1);
+    will-change: opacity;
+}
+.op-enter,.enter-active, .op-leave-active, .op-leave {
+    opacity: 0;
+}
+.op-enter,.enter-active, .op-leave-active, .op-leave {
+    opacity: 0;
+}
+.index-enter-active, .index-leave-active {
+    transition: all .8s cubic-bezier(.55,0,.1,1);
+    will-change: opacity;
+    position: absolute;
+}
+.index-enter,.enter-active, .index-leave-active, .index-leave {
+    opacity: 0;
+    transform: translateY(-25px);
+}
+.index-enter,.enter-active, .index-leave-active, .index-leave {
+    opacity: 0;
+    transform: translateY(25px);
+}
+.opacity-active, .opacity-leave-active {
+    transition: opacity .5s
+}
+.opacity-enter, .opacity-leave-enter, .opacity-leave-active {
+    opacity: 0
+}

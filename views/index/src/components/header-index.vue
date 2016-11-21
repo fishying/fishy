@@ -43,6 +43,12 @@ export default {
             scrolls:0,
         }
     },
+    created(){
+        this.$http.get("/api/nav/list")
+            .then(e=>{
+                console.log(e)
+            })
+    },
     mounted(){
         let self = this
         window.addEventListener("resize", function(){

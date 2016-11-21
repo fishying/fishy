@@ -3,6 +3,8 @@ const article = require("../db/controllers/article");
 const user = require("../db/controllers/users");
 const type = require("../db/controllers/type");
 const comment = require("../db/controllers/comment");
+const nav = require("../db/controllers/nav");
+
 module.exports = (app) => {
     // user 
     app.post("/api/login", user.login)
@@ -27,4 +29,7 @@ module.exports = (app) => {
     app.get("/api/comment/:id", comment.finds)
     app.get("/api/comment/child/:id", comment.findChilds)
     app.delete("/api/comment/:id", user.requiresLogin, comment.del)
+    // nav
+    app.get("/api/nav/list", nav.navList)
+    app.post("/api/nav/list", nav.addFindNav)
 }

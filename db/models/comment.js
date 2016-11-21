@@ -23,7 +23,8 @@ var commentSchema = Schema ({
     article : {
         required : true,
         type: ObjectId,
-        ref:"article"
+        ref:"article",
+        unique:true
     },
     /* 内容 */
     content : {
@@ -36,7 +37,7 @@ var commentSchema = Schema ({
         default : Date.now
     },
     os:{
-        type : String
+        type : String,
     },
     // 0正常，1待审，-1删除
     state:{
