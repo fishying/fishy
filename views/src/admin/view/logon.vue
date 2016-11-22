@@ -1,9 +1,10 @@
 <template>
     <div class="container p-12">
         <div class="login">
+            <h2 class="index-title"><i class="ion-locked"></i></h2>
             <h2 class="index-title">注册</h2>
             <label>
-                <p>* 邮箱：
+                <p><span class="red">*</span> 邮箱：
                     <y-tooltips content="请输入正确的邮箱" trigger="hover">
                         <span class="point" slot="html">提示</span>
                     </y-tooltips>
@@ -11,7 +12,7 @@
                 <input type="text" v-model="email">
             </label>
             <label>
-                <p>* 账号：
+                <p><span class="red">*</span> 账号：
                     <y-tooltips content="这是登陆id" trigger="hover">
                         <span class="point" slot="html">提示</span>
                     </y-tooltips>
@@ -19,7 +20,7 @@
                 <input type="text" v-model="name">
             </label>
             <label>
-                <p>* 密码：
+                <p><span class="red">*</span> 密码：
                     <y-tooltips content="password >= 6 && password <= 16" trigger="hover">
                         <span class="point" slot="html">提示</span>
                     </y-tooltips>
@@ -31,7 +32,7 @@
     </div>
 </template>
 <script>
-import {isEmail} from "../../../uilt"
+import {isEmail} from "../../uilt"
 export default {
     data(){
         return {
@@ -83,6 +84,9 @@ export default {
 .login {
     width: 320px;
     margin: 0 auto;
+    span.red {
+        color: #ff7473;
+    }
     h2.index-title {
         text-align: center;
         font-size: 28px;

@@ -1,6 +1,7 @@
 <template>
     <div class="container p-12">
         <div class="login">
+            <h2 class="index-title"><i class="ion-locked"></i></h2>
             <h2 class="index-title">登陆</h2>
             <label>
                 <p>账号：</p>
@@ -38,7 +39,7 @@ export default {
             })
             .then(data=>{
                 this.$notify("登陆成功~")
-                this.$router.push("/admin")
+                this.$router.push("/")
             })
             .catch(err=>{
                 this.$notify.warning("登陆失败,账号或密码错误~")

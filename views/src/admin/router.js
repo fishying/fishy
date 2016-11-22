@@ -2,6 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import store from '../store'
+
+const login = resolve => require(['./view/login'], resolve)
+const logon = resolve => require(['./view/logon'], resolve)
+const logout = resolve => require(['./view/logout'], resolve)
 const admin = resolve => require(['./view/admin'], resolve)
 const admin_index = resolve => require(['./view/admin/index'], resolve)
 const admin_article = resolve => require(['./view/admin/article'], resolve)
@@ -14,9 +18,8 @@ const admin_setting = resolve => require(['./view/admin/setting'], resolve)
 Vue.use(Router)
 
 let router = new Router({
-    mode: 'history',
+    mode: 'hash',
     scrollBehavior (to, from, savedPosition) {
-
         if (to.hash) {
             return {
                 selector: to.hash
@@ -64,6 +67,20 @@ let router = new Router({
                     component: admin_setting
                 }
             ]
+        },
+        {
+            path:'/login',
+            component:login,
+            meta: { log: true },
+        },
+        {
+            path:'/logon',
+            component:logon,
+            meta: { log: true },
+        },
+        {
+            path:'/logout',
+            component:logout,
         }
     ]
 })
@@ -75,22 +92,20 @@ router.beforeEach((to, from, next) => {
         if (to.matched.some(record => record.meta.requiresAuth)) {
             if(login.status){
                 Vue.prototype.$loading.success()
-                if(to.name == "login" || to.name == "logon") {
-                    next("/")
-                }else {
-                    next()
-                }
+                next()
             }else {
                 Vue.prototype.$loading.success()
-                if(to.name == "login" || to.name == "logon") {
-                    next()
-                }else {
-                    Vue.prototype.$notify.warning("私人领域~请先登录~")
-                    next("/login")
-                }
+                next("login")
             }
-        }else {
+        }else if(to.matched.some(record => record.meta.log)) {
             Vue.prototype.$loading.open()
+            if(login.status) {
+                next("/")
+            }else {
+                next()
+            }
+            next()
+        }else {
             next()
         }
     })

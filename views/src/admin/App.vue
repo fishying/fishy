@@ -12,7 +12,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import "../styles/init";
+@import "../styles/admin";
 #app {
     height: 100%;
 }
