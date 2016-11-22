@@ -12,15 +12,14 @@ let nav = mongoose.model("nav", navSchema);
 
 nav.findNavList = () => {
     return nav.findOne()
-    .select("navlist")
     .exec()
 }
 nav.findNavUp = () => {
     return nav.findOne()
-    .select("navlist")
     .exec()
 }
 nav.addFindNav = (data) => {
     return nav.create(data)
+    .exec()
 }
 module.exports = nav

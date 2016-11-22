@@ -18,6 +18,12 @@ exports.add = async(function *(req, res){
         data[i] = req.body[i]
     }
     if(req.session.sign){
+        if(isEmpty(req.body.content)) {
+            return res.json({
+                status:"fail",
+                msg:"请输入昵称"
+            })
+        }
         data.from.admin = req.session._id
     }else {
         if(isEmpty(data.user.name)){

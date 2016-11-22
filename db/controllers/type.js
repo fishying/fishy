@@ -2,20 +2,24 @@
 let mongoose = require("mongoose");
 let type = require("../models/type");
 let article = require("./article")
+const moment = require('moment')
+moment.locale('zh-cn');
+
+const {isEmail, isEmpty, isLength} = require('validator');
+
 const { wrap: async } = require('co');
 
 // 添加标签
 exports.add = async(function *(req, res){
-
     if(isEmpty(req.body.name)){
-        res.json({
+        return res.json({
             status:"fail",
             msg:"请输入内容"
         }) 
     }
     
     if(isEmpty(req.body.profile)){
-        res.json({
+        return res.json({
             status:"fail",
             msg:"请输入内容"
         }) 
@@ -23,12 +27,12 @@ exports.add = async(function *(req, res){
     
     type.create(req.body, (err, data)=>{
         if(err){
-            res.json({
+            return res.json({
                 "status":"fail",
                 "msg":"发布失败"
             })
         }else {
-            res.json({
+            return res.json({
                 "status":"success",
             })
         }
@@ -59,6 +63,19 @@ exports.finds = async(function *(req, res){
     }
 })
 
+exports.one = async(function *(req, res){
+    let id = req.params.id
+    let data= yield type.allArticle(id)
+    if(data.article.length != 0){
+        for(let article of data.article){
+            article.create_time = [moment(article.create_time).format('L'), moment(article.create_time).fromNow()]
+        }
+    }
+    res.json({
+        status:"success",
+        data: data
+    })
+})
 // 添加标签文章
 exports.addArt = (tag,id,callback) => {
     type.update({"_id":tag},{"$addToSet":{"article":id}},callback)

@@ -7,10 +7,13 @@ const router = require("./public/router");
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const data = require("./settings");
+var path = require('path')
 
 // 日志
 const winston = require('winston');
 const expressWinston = require('express-winston');
+
+app.use(express.static(path.join(__dirname, 'views/')));
 
 app.use(session({
     secret: '12345',
@@ -48,7 +51,6 @@ app.use(expressWinston.logger({
     })
   ]
 }));
-
 app.use(require('express-promise')());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -67,6 +69,10 @@ app.use(expressWinston.errorLogger({
     })
   ]
 }));
+
+app.all("/", function(req, res, next) {
+  res.sendfile("./views/admin.html");
+});
 
 app.listen(3000, function(){
     console.log('App (dev) is now running on port 3000!');

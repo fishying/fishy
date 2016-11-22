@@ -23,6 +23,7 @@ module.exports = (app) => {
     app.post("/api/type", user.requiresLogin, type.add)
     // 获取type
     app.get("/api/type", type.finds)
+    app.get("/api/type/:id", type.one)
     // comment
     app.post("/api/comment", comment.add)
     app.get("/api/comment", comment.findAll)
@@ -31,5 +32,6 @@ module.exports = (app) => {
     app.delete("/api/comment/:id", user.requiresLogin, comment.del)
     // nav
     app.get("/api/nav/list", nav.navList)
-    app.post("/api/nav/list", nav.addFindNav)
+    app.post("/api/nav/list", user.requiresLogin, nav.addFindNav)
+    app.post("/api/nav/list/up", user.requiresLogin, nav.upNav)
 }
