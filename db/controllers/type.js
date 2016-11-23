@@ -64,17 +64,24 @@ exports.finds = async(function *(req, res){
 })
 
 exports.one = async(function *(req, res){
-    let id = req.params.id
-    let data= yield type.allArticle(id)
-    if(data.article.length != 0){
-        for(let article of data.article){
-            article.create_time = [moment(article.create_time).format('L'), moment(article.create_time).fromNow()]
+    let alias = req.params.alias
+    try {
+        let data= yield type.allArticle(alias)
+        if(data.article.length != 0){
+            for(let article of data.article){
+                article.create_time = [moment(article.create_time).format('L'), moment(article.create_time).fromNow()]
+            }
         }
+        res.json({
+            status:"success",
+            data: data
+        })
+    } catch(err) {
+        res.json({
+            status:"fail",
+            msg:"没有查找到"
+        })
     }
-    res.json({
-        status:"success",
-        data: data
-    })
 })
 // 添加标签文章
 exports.addArt = (tag,id,callback) => {

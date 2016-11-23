@@ -2,9 +2,9 @@
     <div class="indexs">
         <headers></headers>
         <div class="main">
-            <transition name="index" appear>
+            <!--<transition name="index" appear>-->
                 <router-view></router-view>
-            </transition>
+            <!--</transition>-->
         </div>
         <footers></footers>
     </div>

@@ -44,12 +44,17 @@ export default {
         }
     },
     created(){
+        let title = document.title
         this.$store.dispatch("getArticle", this.$route.params.id)
         .then(article=>{
+            document.title = `${this.$config.title} - ${article.title}`
             this.loading = true
             this.data = article
+            this.getComment()
         })
-        this.getComment()
+        .catch(e=>{
+            this.$router.push("/404")
+        })
     },
     /*updated(){
         let imgs = this.$refs.md.getElementsByTagName('img')

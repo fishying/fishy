@@ -2,7 +2,12 @@
     <div class="add-type">
         <div class="title">
             <div class="content">
-                <input type="text" placeholder="请输入标签名" v-model="name">
+                <input type="text" placeholder="请输入标签名 *" v-model="name">
+            </div>
+        </div>
+        <div class="alias">
+            <div class="content">
+                <input type="text" placeholder="请输入别名（地址栏显示，访问）  *" v-model="alias">
             </div>
         </div>
         <div class="profile">
@@ -26,6 +31,7 @@
         height: 1.3em;
         margin-bottom: 6px;
         transition: .3s all;
+        padding: 0;
     }
     textarea {
         width: 100%;
@@ -37,6 +43,12 @@
         resize:none;
         height: 1.3em;
         min-height: 120px;
+        padding: 0;
+    }
+    .alias {
+        input {
+            font-size: 18px;
+        }
     }
 }
 </style>
@@ -46,6 +58,7 @@ export default {
         return {
             name:"",
             profile:"",
+            alias:""
         }
     },
     methods:{
@@ -55,9 +68,14 @@ export default {
                 this.$notify.danger("请输入标签名")
                 return
             }
+            if(this.alias == ""){
+                this.$notify.danger("请输入别名")
+                return
+            }
             this.$store.dispatch("addType",{
-                name:this.name,
-                profile:this.profile
+                name: this.name,
+                profile: this.profile,
+                alias: this.alias
             }).then(data=>{
                 console.log(data)
             })

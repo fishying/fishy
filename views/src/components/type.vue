@@ -23,7 +23,7 @@ export default {
         name: String,
         content: String,
         articles: Array,
-    },
+    }
 }
 </script>
 

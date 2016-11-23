@@ -130,7 +130,6 @@ export const getType = ({commit, state}) => {
 }
 export const getTypeArticle = ({commit, state}, id) => {
     return new Promise((resolve, reject)=>{
-        console.log(id)
         Vue.http.get(`/api/type/${id}`)
         .then(response=>{
             return response.json()

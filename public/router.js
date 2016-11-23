@@ -23,7 +23,7 @@ module.exports = (app) => {
     app.post("/api/type", user.requiresLogin, type.add)
     // 获取type
     app.get("/api/type", type.finds)
-    app.get("/api/type/:id", type.one)
+    app.get("/api/type/:alias", type.one)
     // comment
     app.post("/api/comment", comment.add)
     app.get("/api/comment", comment.findAll)

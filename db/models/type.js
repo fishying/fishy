@@ -4,15 +4,19 @@ let Schema = mongoose.Schema;
 let ObjectId = Schema.Types.ObjectId
 
 let typeSchema = new Schema({
-	name:{
-		type:String,
-		unique:true
-	},
-	profile:String,
-	article:[{
-		type:ObjectId,
-		ref:"article"
-	}]
+    name:{
+        type:String,
+        unique:true
+    },
+    alias:{
+        type:String,
+        unique:true
+    },
+    profile:String,
+    article:[{
+        type:ObjectId,
+        ref:"article"
+    }]
 })
 
 let type = mongoose.model("type", typeSchema);
@@ -23,9 +27,9 @@ type.all = (callback) => {
     .exec(callback)
 }
 
-type.allArticle = (id) => {
+type.allArticle = (alias) => {
     return type
-    .findById(id)
+    .findOne({alias:alias})
     .lean()
     .populate({
         path: "article",

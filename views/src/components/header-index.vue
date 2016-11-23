@@ -194,11 +194,11 @@ header.index {
         a {
             transition: color .3s cubic-bezier(.645,.045,.355,1);
             text-decoration: none;
-            color:  fade(#000, 45%);
+            color:  fade(#000, 60%);
             margin-right: 22px;
             font-size: 16px;
             &:hover {
-                color: #47b8e0;
+                color:  fade(#000, 100%);
             }
         }
     }

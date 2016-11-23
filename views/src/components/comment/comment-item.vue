@@ -1,8 +1,8 @@
 <template>
     <div class="comment-item">
         <div class="comment-avater">
-            <img :src="`http://gravatar.duoshuo.com/avatar/${data.from.admin.emailmd5}?s=50`" v-if="data.from.admin">
-            <img :src="`http://gravatar.duoshuo.com/avatar/${data.from.user.email}?s=50`" v-else>
+            <img :src="`https://cdn.v2ex.com/gravatar/${data.from.admin.emailmd5}?s=50`" v-if="data.from.admin">
+            <img :src="`https://cdn.v2ex.com/gravatar/${data.from.user.email}?s=50`" v-else>
         </div>
         <div class="comment-box">
             <div class="content">

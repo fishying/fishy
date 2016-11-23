@@ -3,8 +3,8 @@
         <div class="comment-reply" v-if="replyBtn">
             <div class="comment-item">
                 <div class="comment-avater">
-                    <img :src="`http://gravatar.duoshuo.com/avatar/${reply.from.admin.emailmd5}?s=50`" v-if="reply.from.admin">
-                    <img :src="`http://gravatar.duoshuo.com/avatar/${reply.from.user.email}?s=50`" v-else>
+                    <img :src="`https://cdn.v2ex.com/gravatar/${reply.from.admin.emailmd5}?s=50`" v-if="reply.from.admin">
+                    <img :src="`https://cdn.v2ex.com/gravatar/${reply.from.user.email}?s=50`" v-else>
                 </div>
                 <div class="comment-box">
                     <div class="content">

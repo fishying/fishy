@@ -21,7 +21,7 @@
         </div>
         <div class="comment-form-admin" v-else>
             <div class="comment-form-avater">
-                <img :src="`http://gravatar.duoshuo.com/avatar/${$store.state.login.userInfo.emailmd5}?s=50`">
+                <img :src="`https://cdn.v2ex.com/gravatar/${$store.state.login.userInfo.emailmd5}?s=50`">
             </div>
             <div class="comment-input">
                 <div 

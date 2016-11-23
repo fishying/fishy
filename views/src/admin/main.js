@@ -14,6 +14,7 @@ Vue.use(everyone)
 
 Vue.use(resource)
 
+
 new Vue({
     router,
     store,

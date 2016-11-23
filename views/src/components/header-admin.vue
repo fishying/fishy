@@ -1,7 +1,7 @@
 <template>
     <header class="admin">
         <nav>
-            <router-link to="/" class="logo" exact>W</router-link>
+            <a :href="config.path" class="logo" exact>W</a>
             <router-link 
                 :to="info.path" 
                 v-for="info in nav" 
@@ -16,14 +16,15 @@
                 <i class="ion-ios-plus-empty admin"></i>
             </a>
             <div slot="content" class="add">
-                <router-link to="/admin/add/article" tag="div">文章</router-link>
-                <router-link to="/admin/add/type" tag="div">标签</router-link>
+                <router-link to="/add/article" tag="div">文章</router-link>
+                <router-link to="/add/type" tag="div">标签</router-link>
             </div>>
         </y-tooltips>
         </div>
     </header>
 </template>
 <script>
+import config from "../../config/index.json"
 const nav = [
     {
         path:"/",
@@ -49,7 +50,8 @@ const nav = [
 export default {
     data(){
         return {
-            nav:nav
+            nav:nav,
+            config:config
         }
     }
 }

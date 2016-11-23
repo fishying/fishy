@@ -7,6 +7,7 @@
             v-if="loading"
         >
         </types>
+        <p></p>
     </div>
 </template>
 <script>
@@ -19,10 +20,14 @@ export default {
         }
     },
     created(){
-        this.$store.dispatch("getTypeArticle",this.$route.params.id)
+        this.$store.dispatch("getTypeArticle",this.$route.params.alias)
         .then(data=>{
+            document.title = `${this.$config.title} - ${data.name}`
             this.data = data
             this.loading = true
+        })
+        .catch(e=>{
+            this.$router.push("/404")
         })
     },
     components:{
