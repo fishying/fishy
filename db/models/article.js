@@ -63,7 +63,7 @@ article.all = (page, limit) => {
     })
     .populate({
         path: "type",
-        select: "name _id"
+        select: "name _id alias"
     })
     .populate({
         path: "tags",
@@ -85,7 +85,7 @@ article.one = (id) => {
     })
     .populate({
         path: "type",
-        select: "name _id"
+        select: "name _id alias"
     })
     .exec()
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-comment">
+    <div class="admin-comment main">
         <h2 class="title">
             标签列表
         </h2>

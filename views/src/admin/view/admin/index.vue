@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-index admin-content">
+    <div class="admin-index admin-content main">
         <h2 class="title">首页</h2>
         <div class="infos">
             <router-link :to="datas.path" tag="div" class="box"v-for="datas in info">

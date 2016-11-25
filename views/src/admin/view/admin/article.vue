@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-article">
+    <div class="admin-article main">
         <h2 class="title">
             文章列表
         </h2>

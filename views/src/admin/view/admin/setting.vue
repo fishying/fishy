@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-setting container">
+    <div class="admin-setting container main">
         <div class="setting-left">
             预览：(点击修改)
             <div class="list-header">

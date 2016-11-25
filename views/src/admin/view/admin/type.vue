@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-type">
+    <div class="admin-type main">
         <h2 class="title">
             标签列表
         </h2>
@@ -16,7 +16,9 @@
                 <tbody>
                     <tr v-for="type in data">
                         <td><y-checkbox v-model="test" :label="type._id" content></y-checkbox></td>
-                        <td class="title">{{type.name}}</td>
+                        <td class="title">
+                            <router-link :to="`/type/${type.alias}`">{{type.name}}</router-link>
+                        </td>
                         <td class="num">{{type.article.length}}</td>
                         <td class="t">
 

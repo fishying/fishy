@@ -29,6 +29,7 @@ export default {
 
 <style lang="less">
 .type-article {
+    margin-top: 84px;
     >.title {
         text-align: center;
         margin-bottom: 36px;

@@ -33,7 +33,7 @@ type.allArticle = (alias) => {
     .lean()
     .populate({
         path: "article",
-        select: "title cover create_time profile"
+        select: "title cover create_time profile enabled"
     })
     .sort({'create_time':-1})
     .exec()

@@ -1,9 +1,10 @@
 <template>
     <article class="main" v-if="loading">
         <articles :data="data"></articles>
-        <div class="tag container p-12">
+        <div class="tag container p-12" v-if="data.tags>0">
             <span class="tag-list" v-for="tag in data.tags">{{tag.name}}</span>
         </div>
+        <p v-else class="container p-12 tag">未添加tag</p>
         <div class="posts-end container">
             <span></span>
         </div>

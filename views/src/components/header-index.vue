@@ -121,7 +121,7 @@ header.index {
         transform: translateY(-100%);
     }
     .container {
-        padding: 8px 0;
+        height: 60px;
         display: flex;
         justify-content: space-between;
         align-items: center;

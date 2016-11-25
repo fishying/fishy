@@ -11,7 +11,7 @@ const admin_index = resolve => require(['./view/admin/index'], resolve)
 const admin_article = resolve => require(['./view/admin/article'], resolve)
 const admin_addarticle = resolve => require(['./view/admin/addArticle'], resolve)
 const admin_type = resolve => require(['./view/admin/type'], resolve)
-const admin_typearticle = resolve => require(['./view/admin/type'], resolve)
+const admin_typearticle = resolve => require(['./view/admin/typeArticle'], resolve)
 const admin_addtype = resolve => require(['./view/admin/addType'], resolve)
 const admin_comment = resolve => require(['./view/admin/comment'], resolve)
 const admin_setting = resolve => require(['./view/admin/setting'], resolve)
@@ -54,6 +54,10 @@ let router = new Router({
                 {
                     path: 'type',
                     component: admin_type
+                },
+                {
+                    path: 'type/:alias',
+                    component: admin_typearticle
                 },
                 {
                     path: 'add/type',

@@ -245,6 +245,7 @@ export default {
         }
     }
     .img {
+        margin-top: 24px;
         position: relative;
         .expand {
             width: 40px;

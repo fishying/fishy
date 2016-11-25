@@ -19,7 +19,7 @@
                     <a href="" slot="html">{{data.time[1]}} </a>
                 </y-tooltips>
                 • 
-                <a href="" slot="html">asdf </a>
+                <router-link :to="`/type/${data.type.alias}`">{{data.type.name}}</router-link>
             </span>
         </div>
         <div class="md container p-12" ref="md" v-html="data.content"></div>
@@ -82,6 +82,7 @@ article.article {
         }
     }
     .md {
+        margin-bottom: 62px;
         padding-top: 1px;
         * {
             font-size: 16px;

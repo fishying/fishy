@@ -42,6 +42,9 @@ export default {
 #app {
     height: 100%;
 }
+#main {
+    min-height: 100%;
+}
 .main  {
     margin-top: 60px;
 }
