@@ -25,7 +25,6 @@ export default {
 
 .admin-main {
     box-sizing: border-box;
-    padding: 22px;
     h2.title {
         font-size: 22px;
         font-weight: 400;

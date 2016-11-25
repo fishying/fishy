@@ -24,7 +24,6 @@
     </header>
 </template>
 <script>
-import config from "../../config/index.json"
 const nav = [
     {
         path:"/",
@@ -51,7 +50,11 @@ export default {
     data(){
         return {
             nav:nav,
-            config:config
+        }
+    },
+    computed:{
+        config:function(){
+            return this.$config
         }
     }
 }

@@ -40,6 +40,10 @@ var articleSchema = new Schema ({
         type:String,
         default: ""
     },
+    full:{
+        type:Boolean,
+        default: false
+    },
     enabled: Boolean,
     content: String
 })

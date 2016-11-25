@@ -107,11 +107,13 @@ header.index {
     top: 0;
     left: 0;
     width: 100%;
+    height: 60px;
     margin: 0 auto;
     z-index: 997;
-    background: fade(#fff, 98%);
-    border-bottom: 1px solid fade(#000, 4%);
+    background: fade(#fff, 96%);
     transition: 0.3s transform;
+    will-change: transform;
+    border-bottom: 1px solid fade(#000, 4%);
     &.border {
         border-bottom: 1px solid fade(#000, 0%);
     }
@@ -119,13 +121,13 @@ header.index {
         transform: translateY(-100%);
     }
     .container {
-        padding: 6px 0;
+        padding: 8px 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
     &.open {
-        background: #fff;
+        border-bottom: 1px solid fade(#000, 0%);
         .menu {
             span.t {
                 transform: rotate(45deg);
@@ -258,7 +260,7 @@ header.index {
             left: 0;
             position: absolute;
             width: 100%;
-            background: #fff;
+            background: fade(#fff, 96%);
             a {
                 padding: 12px;
                 display: block;

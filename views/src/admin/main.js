@@ -14,6 +14,9 @@ Vue.use(everyone)
 
 Vue.use(resource)
 
+import config from '../../settings.json'
+
+Vue.prototype.$config = config
 
 new Vue({
     router,

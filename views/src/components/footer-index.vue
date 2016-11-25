@@ -16,8 +16,8 @@ const data = [
 export default {
     computed:{
         data:function(){
-            let n = Math.random() * data.length-1
-            return data[Math.round(n)]
+            let n = Math.random() * data.length
+            return data[parseInt(n)]
         }
     }
 }

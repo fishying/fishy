@@ -6,24 +6,21 @@ const morgan = require('morgan');
 const router = require("./public/router");
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const data = require("./settings");
+const config = require("./settings");
 var path = require('path')
 
 // 日志
 const winston = require('winston');
 const expressWinston = require('express-winston');
 
-app.use(express.static(path.join(__dirname, 'views/')));
-
 app.use(session({
-    secret: '12345',
-    name: 'logss',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
-    secret: 'test',
+    secret: 'wanan',
+    name: 'wanan',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
     resave: false,
     saveUninitialized: true,
     cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
     store: new MongoStore({
-        url: "mongodb://"+data.host+":"+data.port+"/"+data.db,
+        url: "mongodb://"+config.host+":"+config.port+"/"+config.db,
     })
 }));
 
@@ -46,11 +43,12 @@ app.use(expressWinston.logger({
       json: true,
       colorize: true
     }),
-    new winston.transports.File({
+    /*new winston.transports.File({
       filename: 'logs/success.log'
-    })
+    })*/
   ]
 }));
+
 app.use(require('express-promise')());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -69,10 +67,6 @@ app.use(expressWinston.errorLogger({
     })
   ]
 }));
-
-app.all("/", function(req, res, next) {
-  res.sendfile("./views/admin.html");
-});
 
 app.listen(3000, function(){
     console.log('App (dev) is now running on port 3000!');

@@ -1,25 +1,36 @@
 <template>
-    <div class="add-article container">
-        <div class="img" @click="coverDiaOn">
-            <img :src="data.cover" class="coverimg" v-if="data.cover != ''">
-            <div class="content" v-else>
+    <div class="add-article">
+        <div class="full" v-if="data.full">
+            <!--<img :src="data.cover" class="index-img">-->
+            <div class="bg-img" :style="{backgroundImage:`url(${data.cover})`}"></div>
+            <div class="yuan"></div>
+            <div class="shrink" v-if="data.cover != ''" @click="fulls">
+                <i class="ion-arrow-shrink"></i>
+            </div>
+        </div>
+        <div class="img container" v-else>
+            <img :src="data.cover" class="coverimg" v-if="data.cover != ''"  @click="coverDiaOn">
+            <div class="content" v-else @click="coverDiaOn">
                 <p>
                 <i class="ion-ios-camera-outline"></i>
                 </p>
                 <p>添加封面</p>
             </div>
+            <div class="expand" v-if="data.cover != ''" @click="fulls">
+                <i class="ion-arrow-expand"></i>
+            </div>
         </div>
-        <div class="title">
+        <div class="title container">
             <div class="content">
                 <input type="text" placeholder="请输入标题" v-model="data.title">
             </div>
         </div>
-        <div class="content">
+        <div class="content container">
             <div class="content">
                 <textarea v-model="data.content" placeholder="请输入文章内容"></textarea>
             </div>
         </div>
-        <div class="type">
+        <div class="type container">
             <div class="content">
                 <p class="title">分类</p>
                 <y-select v-model="data.type" clearable>
@@ -27,7 +38,7 @@
                 </y-select>
             </div>
         </div>
-        <div class="tags">
+        <div class="tags container">
             <div class="content">
                 <transition-group name="y-tag" class="tag" :class="{ none : tag.length == 0}">
                     <y-tag 
@@ -41,8 +52,10 @@
                 <input type="text" placeholder="请输入标签，回车添加" @keyup.enter="addtag">
             </div>
         </div>
-        <y-button type="ghost" @click.native="add" v-if="!$route.params.id">提交</y-button>
-        <y-button type="ghost"  @click.native="update" v-else>更新</y-button>
+        <div class="container">
+            <y-button type="ghost" @click.native="add" v-if="!$route.params.id">提交</y-button>
+            <y-button type="ghost"  @click.native="update" v-else>更新</y-button>
+        </div>
         <y-dialog
             v-model="coverBtn"
             title="添加封面"
@@ -66,7 +79,8 @@ export default {
                 content:"",
                 cover:"",
                 type:"",
-                tags:""
+                tags:"",
+                full:false
             },
             tagKey:0,
             tag:[],
@@ -93,7 +107,6 @@ export default {
     },
     methods:{
         add(){
-                
             if(this.data.title == ""){
                 this.$notify("请输入正确的标题")
                 return 
@@ -118,7 +131,6 @@ export default {
             })
         },
         update(){
-            console.log(1)
             if(this.data.title == ""){
                 this.$notify("请输入正确的标题")
                 return 
@@ -171,6 +183,9 @@ export default {
                 e.target.value = ""
             }
         },
+        fulls(){
+            this.data.full = !this.data.full
+        },
         check(next){
         }
     },
@@ -181,3 +196,72 @@ export default {
     }
 }
 </script>
+<style lang="less">
+.add-article {
+    .full {
+        position: relative;
+        margin-bottom: 24px;
+        overflow: hidden;
+        max-height: 400px;
+        .shrink {
+            border-radius: 100%;
+            padding: 12px;
+            background-color:fade(#fff, 60%); 
+            width: 40px;
+            text-align: center;
+            height: 40px;
+            line-height: 20px;
+            position: absolute;
+            bottom: 22px;
+            right: 12px;
+            i {
+                font-size: 18px;
+                color: fade(#000, 70%);
+            }
+        }
+        .bg-img {
+            width: 102%;
+            margin-left: -1%;
+            margin-top: -5px;
+            height: 400px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        img {
+            display: block;
+            width: 100%;
+        }
+        .yuan {
+            content: '';
+            width: 150%;
+            height: 80px;
+            background: #fff;
+            left: -25%;
+            bottom: -60px;
+            border-radius: 100%;
+            position: absolute;
+            z-index: 4;
+        }
+    }
+    .img {
+        position: relative;
+        .expand {
+            width: 40px;
+            text-align: center;
+            height: 40px;
+            line-height: 20px;
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            border-radius: 100%;
+            padding: 12px;
+            background-color:fade(#fff, 60%); 
+            i {
+                font-size: 18px;
+                color: fade(#000, 70%);
+            }
+        }
+    }
+}
+</style>

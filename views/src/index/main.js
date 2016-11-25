@@ -14,7 +14,7 @@ Vue.use(everyone)
 
 Vue.use(resource)
 
-import config from '../../config/index.json'
+import config from '../../settings.json'
 
 Vue.prototype.$config = config
 

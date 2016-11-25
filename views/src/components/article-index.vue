@@ -6,15 +6,12 @@
                 <a href="" slot="html">{{data.time[1]}} </a>
             </span>
         </div>
-        <router-link :to="path" v-if="data.cover">
+        <router-link :to="path" v-if="data.cover" class="img-a">
             <div class="imgs">
                 <img :src="data.cover" class="index-img">
-                <div class="mask">
-                    <router-link :to="path" >阅读全文</router-link>
-                </div>
             </div>
         </router-link>
-        <p class="outline">
+        <p class="outline p-12">
             {{data.content}}
         </p>
     </article>
@@ -29,9 +26,9 @@ export default {
 </script>
 <style lang="less">
 article.index {
-    width: 100%;
     margin-bottom: 62px;
     h1.title {
+        font-size: 42px;
         margin-bottom: 6px;
         text-align: center;
         a {
@@ -41,24 +38,9 @@ article.index {
     }
     .imgs {
         position: relative;
-        width: 106%;
-        margin: 12px 0 12px -3%;
+        margin-top: 12px;
         margin-bottom: 24px;
-        border-radius: 4px;
         overflow: hidden;
-        img {
-            display: block;
-            width: 100%;
-        }
-        &:hover {
-            .mask {
-                opacity: 1;
-                a {
-
-                    transform: translate3d(0, 0, 0);
-                }
-            }
-        }
         .mask {
             transition: all .3s cubic-bezier(.645,.045,.355,1);
             opacity: 0;
@@ -84,7 +66,7 @@ article.index {
     p.outline {
         color: #878787;
         margin-bottom: 12px;
-        font-size: 18px;
+        font-size: 16px;
         line-height: 1.6;
     }
     p.read-all {
@@ -99,25 +81,12 @@ article.index {
     }
     div.meta {
         color: #666;
+        font-size: 16px;
         margin-bottom: 24px;
         text-align: center;
         a {
             color: #999;
             text-decoration: none;
-        }
-    }
-}
-
-@media (max-width: 940px) {
-    article.index {
-        .imgs{
-            width: 100%;
-            margin-left: 0;
-            border-radius: 0;
-        }
-        p.outline {
-            padding: 0 16px;
-            font-size: 14px;
         }
     }
 }

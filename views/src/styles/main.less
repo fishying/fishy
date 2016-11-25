@@ -5,13 +5,6 @@ h1.y,h2.y,h3.y,h4.y,h5.y,h6.y {
         color: rgba(0,0,0,0.7);
     }
 }
-h1.y {
-    font-size: 32px;
-    a {
-        text-decoration: none;
-        color: rgba(0,0,0,0.7);
-    }
-}
 
 
 .container {
@@ -19,23 +12,19 @@ h1.y {
     width: 740px;
     margin: 0 auto;
 }
-@media (max-width: 940px) {
+@media (max-width: 600px) {
     .p-12 {
         padding-left: 12px;
         padding-right: 12px;
     }
     .container {
-        width: 100%;
+        width: 100% !important;
     }
 }
-// 底部
-.f-container {
-    width: 100%;
-    background-color: #f6f6f6;
-    padding: 12px 0;
-}
-.y-dialog {
-    z-index: 999999999999;
+@media (max-width: 940px) and (min-width:600px) {
+    .container {
+        width: 550px !important;
+    }
 }
 p.text {
     font-size: 24px;
