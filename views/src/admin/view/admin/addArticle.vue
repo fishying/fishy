@@ -33,7 +33,7 @@
         <div class="type container">
             <div class="content">
                 <p class="title">分类</p>
-                <y-select v-model="data.type" clearable>
+                <y-select v-model="type" clearable>
                     <y-option :value="type._id" :label="type.name" v-for="type in types">{{type.name}}</y-option>
                 </y-select>
             </div>
@@ -78,10 +78,11 @@ export default {
                 title:"",
                 content:"",
                 cover:"",
-                type:"",
+                type:{},
                 tags:"",
                 full:false
             },
+            type:"",
             tagKey:0,
             tag:[],
             coverBtn:false,
@@ -95,6 +96,9 @@ export default {
             })
             .then(article=>{
                 this.data = article.data
+                if(this.data.type) {
+                    this.type = this.data.type._id
+                }
                 // 处理一下原有tag
                 this.tag = this.data.tags.map(tag => {
                     this.tagKey++
@@ -121,6 +125,8 @@ export default {
 
             this.data.tags = tag
 
+            this.data.type = this.type
+
             this.$store.dispatch("addArticle", this.data)
             .then(data=>{
                 this.$router.push("/")
@@ -144,7 +150,7 @@ export default {
             })
 
             this.data.tags = tag
-
+            this.data.type = this.type
             this.$store.dispatch("upArticle", {
                 article: this.data,
                 id: this.$route.params.id

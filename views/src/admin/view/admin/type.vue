@@ -9,8 +9,8 @@
                     <tr>
                         <th width="92"><y-checkbox></y-checkbox>全选</th>
                         <th>名称</th>
-                        <th>文章数</th>
-                        <th>操作</th>
+                        <th width="52">文章数</th>
+                        <th width="52">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,6 +24,7 @@
 
                             <y-popconfirm
                                 title="是否删除该文章？"
+                                :ok-cbk="delType.bind(this, type._id)"
                             >
                                  <y-button type="ghost" color="red" slot="html">删除</y-button>
                             </y-popconfirm>
@@ -40,6 +41,11 @@ export default {
     data(){
         return {
             test:[]
+        }
+    },
+    methods:{
+        delType(id){
+            this.$http.delete(`/api/type/${id}`)
         }
     },
     created(){

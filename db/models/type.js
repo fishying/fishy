@@ -38,6 +38,17 @@ type.allArticle = (alias) => {
     .sort({'create_time':-1})
     .exec()
 }
+type.allIdArticle = (id) => {
+    return type
+    .findById(id)
+    .lean()
+    .populate({
+        path: "article",
+        select: "_id"
+    })
+    .sort({'create_time':-1})
+    .exec()
+}
 
 type.num = (callback) => {
     type.count((err,data)=>{
@@ -47,6 +58,10 @@ type.num = (callback) => {
             callback(data)
         }
     })
+}
+
+type.del = (id) =>{
+    return type.remove({"_id":id})
 }
 
 module.exports = type;

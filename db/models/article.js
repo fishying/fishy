@@ -99,7 +99,10 @@ article.add = (data) => {
 article.addTag = (id, tag, callback) => {
     article.update({"_id":id},{"$addToSet":{"tags":tag}},callback)
 }
-article.del = (id,callback) => {
+article.delType = (id, callback) => {
+    article.update({"_id":id}, {$unset:{"type":1}},callback)
+}
+article.del = (id) => {
     return article.remove({"_id":id});
 }
 module.exports = article;

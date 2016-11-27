@@ -24,6 +24,8 @@ module.exports = (app) => {
     // 获取type
     app.get("/api/type", type.finds)
     app.get("/api/type/:alias", type.one)
+    app.delete("/api/type/:id", user.requiresLogin, type.del)
+    app.post("/api/type/del/:id", user.requiresLogin, type.del)
     // comment
     app.post("/api/comment", comment.add)
     app.get("/api/comment", comment.findAll)

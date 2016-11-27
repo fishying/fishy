@@ -1,7 +1,7 @@
 "use strict";
 let mongoose = require("mongoose");
 let type = require("../models/type");
-let article = require("./article")
+let article = require("../models/article")
 const moment = require('moment')
 moment.locale('zh-cn');
 
@@ -80,6 +80,39 @@ exports.one = async(function *(req, res){
         res.json({
             status:"fail",
             msg:"没有查找到"
+        })
+    }
+})
+
+exports.del = async(function *(req, res){
+    let id = req.params.id
+    let data = yield type.allIdArticle(id)
+    if(data.article.length < 1) {
+        try{
+            yield type.del(id)
+            return res.json({
+                status:"success",
+            })
+        }catch(err){
+            return res.json({
+                status:"fail",
+                msg: "删除失败"
+            })
+        }
+    }else {
+        data.article.forEach((idx)=>{
+            try{
+                article.delType(idx._id,()=>{})
+            }catch(err){
+                return res.json({
+                    status:"fail",
+                    msg: "删除失败"
+                })
+            }
+        })
+        yield type.del(id)
+        return res.json({
+            status:"success",
         })
     }
 })
