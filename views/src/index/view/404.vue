@@ -6,7 +6,8 @@
 <style lang="less">
 .nones {
 	text-align: center;
-	margin-top: 64px;
+	margin-top: 60px;
+	padding-top: 64px;
 	font-size: 34px;
 }
 </style>

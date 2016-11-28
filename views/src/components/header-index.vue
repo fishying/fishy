@@ -190,9 +190,10 @@ header.index {
         }
     }
     nav {
-        padding: 12px 6px;
+        padding: 0 6px;
         transition: all .3s cubic-bezier(.645,.045,.355,1);
         text-align: center;
+        overflow: hidden;
         a {
             transition: color .3s cubic-bezier(.645,.045,.355,1);
             text-decoration: none;

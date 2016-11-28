@@ -4,6 +4,7 @@
             <div class="img" v-if="data.full">
                 <!--<img :src="data.cover" class="index-img">-->
                 <div class="bg-img" :style="{backgroundImage:`url(${data.cover})`}"></div>
+                <div class="mask"></div>
                 <div class="yuan"></div>
             </div>
             <div class="container" v-else>
@@ -18,8 +19,10 @@
                 <y-tooltips :content="data.time[0]" trigger="hover" theme="dark" placement="bottom">
                     <a href="" slot="html">{{data.time[1]}} </a>
                 </y-tooltips>
-                • 
-                <router-link :to="`/type/${data.type.alias}`">{{data.type.name}}</router-link>
+                <template v-if="data.type">
+                    • 
+                    <router-link :to="`/type/${data.type.alias}`">{{data.type.name}}</router-link>
+                </template>
             </span>
         </div>
         <div class="md container p-12" ref="md" v-html="data.content"></div>
@@ -29,7 +32,7 @@
 export default {
     props:{
         data:Object
-    }
+    },
 }
 </script>
 <style lang="less">
@@ -39,6 +42,7 @@ article.article {
         margin-bottom: 24px;
         overflow: hidden;
         max-height: 400px;
+        z-index: -2;
         .bg-img {
             width: 102%;
             margin-left: -1%;

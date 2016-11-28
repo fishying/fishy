@@ -26,6 +26,7 @@ export default {
 </script>
 <style lang="less">
 article.index {
+    padding-top:64px;
     margin-bottom: 62px;
     h1.title {
         font-size: 42px;

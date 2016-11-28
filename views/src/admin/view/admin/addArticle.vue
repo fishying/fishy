@@ -1,8 +1,8 @@
 <template>
-    <div class="add-article">
+    <div class="add-article" v-if="loading">
         <div class="full" v-if="data.full">
             <!--<img :src="data.cover" class="index-img">-->
-            <div class="bg-img" :style="{backgroundImage:`url(${data.cover})`}"></div>
+            <div class="bg-img" :style="{backgroundImage:`url(${data.cover})`}" @click="coverDiaOn"></div>
             <div class="yuan"></div>
             <div class="shrink" v-if="data.cover != ''" @click="fulls">
                 <i class="ion-arrow-shrink"></i>
@@ -86,6 +86,7 @@ export default {
             tagKey:0,
             tag:[],
             coverBtn:false,
+            loading:false
         }
     },
     created(){
@@ -104,7 +105,10 @@ export default {
                     this.tagKey++
                     return {key:this.tagKey, name:tag.name}
                 })
+                this.loading = true
             })
+        }else {
+            this.loading = true
         }
         // 
         this.$store.dispatch("getType")
