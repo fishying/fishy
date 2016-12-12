@@ -6,6 +6,7 @@ router
         ctx.body = 'HelloasdfKoa'
     })
     .post('/test', async (ctx) => {
+        console.log(ctx.request.body.test)
         ctx.body = {
             content: 'ajax_info里的数据',
             name: 'name'
