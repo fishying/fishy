@@ -21,7 +21,7 @@ let articleSchema = new Schema ({
         type: ObjectId,
         ref: 'type'
     },
-    tags: [{
+    tag: [{
         type: ObjectId,
         ref: 'tag'
     }],

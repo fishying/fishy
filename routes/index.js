@@ -1,11 +1,12 @@
 import Router from 'koa-router'
+import user from './user'
 const router = Router()
 
 router
-    .get('/', async (ctx) => {
+    .get('/api/', async (ctx) => {
         ctx.body = 'HelloasdfKoa'
     })
-    .post('/test', async (ctx) => {
+    .post('/api/test', async (ctx) => {
         console.log(ctx.request.body.test)
         ctx.body = {
             content: 'ajax_info里的数据',
@@ -13,4 +14,5 @@ router
         }
     })
 
+router.use('/api/user', user.routes(), user.allowedMethods())
 export default router

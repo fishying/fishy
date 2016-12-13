@@ -32,4 +32,5 @@ let userSchema = new Schema({
 
 let user = mongoose.model('user', userSchema)
 
+
 export default user
