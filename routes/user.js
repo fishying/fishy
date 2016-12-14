@@ -5,5 +5,4 @@ const router = Router()
 router
     .post('/logon', user.logon)
     .post('/login', user.login)
-
 export default router

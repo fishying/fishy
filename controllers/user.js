@@ -89,5 +89,41 @@ export default {
                     }
                 }
             })
+    },
+    verify: async (ctx, next) => {
+        let token = ctx.request.body.token || ctx.request.header.token
+        if (token) {
+            try {
+                var decoded = jwt.verify(token, 'simple')
+            } catch(err) {
+                return ctx.body = {
+                    success: false,
+                    message: 'token验证失败',
+                }
+            }
+            try {
+                let e = await user.findOne({name: decoded})
+                    .select({password: 0})
+                    .exec()
+                if (e) {
+                    return next()
+                } else {
+                    return ctx.body = {
+                        success: false,
+                        message: 'token验证失败',
+                    }
+                }
+            } catch (err) {
+                return ctx.body = {
+                    success: false,
+                    message: 'token验证失败',
+                }
+            }
+        } else {
+            return ctx.body = {
+                success: false,
+                message: '没有token',
+            }
+        }
     }
 }

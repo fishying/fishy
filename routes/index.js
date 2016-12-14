@@ -1,18 +1,17 @@
 import Router from 'koa-router'
 import user from './user'
+import admin from './user'
 const router = Router()
 
 router
     .get('/api/', async (ctx) => {
+        console.log(ctx.request.params)
         ctx.body = 'HelloasdfKoa'
     })
     .post('/api/test', async (ctx) => {
-        console.log(ctx.request.body.test)
-        ctx.body = {
-            content: 'ajax_info里的数据',
-            name: 'name'
-        }
+        ctx.body = 'HelloasdfKoa'
     })
 
 router.use('/api/user', user.routes(), user.allowedMethods())
+router.use('/api/admin', admin.routes(), admin.allowedMethods())
 export default router
