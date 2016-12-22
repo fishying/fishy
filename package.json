@@ -29,5 +29,9 @@
     "validator": "^6.2.0",
     "zombie": "^5.0.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "handlebars": "^4.0.6",
+    "koa-convert": "^1.2.0",
+    "koa-views": "^5.2.0"
+  }
 }

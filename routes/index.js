@@ -1,12 +1,15 @@
 import Router from 'koa-router'
 import user from './user'
 import admin from './user'
+import defaultPartials from './default.json'
 const router = Router()
 
 router
     .get('/api/', async (ctx) => {
-        console.log(ctx.request.params)
-        ctx.body = 'HelloasdfKoa'
+        return ctx.render('index', {
+            title: 'my title',
+            partials: Object.assign({}, defaultPartials,{})
+        })
     })
     .post('/api/test', async (ctx) => {
         ctx.body = 'HelloasdfKoa'

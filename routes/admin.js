@@ -5,7 +5,7 @@ import article from '../controllers/article'
 const router = Router()
 
 router
-    .param('admin', user.verify)
+    .param('/admin', user.verify)
     .post('/article', async (ctx) => {
         console.log(ctx)
     })
