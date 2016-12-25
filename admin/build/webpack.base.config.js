@@ -25,6 +25,14 @@ module.exports = {
         fallback: [path.join(__dirname, '../node_modules')]
     },
     module: {
+        preLoaders: [
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                include: projectRoot,
+                loader: 'eslint',
+            }
+        ],
         loaders: [
             {
                 test: /\.jsx?$/,
@@ -52,6 +60,10 @@ module.exports = {
                   name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
                 }
             },
+            {
+                test: /\.less?$/,
+                loader: 'style!css!less-loader!postcss'
+            }
         ]
     },
 }

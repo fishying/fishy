@@ -1,0 +1,31 @@
+{
+    "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+    },
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "parser": "babel-eslint",
+    "rules": {
+        "quotes": ["error", "single"],
+        "linebreak-style": ["error", "windows"],
+        "strict": [2, "never"],
+        "no-console":0,
+        "indent": ["error", 4],
+        "babel/generator-star-spacing": 1,
+        "babel/new-cap": 1,
+        "babel/object-shorthand": 1,
+        "babel/arrow-parens": 1,
+        "babel/no-await-in-loop": 1,
+        "react/jsx-uses-react": 2,
+        "react/jsx-uses-vars": 2,
+        "react/react-in-jsx-scope": 2
+    },
+    "plugins": [
+        "babel",
+        "react"
+    ]
+}

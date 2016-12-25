@@ -1,21 +1,20 @@
-import React from 'react';
-import Hello from './components/Hello/Hello';
-import logo from './assets/logo.svg';
-import './App.css';
+import React from 'react'
+import axios from 'axios'
 
 export default class App extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = {test: 'foo'};
+        super(props)
+        this.state = {test: 'foo'}
+        axios.get('/api/')
+            .then(date => {
+                console.log(date)
+            })
     }
     render() {
         return (
             <div className="App">
-                <div className="App-header">
-                    <img src={logo} className="App-logo shake-rotate" alt="logo" />
-                </div>
-                <Hello></Hello>
+                test
             </div>
-        );
+        )
     }
 }

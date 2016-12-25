@@ -20,8 +20,8 @@ exports.cssLoaders = function (env) {
         cssLoaders.push({
             test: /\.less$/,
             loader: isProd
-                ? ExtractTextPlugin.extract('style', 'css!less!postcss')
-                : 'style!css!less!postcss'
+                ? ExtractTextPlugin.extract('style', 'css!less-loader!postcss')
+                : 'style!css!less-loader!postcss'
         });
     };
     if (config.cssLoaders.indexOf('scss') !== -1 || config.cssLoaders.indexOf('sass') !== -1) {
