@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Input, Button, notification } from 'antd'
+import Log from '../../components/Log/Log.js'
 import axios from 'axios'
 
-import './style.less'
+import '../login/style.less'
 
 class Login extends Component {
     constructor (props) {
@@ -44,8 +45,10 @@ class Login extends Component {
     render() {
         return (
             <div className="login">
-                <h2 className="title">登陆</h2>
+                <Log/>
+                <h2 className="title">注册</h2>
                 <Input size="large" placeholder="账号" ref="username" onPressEnter={this.handleClick}/>
+                <Input type="password" size="large" ref="password" placeholder="密码" onPressEnter={this.handleClick}/>
                 <Input type="password" size="large" ref="password" placeholder="密码" onPressEnter={this.handleClick}/>
                 <Button type="ghost" onClick={this.handleClick} loading={this.state.loading}>Primary</Button>
             </div>

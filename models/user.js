@@ -9,8 +9,7 @@ let userSchema = new Schema({
         index: true
     },
     password: {
-        type: String,
-        unique: true
+        type: String
     },
     email: {
         type: String,

@@ -1,6 +1,6 @@
 import Router from 'koa-router'
-import user from './user'
-import admin from './user'
+import user from '../controllers/user'
+// import admin from './user'
 import defaultPartials from './default.json'
 const router = Router()
 
@@ -14,7 +14,9 @@ router
     .post('/api/test', async (ctx) => {
         ctx.body = 'HelloasdfKoa'
     })
+    .post('/login', user.login)
+    .post('/logon', user.logon)
 
-router.use('/api/user', user.routes(), user.allowedMethods())
-router.use('/api/admin', admin.routes(), admin.allowedMethods())
+// router.use('/api/user', user.routes())
+// router.use('/api/admin', <q className="routes"></q>)
 export default router

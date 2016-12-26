@@ -42,7 +42,8 @@ export default {
                     message: '注册成功',
                 }
             })
-            .catch(() => {
+            .catch(err => {
+                console.log(err)
                 return ctx.body = {
                     success: false,
                     message: '注册失败',
@@ -50,6 +51,7 @@ export default {
             })
     },
     login: async (ctx) => {
+        console.log(ctx)
         if (!ctx.request.body.name || ctx.request.body.name === '') {
             return ctx.body = {
                 success: false,
