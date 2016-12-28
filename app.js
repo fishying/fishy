@@ -1,30 +1,18 @@
-import Koa from 'koa'
-import index from './routes'
-import bodyParser from 'koa-bodyparser'
+import express from 'express'
+
+import bodyParser from 'body-parser'
 import './models/index.js'
+import router from './routes'
 
-import views from 'koa-views'
+import morgan from 'morgan'
 
-const app = new Koa()
+const app = new express()
 
-app.use(bodyParser())
+app.use(bodyParser.json())
+app.use(morgan('dev'))
 
-app.use(views(__dirname + '/', {
-    extension: 'hbs',
-    map: {
-        hbs: 'handlebars'
-    }
-}))
+router(app)
 
-app.use(async (ctx, next) => {
-    const start = new Date()
-    await next()
-    const ms = new Date() - start
-    console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+app.listen(3000, function(){
+    console.log('App (dev) is now running on port 3000!')
 })
-
-// routers
-app.use(index.routes())
-// response
-
-app.listen(3000)
