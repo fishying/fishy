@@ -3,6 +3,8 @@ export default (app) => {
         .get('/', async (req, res, next) => {
             next()
         }, async (req, res) => {
-            res.render('index')
+            res.render('index', {
+                title: 'tests'
+            })
         })
 }
