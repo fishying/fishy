@@ -4,104 +4,129 @@ import validator from 'validator'
 import jwt from 'jsonwebtoken'
 
 export default {
-    logon: async (ctx) => {
-        if (!ctx.request.body.name || ctx.request.body.name === '') {
-            return ctx.body = {
+    logon: async (req, res) => {
+        let name = req.body.name
+        let password = req.body.password
+        let email = req.body.email
+
+        if (!name || name === '') {
+            return res.json({
                 success: false,
                 message: '没有填写名字',
-            }
+            })
         }
-        if (!ctx.request.body.password || ctx.request.body.password === '') {
-            return ctx.body = {
+        if (!password || password === '') {
+            return res.json({
                 success: false,
                 message: '没有填写密码',
-            }
+            })
         }
-        if (!ctx.request.body.email || ctx.request.body.email === '') {
-            return ctx.body = {
+        if (!email || email === '') {
+            return res.json({
                 success: false,
                 message: '没有填写email',
-            }
-        } else if (!validator.isEmail(ctx.request.body.email)) {
-            return ctx.body = {
+            })
+        } else if (!validator.isEmail(email)) {
+            return res.json({
                 success: false,
                 message: 'email格式不正确',
-            }
+            })
         }
 
         let userInfo = {
-            name: ctx.request.body.name,
-            password: md5(md5(ctx.request.body.password)),
-            email: ctx.request.body.email
+            name: name,
+            password: md5(md5(password)),
+            email: email
         }
+
+        await user.findOne({name: userInfo.name})
+            .then(data => {
+                if (data) {
+                    return res.json({
+                        success: true,
+                        message: '用户名已存在',
+                    })
+                }
+            })
+
+        await user.findOne({email: userInfo.email})
+            .then(data => {
+                if (data) {
+                    return res.json({
+                        success: true,
+                        message: '邮箱已注册',
+                    })
+                }
+            })
 
         await user.create(userInfo)
             .then(() => {
-                return ctx.body = {
+                return res.json({
                     success: true,
                     message: '注册成功',
-                }
+                })
             })
-            .catch(err => {
-                console.log(err)
-                return ctx.body = {
+            .catch(() => {
+                return res.json({
                     success: false,
                     message: '注册失败',
-                }
+                })
             })
     },
-    login: async (ctx) => {
-        console.log(ctx)
-        if (!ctx.request.body.name || ctx.request.body.name === '') {
-            return ctx.body = {
+    login: async (req, res) => {
+        let name = req.body.name
+        let password = req.body.password
+        if (!password || password === '') {
+            return res.json({
                 success: false,
                 message: '没有填写名字',
-            }
+            })
         }
-        if (!ctx.request.body.password || ctx.request.body.password === '') {
-            return ctx.body = {
+        if (!password || password === '') {
+            return res.json({
                 success: false,
                 message: '没有填写密码',
-            }
+            })
         }
         let userInfo = {
-            name: ctx.request.body.name,
-            password: md5(md5(ctx.request.body.password))
+            name: name,
+            password: md5(md5(password))
         }
         await user.findOne({name: userInfo.name})
             .then(response => {
                 if (response !== null) {
                     if (response.password !== userInfo.password) {
-                        return ctx.body = {
+                        return res.json({
                             success: false,
                             message: '密码错误',
-                        }
+                        })
                     } else {
-                        let token = jwt.sign(response.name, 'simple')
-                        return ctx.body = {
+                        let token = jwt.sign(response.name, 'wanan')
+                        req.session.token = token
+                        return res.json({
                             success: true,
                             message: '登录成功',
                             token: token
-                        }
+                        })
                     }
                 } else {
-                    return ctx.body = {
+                    return res.json({
                         success: false,
                         message: '没有此账号',
-                    }
+                    })
                 }
             })
     },
-    verify: async (ctx, next) => {
-        let token = ctx.request.body.token || ctx.request.header.token
+    verify: async (req, res, next) => {
+        let token = req.session.token || null
         if (token) {
             try {
-                var decoded = jwt.verify(token, 'simple')
-            } catch(err) {
-                return ctx.body = {
+                var decoded = jwt.verify(token, 'wanan')
+            } catch (err) {
+                return res.json({
                     success: false,
                     message: 'token验证失败',
-                }
+                })
             }
             try {
                 let e = await user.findOne({name: decoded})
@@ -110,22 +135,22 @@ export default {
                 if (e) {
                     return next()
                 } else {
-                    return ctx.body = {
+                    return  res.json({
                         success: false,
                         message: 'token验证失败',
-                    }
+                    })
                 }
             } catch (err) {
-                return ctx.body = {
+                return  res.json({
                     success: false,
                     message: 'token验证失败',
-                }
+                })
             }
         } else {
-            return ctx.body = {
+            return res.json({
                 success: false,
                 message: '没有token',
-            }
+            })
         }
     }
 }
