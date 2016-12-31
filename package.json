@@ -31,9 +31,6 @@
     "express-hbs": "^1.0.3",
     "express-session": "^1.14.2",
     "handlebars": "^4.0.6",
-    "hbs": "^4.0.1",
-    "morgan": "^1.7.0",
-    "passport": "^0.3.2",
-    "passport-local": "^1.0.0"
+    "morgan": "^1.7.0"
   }
 }
