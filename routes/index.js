@@ -1,6 +1,24 @@
-import user from '../controllers/user'
+import ctr from '../controllers'
+const user = ctr.user
+const article = ctr.article
 
 export default (app) => {
+    app.use(async (req, res, next) => {
+        if (/^\/admin/.test(req.url)) {
+            user.verify(req, res)
+                .then(e => {
+                    console.log(req.url)
+                })
+                .catch(err => {
+                    return res.json({
+                        success: false,
+                        message: err
+                    })
+                })
+            next()
+        }
+    })
+
     app
         .post('/', async (req, res, next) => {
             next()
@@ -14,5 +32,5 @@ export default (app) => {
         })
         .post('/login', user.login)
         .post('/logon', user.logon)
-        .post('/verify', user.verify)
+        .post('/admin/article', article.add)
 }

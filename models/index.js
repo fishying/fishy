@@ -1,5 +1,9 @@
 import mongoose from 'mongoose'
 import config from '../config.json'
+
+import user from './user'
+import article from './article'
+
 mongoose.Promise = global.Promise
 
 mongoose.connect(`mongodb://${config.host}:${config.port}/${config.db}`)
@@ -11,3 +15,8 @@ db.once('open', () => {
 })
 
 export default mongoose
+
+export {
+    user,
+    article
+}

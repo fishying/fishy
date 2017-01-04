@@ -37,7 +37,7 @@ let articleSchema = new Schema ({
         type:String,
         default: ''
     },
-    full:{
+    full: {
         type:Boolean,
         default: false
     },

@@ -1,4 +1,4 @@
-import user from '../models/user.js'
+import { user } from '../models'
 import md5 from 'md5'
 import validator from 'validator'
 import jwt from 'jsonwebtoken'
@@ -117,40 +117,28 @@ export default {
                 }
             })
     },
-    verify: async (req, res, next) => {
+    verify: async (req) => {
         let token = req.session.token || null
         if (token) {
             try {
                 var decoded = jwt.verify(token, 'wanan')
             } catch (err) {
-                return res.json({
-                    success: false,
-                    message: 'token验证失败',
-                })
+                return Promise.reject('token验证失败')
             }
             try {
                 let e = await user.findOne({name: decoded})
                     .select({password: 0})
                     .exec()
                 if (e) {
-                    return next()
+                    return Promise.resolve()
                 } else {
-                    return  res.json({
-                        success: false,
-                        message: 'token验证失败',
-                    })
+                    return Promise.reject('token验证失败')
                 }
             } catch (err) {
-                return  res.json({
-                    success: false,
-                    message: 'token验证失败',
-                })
+                return Promise.reject('token验证失败')
             }
         } else {
-            return res.json({
-                success: false,
-                message: '没有token',
-            })
+            return Promise.reject('token验证失败')
         }
     }
 }
