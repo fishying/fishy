@@ -1,7 +1,8 @@
-import log from './log'
 import article from './article'
 
+import log from './log'
+
 export default {
-    log,
-    article
+    article,
+    log
 }

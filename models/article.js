@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import findOrCreate from '../util/plugin/findOrCreate'
 
 let Schema = mongoose.Schema
 
@@ -9,6 +10,10 @@ let articleSchema = new Schema ({
         type: String,
         unique: true
     },
+    slug: {
+        type: String,
+        default: ''
+    },
     author: {
         type: ObjectId,
         ref: 'user'
@@ -16,10 +21,6 @@ let articleSchema = new Schema ({
     vistits: {
         type: Number,
         default: 0
-    },
-    type:{
-        type: ObjectId,
-        ref: 'type'
     },
     tag: [{
         type: ObjectId,
@@ -41,9 +42,15 @@ let articleSchema = new Schema ({
         type:Boolean,
         default: false
     },
-    enabled: Boolean,
-    content: String
+    enabled: {
+        type:Boolean
+    },
+    content: {
+        type: String
+    }
 })
+
+articleSchema.plugin(findOrCreate)
 
 let article = mongoose.model('article', articleSchema)
 

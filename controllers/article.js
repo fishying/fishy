@@ -1,9 +1,8 @@
-import { article } from '../models'
-
-let add = async (req, res) => {
-    console.log(req.body)
-}
+import article from '../api/article'
 
 export default {
-    add
+    add: async (req, res) => {
+        let data = req.body
+        article.create(data)
+    }
 }

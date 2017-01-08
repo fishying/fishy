@@ -1,13 +1,12 @@
 import ctr from '../controllers'
-const user = ctr.user
-const article = ctr.article
+import api from '../api'
 
 export default (app) => {
     app.use(async (req, res, next) => {
         if (/^\/admin/.test(req.url)) {
-            user.verify(req, res)
-                .then(e => {
-                    console.log(req.url)
+            api.log.verify(req, res)
+                .then(() => {
+                    next()
                 })
                 .catch(err => {
                     return res.json({
@@ -15,6 +14,7 @@ export default (app) => {
                         message: err
                     })
                 })
+        } else {
             next()
         }
     })
@@ -30,7 +30,7 @@ export default (app) => {
                 test: [{name: 'adfsdf'}]
             })
         })
-        .post('/login', user.login)
-        .post('/logon', user.logon)
-        .post('/admin/article', article.add)
+        .post('/login', ctr.log.login)
+        .post('/logon', ctr.log.logon)
+        .post('/admin/article', ctr.article.add)
 }

@@ -16,3 +16,13 @@
         - `React`
     - 前台
         - 原声balabala
+
+
+目录结构：
+
+* api: 处理数据
+* controllers: 控制器（router）
+* middleware: 数据的中间件，函数
+* models: 数据的模型
+* routes: 路由
+* server: 一些服务器设置

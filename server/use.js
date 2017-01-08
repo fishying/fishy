@@ -10,6 +10,7 @@ const MongoStore = require('connect-mongo')(session)
 function relative(path) {
     return fp.join(__dirname, path)
 }
+
 export default (app) => {
     app.use(session({
         secret: 'wanan',
