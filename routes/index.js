@@ -31,6 +31,6 @@ export default (app) => {
             })
         })
         .post('/login', ctr.log.login)
-        .post('/logon', ctr.log.logon)
-        .post('/admin/article', ctr.article.add)
+        .post('/register', ctr.log.register)
+        .post('/admin/article', ctr.article.create)
 }

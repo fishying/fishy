@@ -4,7 +4,7 @@ import validator from 'validator'
 import jwt from 'jsonwebtoken'
 
 export default {
-    logon: async (name, password, email) => {
+    register: async (name, password, email) => {
         if (!name || name === '') {
             return Promise.reject('没有填写名字')
         }
@@ -49,12 +49,12 @@ export default {
         let token = req.session.token || null
         if (token) {
             try {
-                var decoded = jwt.verify(token, 'wanan')
+                var decoded = jwt.verify(token, 'simple-authentication')
             } catch (err) {
                 return Promise.reject('token验证失败')
             }
             try {
-                let e = await user.findOne({name: decoded})
+                let e = await user.findOne({name: decoded.name})
                     .select({password: 0})
                     .exec()
                 if (e) {
@@ -88,7 +88,9 @@ export default {
                 if (info.password !== userInfo.password) {
                     return Promise.reject('密码错误')
                 } else {
-                    let token = jwt.sign(info.name, 'wanan')
+                    let token = jwt.sign({
+                        name: info.name
+                    }, 'simple-authentication')
                     req.session.token = token
                     
                     return Promise.resolve('登录成功')
@@ -97,6 +99,7 @@ export default {
                 return '没有此账号'
             }
         } catch (err) {
+            console.log(err)
             return Promise.reject('登陆失败')
         }
     }

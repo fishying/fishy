@@ -3,6 +3,7 @@ import config from '../config.json'
 
 import user from './user'
 import article from './article'
+import tag from './tag'
 
 mongoose.Promise = global.Promise
 
@@ -18,5 +19,6 @@ export default mongoose
 
 export {
     user,
-    article
+    article,
+    tag
 }

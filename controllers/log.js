@@ -1,8 +1,8 @@
 import user from '../api/log'
 
 export default {
-    logon: async (req, res) => {
-        user.logon(req.body.name, req.body.password, req.body.email)
+    register: async (req, res) => {
+        user.register(req.body.name, req.body.password, req.body.email)
             .then(msg => {
                 return res.json({
                     success: true,
