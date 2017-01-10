@@ -52,6 +52,12 @@ let articleSchema = new Schema ({
 
 articleSchema.plugin(findOrCreate)
 
+articleSchema.pre('save', async function (next) {
+    this.slug = 'afasdfsdf'
+    next()
+})
+
 let article = mongoose.model('article', articleSchema)
+
 
 export default article
