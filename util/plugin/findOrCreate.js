@@ -4,7 +4,7 @@ let findOrCreate = async (schema, options) => {
             let data = await this.findOne(conditions)
             return data || (list && await this.create(list) || await this.create(conditions))
         } catch (err) {
-            return Promise.reject(err)
+            throw err
         }
     }
 }
