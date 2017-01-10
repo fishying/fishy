@@ -4,6 +4,15 @@ import validator from 'validator'
 import jwt from 'jsonwebtoken'
 
 export default {
+    /**
+     * register
+     * 用户注册
+     * 
+     * @param {String} name
+     * @param {String} password
+     * @param {String} email
+     * @returns Promise
+     */
     register: async (name, password, email) => {
         if (!name || name === '') {
             return Promise.reject('没有填写名字')
@@ -45,6 +54,13 @@ export default {
                 return Promise.resolve('注册成功')
             })
     },
+    /**
+     * verify
+     * 验证是否登陆
+     * 
+     * @param {Body} req
+     * @returns
+     */
     verify: async (req) => {
         let token = req.session.token || null
         if (token) {
@@ -69,6 +85,13 @@ export default {
             return Promise.reject('token验证失败')
         }
     },
+    /**
+     * login
+     * 用户登录
+     * 
+     * @param {Body} req
+     * @returns
+     */
     login: async (req) => {
         let name = req.body.name
         let password = req.body.password

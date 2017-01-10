@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import findOrCreate from '../util/plugin/findOrCreate'
 
+import slug from '../util/pre/slug'
+
 let Schema = mongoose.Schema
 
 let ObjectId = Schema.Types.ObjectId
@@ -9,6 +11,9 @@ let articleSchema = new Schema ({
     title: {
         type: String,
         unique: true
+    },
+    md: {
+        type: String
     },
     slug: {
         type: String,
@@ -34,26 +39,21 @@ let articleSchema = new Schema ({
         type : Date,
         default: Date.now
     },
-    cover: {
-        type:String,
-        default: ''
-    },
-    full: {
+    enabled: {
         type:Boolean,
         default: false
     },
-    enabled: {
-        type:Boolean
-    },
-    content: {
+    image: {
         type: String
     }
 })
 
 articleSchema.plugin(findOrCreate)
 
+// slug
+
 articleSchema.pre('save', async function (next) {
-    this.slug = 'afasdfsdf'
+    this.slug = await slug(this.slug, this.title)
     next()
 })
 
