@@ -1,5 +1,5 @@
 import bodyParser from 'body-parser'
-import '../models/index.js'
+import '../models'
 import hbs from 'express-hbs'
 import fp from 'path'
 import morgan from 'morgan'

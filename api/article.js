@@ -1,5 +1,5 @@
-import { article } from '../models'
-import { tag } from '../models'
+import article from '../models/article'
+import tag from '../models/tag'
 
 export default {
     /**

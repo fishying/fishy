@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
-import findOrCreate from '../util/plugin/findOrCreate'
+import plugins from '../util/plugin'
+plugins(mongoose)
 
 let Schema = mongoose.Schema
 
@@ -23,8 +24,6 @@ let tagSchema = new Schema({
         ref: 'article'
     }]
 })
-
-tagSchema.plugin(findOrCreate)
 
 let tag = mongoose.model('tag', tagSchema)
 

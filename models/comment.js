@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import plugins from '../util/plugin'
+plugins(mongoose)
 
 let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId

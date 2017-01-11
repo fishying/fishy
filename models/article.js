@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
-import findOrCreate from '../util/plugin/findOrCreate'
+import plugins from '../util/plugin'
+plugins(mongoose)
 
 import slug from '../util/pre/slug'
 
@@ -47,8 +48,6 @@ let articleSchema = new Schema ({
         type: String
     }
 })
-
-articleSchema.plugin(findOrCreate)
 
 // slug
 

@@ -1,5 +1,10 @@
 import mongoose from 'mongoose'
 
+import userPwdMd5 from '../util/plugin/userPwdMd5'
+import plugins from '../util/plugin'
+plugins(mongoose)
+
+
 let Schema = mongoose.Schema
 
 let userSchema = new Schema({
@@ -44,6 +49,8 @@ let userSchema = new Schema({
         default: null
     }
 })
+
+userSchema.plugin(userPwdMd5)
 
 let user = mongoose.model('user', userSchema)
 

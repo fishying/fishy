@@ -1,5 +1,4 @@
-import { user } from '../models'
-import md5 from 'md5'
+import user from '../models/user'
 import validator from 'validator'
 import jwt from 'jsonwebtoken'
 
@@ -25,34 +24,32 @@ export default {
         } else if (!validator.isEmail(email)) {
             throw 'email格式不正确'
         }
-
         let userInfo = {
             name: name,
-            password: md5(md5(password)),
+            password: password,
             email: email
         }
 
-        await user.findOne({name: userInfo.name})
-            .then(data => {
-                if (data) {
-                    throw '用户已存在'
-                }
-            })
+        // 检测name
+        try {
+            await user.findAndMsg({name: userInfo.name}, '名称已存在')
+        } catch (err) {
+            throw err
+        }
 
-        await user.findOne({email: userInfo.email})
-            .then(data => {
-                if (data) {
-                    throw '邮箱已注册'
-                }
-            })
+        // 检测email
+        try {
+            await user.findAndMsg({email: userInfo.email}, '邮箱已注册')
+        } catch (err) {
+            throw err
+        }
 
-        await user.create(userInfo)
-            .then(() => {
-                return '注册成功'
-            })
-            .catch(() => {
-                return '注册成功'
-            })
+        try {
+            await user.create(userInfo)
+            return '注册成功'
+        } catch (err) {
+            throw err
+        }
     },
     /**
      * verify
@@ -63,26 +60,23 @@ export default {
      */
     verify: async (req) => {
         let token = req.session.token || null
-        if (token) {
-            try {
-                var decoded = jwt.verify(token, 'simple-authentication')
-            } catch (err) {
-                throw 'token验证失败'
-            }
-            try {
-                let e = await user.findOne({name: decoded.name})
-                    .select({password: 0})
-                    .exec()
-                if (e) {
-                    return Promise.resolve()
-                } else {
-                    throw 'token验证失败'
-                }
-            } catch (err) {
-                throw 'token验证失败'
-            }
-        } else {
+        try {
+            var decoded = jwt.verify(token, 'simple-authentication')
+        } catch (err) {
             throw 'token验证失败'
+        }
+        try {
+            let e = await user.findOne({name: decoded.name})
+                .select({password: 0})
+                .exec()
+            console.log(e)
+            if (e) {
+                return e
+            } else {
+                throw 'token验证失败'
+            }
+        } catch (err) {
+            throw err
         }
     },
     /**
@@ -103,7 +97,7 @@ export default {
         }
         let userInfo = {
             name: name,
-            password: md5(md5(password))
+            password: password
         }
         try {
             let info = await user.findOne({name: userInfo.name})
