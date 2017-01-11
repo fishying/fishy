@@ -14,7 +14,7 @@ export default {
             .catch(msg => {
                 res.json({
                     success: false,
-                    message: msg
+                    message: msg || '出错啦'
                 })
             })
     }
