@@ -6,7 +6,7 @@ export default {
         let data = req.body
         article.create(data.data, data.tag)
             .then(ctx => {
-                response(res, ctx, true)
+                respond(res, ctx, true)
             })
             .catch(msg => {
                 respond(res, msg)

@@ -17,7 +17,7 @@ export default {
         if (data.slug) if (await article.findOne({slug: data.slug})) throw '路径已存在'
 
         let newArticle = await article.create(data)
-        
+        console.log(newArticle)
         if (tags instanceof Array) {
             await tags.map(async (i) => {
                 tag.findOrCreate({name: i}, {name: i, slug: i})

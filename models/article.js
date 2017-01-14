@@ -11,7 +11,13 @@ let ObjectId = Schema.Types.ObjectId
 let articleSchema = new Schema ({
     title: {
         type: String,
-        unique: true
+        unique: true,
+        validate: {
+            validator: function(v) {
+                return v && v != '' ? true : false
+            },
+            message: '{VALUE} 不是正确的标题'
+        },
     },
     md: {
         type: String
@@ -50,7 +56,6 @@ let articleSchema = new Schema ({
 })
 
 // slug
-
 articleSchema.pre('save', async function (next) {
     this.slug = await slug(this.slug, this.title)
     next()
