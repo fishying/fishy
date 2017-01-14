@@ -10,12 +10,13 @@ let Schema = mongoose.Schema
 let userSchema = new Schema({
     slug: {
         type: String,
-        unique: true
+        unique: true,
+        required: [true, '请输入slug']
     },
     name: {
         type: String,
         unique: true,
-        index: true
+        required: [true, '请输入名称']
     },
     password: {
         type: String

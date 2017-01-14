@@ -11,7 +11,7 @@ let findAndMsg = async (schema, options) => {
     schema.statics.findAndMsg = async function (conditions, msg, options) {
         let data = await this.findOne(conditions)
         if (data) {
-            throw msg
+            throw [400, {message: msg}]
         } else {
             return true
         }

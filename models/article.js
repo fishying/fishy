@@ -18,7 +18,7 @@ let articleSchema = new Schema ({
     },
     slug: {
         type: String,
-        default: ''
+        unique: true
     },
     author: {
         type: ObjectId,

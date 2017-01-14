@@ -1,4 +1,5 @@
 import user from '../api/log'
+import respond from '../util/respond'
 
 export default {
     register: async (req, res) => {
@@ -10,10 +11,7 @@ export default {
                 })
             })
             .catch(msg => {
-                return res.json({
-                    success: false,
-                    message: msg,
-                })
+                respond(res, msg)
             })
     },
     login: async (req, res) => {
@@ -25,10 +23,7 @@ export default {
                 })
             })
             .catch(msg => {
-                return res.json({
-                    success: false,
-                    message: msg,
-                })
+                respond(res, msg)
             })
     },
 }

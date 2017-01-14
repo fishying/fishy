@@ -27,8 +27,8 @@ export default {
                     })
             })
             return {
-                msg: '添加成功',
-                data: newArticle
+                message: '添加成功',
+                article: newArticle
             }
         }
     }
