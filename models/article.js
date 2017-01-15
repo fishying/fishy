@@ -17,7 +17,7 @@ let articleSchema = new Schema ({
                 return v && v != '' ? true : false
             },
             message: '{VALUE} 不是正确的标题'
-        },
+        }
     },
     md: {
         type: String

@@ -11,5 +11,9 @@ export default {
             .catch(msg => {
                 respond(res, msg)
             })
+    },
+    update: async (req, res) => {
+        let data = req.body
+        article.update(data.id, data.data, data.tag)
     }
 }
