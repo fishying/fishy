@@ -32,24 +32,37 @@ export default {
     },
     update: async (id, data, tags) => {
         let oldArticle = await article.findById(id).populate({path: 'tag',select: 'name'})
-        let tag = []   // 经过筛选的tag
+        let createTag = []   // 经过筛选的tag
+        
+        let oldTag = oldArticle.tag.map(t => {
+            return t.name
+        })
         tags.forEach(t => {
-            console.log(oldArticle.indexOf(t.name))
-            if (tags.indexOf(t.name) < 0) {
-                tag.push({
+            if (oldTag.indexOf(t) < 0) {
+                createTag.push({
                     a: 1,
-                    name: tags[t.name]
+                    name: t
                 })
             }
         })
         
-        /* await tags.map(async (i) => {
-            tag.findOrCreate({name: i}, {name: i, slug: i})
-                .then(async data => {
-                    await tag.update({_id: data._id}, {$addToSet:{article: newArticle._id}})
-                    await article.update({_id: newArticle._id}, {$addToSet:{tag: data._id}})
+        oldTag.forEach(t => {
+            if (tags.indexOf(t) < 0) {
+                createTag.push({
+                    a: 0,
+                    name: t
                 })
-        })*/
-        console.log(tag)
+            }
+        })
+
+        await createTag.map(async (i) => {
+            tag.findOrCreate({name: i.name}, {name: i.name, slug: i.name})
+                .then(async data => {
+                    if (i.a) {
+                        await tag.update({_id: data._id}, {$addToSet:{article: id}})
+                        await article.update({_id: id}, {$addToSet:{tag: data._id}})
+                    }
+                })
+        })
     }
 }

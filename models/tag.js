@@ -25,6 +25,12 @@ let tagSchema = new Schema({
     }]
 })
 
+tagSchema.pre('update', async function (next) {
+    console.log(this)
+    next()
+})
+
 let tag = mongoose.model('tag', tagSchema)
+
 
 export default tag
