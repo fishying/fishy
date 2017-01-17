@@ -2,8 +2,11 @@
 function err (res, status) {
     if (status instanceof Array) {
         res.json(status[0], status[1])
-    } else {
+    } else if (status instanceof Object) {
         res.json(400, status)
+    } else {
+        console.log(status)
+        res.json(400, {message: status})
     }
 }
 

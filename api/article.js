@@ -1,5 +1,6 @@
 import article from '../models/article'
 import tag from '../models/tag'
+import pinyin from '../util/pinyin'
 
 export default {
     /**
@@ -27,16 +28,37 @@ export default {
         })
         return {
             message: '添加成功',
-            article: newArticle
+            data: newArticle
         }
     },
-    update: async (id, data, tags) => {
+    /**
+     * update
+     * 更新article
+     * 
+     * @param {String} id
+     * @param {Object} data
+     * @param {Array} tags
+     * @returns Promise
+     */
+    update: async (id, updateArticle) => {
         let oldArticle = await article.findById(id).populate({path: 'tag',select: 'name'})
         let createTag = []   // 经过筛选的tag
+        let tags = updateArticle.tag
         
+        delete updateArticle.tag
+
+        if (updateArticle.update_at) {
+            updateArticle.update_at = new Date()
+        }
+
+        if (!updateArticle.slug || updateArticle.slug === '') {
+            updateArticle.slug = await pinyin(updateArticle.title)
+        }
+
         let oldTag = oldArticle.tag.map(t => {
             return t.name
         })
+        
         tags.forEach(t => {
             if (oldTag.indexOf(t) < 0) {
                 createTag.push({
@@ -55,14 +77,29 @@ export default {
             }
         })
 
-        await createTag.map(async (i) => {
-            tag.findOrCreate({name: i.name}, {name: i.name, slug: i.name})
+        // 修改article的tag和tag的article
+        for (let i in createTag) {
+            await tag.findOrCreate({name: createTag[i].name}, {name: createTag[i].name, slug: createTag[i].name})
                 .then(async data => {
-                    if (i.a) {
+                    if (createTag[i].a) {
                         await tag.update({_id: data._id}, {$addToSet:{article: id}})
                         await article.update({_id: id}, {$addToSet:{tag: data._id}})
+                    } else {
+                        await tag.update({_id: data._id}, {$pull:{article: id}})
+                        await article.update({_id: id}, {$pull:{tag: data._id}})
                     }
                 })
-        })
+        }
+
+        let newArticle = await article
+            .findByIdAndUpdate(oldArticle._id, updateArticle, {new: true})
+            .populate({path: 'tag',select: 'name'})
+        return {
+            message: '更改成功',
+            data: newArticle
+        }
+    },
+    delete: async (id) => {
+        console.log()
     }
 }

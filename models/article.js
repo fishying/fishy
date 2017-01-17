@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import plugins from '../util/plugin'
 plugins(mongoose)
 
-import slug from '../util/pre/slug'
+import pinyin from '../util/pinyin'
 
 let Schema = mongoose.Schema
 
@@ -20,7 +20,8 @@ let articleSchema = new Schema ({
         }
     },
     md: {
-        type: String
+        type: String,
+        unique: true
     },
     slug: {
         type: String,
@@ -51,13 +52,16 @@ let articleSchema = new Schema ({
         default: false
     },
     image: {
-        type: String
+        type: String,
+        default: null
     }
 })
 
 // slug
 articleSchema.pre('save', async function (next) {
-    this.slug = await slug(this.slug, this.title)
+    if (!this.slug || this.slug === '') {
+        this.slug = await pinyin(this.title)
+    }
     next()
 })
 

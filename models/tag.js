@@ -25,9 +25,13 @@ let tagSchema = new Schema({
     }]
 })
 
-tagSchema.pre('update', async function (next) {
-    console.log(this)
-    next()
+// update后假如没有article在此tag，将删除此tag
+tagSchema.post('update', async function () {
+    let tags = await this.findOne({})
+    if (tags.article.length === 0) {
+        console.log(tags)
+        await this.remove({'_id': tags._id})
+    }
 })
 
 let tag = mongoose.model('tag', tagSchema)

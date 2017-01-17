@@ -14,6 +14,12 @@ export default {
     },
     update: async (req, res) => {
         let data = req.body
-        article.update(data.id, data.data, data.tag)
+        article.update(data.id, data.data)
+            .then(ctx => {
+                respond(res, ctx, true)
+            })
+            .catch(msg => {
+                respond(res, msg)
+            })
     }
 }
