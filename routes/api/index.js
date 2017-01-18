@@ -8,19 +8,21 @@ import passport from '../../server/passport'
 
 const router = express.Router()
 
-router.post('/login', ctr.log.login)
+router.post('/login', passport.authenticate('local'), ctr.log.login)
 router.post('/register', ctr.log.register)
-router.post('/test',
-    passport.authenticate('local', function(err, user, info) {
-        console.log(err)
-        console.log(user)
-        console.log(info)
-    })
-    )
+router.post('/test', passport.authenticateMiddleware() , function(req, res) {
+    console.log(1)
+})
 
 router.post('/test1', async (req, res, next) => {
     User.register(new User({name: req.body.username}), req.body.password, (err, account) => {
         console.log(err)
+    })
+})
+router.get('/logout', function(req, res) {
+    req.logout()
+    res.json({
+        message: '退出成功'
     })
 })
 

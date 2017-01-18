@@ -1,29 +1,26 @@
-import user from '../api/log'
+import User from '../models/user'
 import respond from '../util/respond'
+import passport from 'passport'
 
 export default {
     register: async (req, res) => {
-        user.register(req.body.name, req.body.password, req.body.email)
-            .then(msg => {
+        await User.register(new User({name: req.body.username, email: req.body.email}), req.body.password, (err, account) => {
+            if (err) {
+                respond(res, err)
+            } else {
                 return res.json({
-                    success: true,
-                    message: msg,
+                    message: '注册成功'
                 })
-            })
-            .catch(msg => {
-                respond(res, msg)
-            })
+            }
+        })
     },
     login: async (req, res) => {
-        user.login(req)
-            .then(msg => {
-                return res.json({
-                    success: true,
-                    message: msg,
-                })
+        if (req.user) {
+            return res.json({
+                message: '登录成功'
             })
-            .catch(msg => {
-                respond(res, msg)
-            })
-    },
+        } else {
+            respond(res, [401, {message: '登录失败'}])
+        }
+    }
 }

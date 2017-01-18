@@ -55,7 +55,7 @@ userSchema.plugin(passportLocalMongoose, {
 
 userSchema.pre('save', async function (next) {
     if (!this.slug || this.slug === '') {
-        this.slug = await pinyin(this.title)
+        this.slug = await pinyin(this.name)
     }
     next()
 })
