@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-
-import userPwdMd5 from '../util/plugin/userPwdMd5'
+import passportLocalMongoose from 'passport-local-mongoose'
+import pinyin from '../util/pinyin'
 import plugins from '../util/plugin'
 plugins(mongoose)
 
@@ -10,20 +10,18 @@ let Schema = mongoose.Schema
 let userSchema = new Schema({
     slug: {
         type: String,
-        unique: true,
-        required: [true, '请输入slug']
+        unique: true
     },
     name: {
         type: String,
-        unique: true,
-        required: [true, '请输入名称']
+        unique: true
     },
     password: {
         type: String
     },
     email: {
         type: String,
-        unique: true,
+        unique: true
     },
     profile: {      // 简介
         type: String,
@@ -51,7 +49,16 @@ let userSchema = new Schema({
     }
 })
 
-userSchema.plugin(userPwdMd5)
+userSchema.plugin(passportLocalMongoose, {
+    usernameField: 'name'
+})
+
+userSchema.pre('save', async function (next) {
+    if (!this.slug || this.slug === '') {
+        this.slug = await pinyin(this.title)
+    }
+    next()
+})
 
 let user = mongoose.model('user', userSchema)
 

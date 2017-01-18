@@ -7,11 +7,16 @@ import session from 'express-session'
 import config from '../config.json'
 const MongoStore = require('connect-mongo')(session)
 
+// passport
+import passport from './passport'
+
 function relative(path) {
     return fp.join(__dirname, path)
 }
 
 export default (app) => {
+    app.use(bodyParser.json())
+    app.use(bodyParser.urlencoded({ extended: false }))
     app.use(session({
         secret: 'wanan',
         resave: false,
@@ -19,7 +24,7 @@ export default (app) => {
         store: new MongoStore({
             url: `mongodb://${config.host}:${config.port}/${config.db}`,
         }), 
-        cookie:{maxAge:180*60*1000} //store保存时间
+        cookie: {maxAge:180*60*1000} //store保存时间
     }))
 
     hbs.registerHelper('get', function (type, options) {
@@ -38,7 +43,6 @@ export default (app) => {
 
     // 默认hbs
     app.use(morgan('dev'))
-    app.use(bodyParser())
-    app.use(bodyParser.json())
-    app.use(bodyParser.urlencoded({ extended: true }))
+    app.use(passport.initialize())
+    app.use(passport.session())
 }
