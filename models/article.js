@@ -11,17 +11,10 @@ let ObjectId = Schema.Types.ObjectId
 let articleSchema = new Schema ({
     title: {
         type: String,
-        unique: true,
-        validate: {
-            validator: function(v) {
-                return v && v != '' ? true : false
-            },
-            message: '{VALUE} 不是正确的标题'
-        }
+        unique: true
     },
     md: {
-        type: String,
-        unique: true
+        type: String
     },
     slug: {
         type: String,

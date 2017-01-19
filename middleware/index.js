@@ -1,0 +1,1 @@
+export {article} from './article'

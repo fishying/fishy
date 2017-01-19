@@ -29,7 +29,6 @@ let tagSchema = new Schema({
 tagSchema.post('update', async function () {
     let tags = await this.findOne({})
     if (tags.article.length === 0) {
-        console.log(tags)
         await this.remove({'_id': tags._id})
     }
 })

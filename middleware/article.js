@@ -11,24 +11,39 @@ export default {
      * @param {Array} tags
      * @returns Promise
      */
-    create: async (data, tags) => {
+    create: async (data) => {
+        let tags
+
+        if (data.tag) {
+            tags = data.tag
+            
+            delete data.tag
+        }
+
         /* 判断是否存在相同title和slug */
         if (await article.findOne({title: data.title})) throw '标题已存在'
 
         if (data.slug) if (await article.findOne({slug: data.slug})) throw '路径已存在'
+        try {
+            let newArticle = await article.create(data)
 
-        let newArticle = await article.create(data)
-        
-        await tags.map(async (i) => {
-            tag.findOrCreate({name: i}, {name: i, slug: i})
-                .then(async data => {
-                    await tag.update({_id: data._id}, {$addToSet:{article: newArticle._id}})
-                    await article.update({_id: newArticle._id}, {$addToSet:{tag: data._id}})
-                })
-        })
-        return {
-            message: '添加成功',
-            data: newArticle
+            if (tags) {
+                for (let i in tags) {
+                    await tag.findOrCreate({name: tags[i]}, {name: tags[i], slug: tags[i]})
+                        .then(async data => {
+                            await tag.update({_id: data._id}, {$addToSet:{article: newArticle._id}})
+                            await article.update({_id: newArticle._id}, {$addToSet:{tag: data._id}})
+                        })
+                }
+            }
+            let returnArticle = await article.findById(newArticle._id).populate({path: 'tag',select: 'name'})
+
+            return {
+                message: '添加成功',
+                data: returnArticle
+            }
+        } catch (err) {
+            throw err
         }
     },
     /**
@@ -100,6 +115,21 @@ export default {
         }
     },
     delete: async (id) => {
-        console.log()
+        try {
+            let infoArticle = await article.findByIdAndRemove(id)
+            if (!infoArticle) {
+                throw {message: '不存在此文章'}
+            }
+            if (infoArticle.tag && infoArticle.tag.length > 0) {
+                for (let i of infoArticle.tag) {
+                    await tag.update({_id: i}, {$pull:{article: infoArticle._id}})
+                }
+            }
+            return {
+                message: '删除成功'
+            }
+        } catch (err) {
+            throw err
+        }
     }
 }

@@ -1,6 +1,5 @@
 import User from '../models/user'
 import respond from '../util/respond'
-import passport from 'passport'
 
 export default {
     register: async (req, res) => {
@@ -22,5 +21,11 @@ export default {
         } else {
             respond(res, [401, {message: '登录失败'}])
         }
+    },
+    logout: async (req, res) => {
+        req.logout()
+        res.json({
+            message: '退出成功'
+        })
     }
 }
