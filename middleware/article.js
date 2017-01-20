@@ -1,5 +1,5 @@
-import article from '../models/article'
-import tag from '../models/tag'
+import Article from '../models/article'
+import Tag from '../models/tag'
 import pinyin from '../util/pinyin'
 
 export default {
@@ -21,22 +21,22 @@ export default {
         }
 
         /* 判断是否存在相同title和slug */
-        if (await article.findOne({title: data.title})) throw '标题已存在'
+        if (await Article.findOne({title: data.title})) throw '标题已存在'
 
-        if (data.slug) if (await article.findOne({slug: data.slug})) throw '路径已存在'
+        if (data.slug) if (await Article.findOne({slug: data.slug})) throw '路径已存在'
         try {
-            let newArticle = await article.create(data)
+            let newArticle = await Article.create(data)
 
             if (tags) {
                 for (let i in tags) {
-                    await tag.findOrCreate({name: tags[i]}, {name: tags[i], slug: tags[i]})
+                    await Tag.findOrCreate({name: tags[i]}, {name: tags[i], slug: tags[i]})
                         .then(async data => {
-                            await tag.update({_id: data._id}, {$addToSet:{article: newArticle._id}})
-                            await article.update({_id: newArticle._id}, {$addToSet:{tag: data._id}})
+                            await Tag.update({_id: data._id}, {$addToSet:{article: newArticle._id}})
+                            await Article.update({_id: newArticle._id}, {$addToSet:{tag: data._id}})
                         })
                 }
             }
-            let returnArticle = await article.findById(newArticle._id).populate({path: 'tag',select: 'name'})
+            let returnArticle = await Article.findById(newArticle._id).populate({path: 'tag',select: 'name'})
 
             return {
                 message: '添加成功',
@@ -56,9 +56,14 @@ export default {
      * @returns Promise
      */
     update: async (id, updateArticle) => {
-        let oldArticle = await article.findById(id).populate({path: 'tag',select: 'name'})
+        let oldArticle = await Article.findById(id).populate({path: 'tag',select: 'name'})
+        if (!oldArticle) {
+            throw '没有此文章'
+        }
         let createTag = []   // 经过筛选的tag
-        let tags = updateArticle.tag
+        let tags = updateArticle.tag.map(e  => {
+            return String(e)
+        })
         
         delete updateArticle.tag
 
@@ -91,22 +96,22 @@ export default {
                 })
             }
         })
-
+        
         // 修改article的tag和tag的article
-        for (let i in createTag) {
-            await tag.findOrCreate({name: createTag[i].name}, {name: createTag[i].name, slug: createTag[i].name})
+        for (let i of createTag) {
+            await Tag.findOrCreate({name: i.name}, {name: i.name, slug: i.name})
                 .then(async data => {
-                    if (createTag[i].a) {
-                        await tag.update({_id: data._id}, {$addToSet:{article: id}})
-                        await article.update({_id: id}, {$addToSet:{tag: data._id}})
+                    if (i.a) {
+                        await Tag.update({_id: data._id}, {$addToSet:{article: id}})
+                        await Article.update({_id: id}, {$addToSet:{tag: data._id}})
                     } else {
-                        await tag.update({_id: data._id}, {$pull:{article: id}})
-                        await article.update({_id: id}, {$pull:{tag: data._id}})
+                        await Tag.update({_id: data._id}, {$pull:{article: id}})
+                        await Article.update({_id: id}, {$pull:{tag: data._id}})
                     }
                 })
         }
 
-        let newArticle = await article
+        let newArticle = await Article
             .findByIdAndUpdate(oldArticle._id, updateArticle, {new: true})
             .populate({path: 'tag',select: 'name'})
         return {
@@ -116,13 +121,13 @@ export default {
     },
     delete: async (id) => {
         try {
-            let infoArticle = await article.findByIdAndRemove(id)
+            let infoArticle = await Article.findByIdAndRemove(id)
             if (!infoArticle) {
                 throw {message: '不存在此文章'}
             }
             if (infoArticle.tag && infoArticle.tag.length > 0) {
                 for (let i of infoArticle.tag) {
-                    await tag.update({_id: i}, {$pull:{article: infoArticle._id}})
+                    await Tag.update({_id: i}, {$pull:{article: infoArticle._id}})
                 }
             }
             return {
