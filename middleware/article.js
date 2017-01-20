@@ -24,6 +24,7 @@ export default {
         if (await Article.findOne({title: data.title})) throw '标题已存在'
 
         if (data.slug) if (await Article.findOne({slug: data.slug})) throw '路径已存在'
+        
         try {
             let newArticle = await Article.create(data)
 
