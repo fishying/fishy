@@ -35,5 +35,32 @@ export default {
             .catch(msg => {
                 respond(res, msg)
             })
+    },
+    create_verify: async (req, res, next) => {
+        article.create_verify(req.body)
+            .then(() => {
+                next()
+            })
+            .catch(msg => {
+                respond(res, msg)
+            })
+    },
+    update_verify: async (req, res, next) => {
+        article.update_verify(req.body)
+            .then(() => {
+                next()
+            })
+            .catch(msg => {
+                respond(res, msg)
+            })
+    },
+    delete_verify: async (req, res, next) => {
+        article.delete_verify(req.body)
+            .then(() => {
+                next()
+            })
+            .catch(msg => {
+                respond(res, msg)
+            })
     }
 }

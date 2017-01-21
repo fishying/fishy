@@ -20,10 +20,6 @@ export default {
             delete data.tag
         }
 
-        /* 判断是否存在相同title和slug */
-        if (await Article.findOne({title: data.title})) throw '标题已存在'
-
-        if (data.slug) if (await Article.findOne({slug: data.slug})) throw '路径已存在'
         
         try {
             let newArticle = await Article.create(data)
@@ -57,10 +53,8 @@ export default {
      * @returns Promise
      */
     update: async (id, updateArticle) => {
-        let oldArticle = await Article.findById(id).populate({path: 'tag',select: 'name'})
-        if (!oldArticle) {
-            throw '没有此文章'
-        }
+        let infoArticle = await Article.findById(id).populate({path: 'tag',select: 'name'})
+        
         let createTag = []   // 经过筛选的tag
         let tags = updateArticle.tag.map(e  => {
             return String(e)
@@ -76,7 +70,7 @@ export default {
             updateArticle.slug = await pinyin(updateArticle.title)
         }
 
-        let oldTag = oldArticle.tag.map(t => {
+        let oldTag = infoArticle.tag.map(t => {
             return t.name
         })
         
@@ -113,29 +107,91 @@ export default {
         }
 
         let newArticle = await Article
-            .findByIdAndUpdate(oldArticle._id, updateArticle, {new: true})
+            .findByIdAndUpdate(infoArticle._id, updateArticle, {new: true})
             .populate({path: 'tag',select: 'name'})
         return {
             message: '更改成功',
             data: newArticle
         }
     },
+    /**
+     * delete
+     * 删除article
+     * 
+     * @param {Object} body
+     * @returns Promise
+     */
     delete: async (id) => {
-        try {
-            let infoArticle = await Article.findByIdAndRemove(id)
-            if (!infoArticle) {
-                throw {message: '不存在此文章'}
-            }
-            if (infoArticle.tag && infoArticle.tag.length > 0) {
-                for (let i of infoArticle.tag) {
-                    await Tag.update({_id: i}, {$pull:{article: infoArticle._id}})
-                }
-            }
-            return {
-                message: '删除成功'
-            }
-        } catch (err) {
-            throw err
+        let infoArticle = await Article.findByIdAndRemove(id)
+        if (!infoArticle) {
+            throw {message: '不存在此文章'}
         }
+        if (infoArticle.tag && infoArticle.tag.length > 0) {
+            for (let i of infoArticle.tag) {
+                await Tag.update({_id: i}, {$pull:{article: infoArticle._id}})
+            }
+        }
+        return {
+            message: '删除成功'
+        }
+    },
+    /**
+     * create_verify
+     * article.create的验证
+     * 
+     * @param {Object} body
+     * @returns Promise
+     */
+    create_verify: async (body) => {
+        let data = body.data
+        if (!data) throw '参数出错'
+
+        if (!data.title || data.title == '') throw '标题不存在'
+
+        if (!data.md || data.md == '') throw '内容不存在'
+
+        /* 判断是否存在相同title和slug */
+        
+        if (await Article.findOne({title: data.title})) throw '标题已存在'
+
+        if (data.slug) if (await Article.findOne({slug: data.slug})) throw '路径已存在'
+
+        return true
+    },
+    /**
+     * update_verify
+     * article.update的验证
+     * 
+     * @param {Object} body
+     * @returns Promise
+     */
+    update_verify: async (body) => {
+        let data = body.data
+        let id = body.id
+
+        if (!id || id == '') throw '必要参数id不存在' 
+
+        let infoArticle = await Article.findById(id).populate({path: 'tag',select: 'name'})
+
+        if (!infoArticle) throw '没有此文章'
+
+        if (!data) throw '参数出错'
+
+        return true
+    },
+    /**
+     * delete_verify
+     * article.delete的验证
+     * 
+     * @param {Object} body
+     * @returns Promise
+     */
+    delete_verify: async (body) => {
+        let data = body.data
+        let id = body.id
+
+        if (!id || id == '') throw '必要参数id不存在' 
+
+        return true
     }
 }
