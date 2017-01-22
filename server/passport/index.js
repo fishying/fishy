@@ -12,7 +12,7 @@ passport.authenticateMiddleware = function authenticationMiddleware() {
         if (req.isAuthenticated()) {
             return next()
         } else {
-            res.json(401, {message: '没权限'})
+            res.status(401).json({message: '没权限'})
         }
     }
 }
