@@ -146,15 +146,15 @@ export default {
         let data = body.data
         if (!data) throw '参数出错'
 
-        if (!data.title || data.title == '') throw '标题不存在'
+        if (!data.title || data.title == '') throw '必须添加文章标题'
 
-        if (!data.md || data.md == '') throw '内容不存在'
+        if (!data.md || data.md == '') throw '必须添加文章内容'
 
         /* 判断是否存在相同title和slug */
         
-        if (await Article.findOne({title: data.title})) throw '标题已存在'
+        if (!await Article.findOne({title: data.title})) throw '标题已存在'
 
-        if (data.slug) if (await Article.findOne({slug: data.slug})) throw '路径已存在'
+        if (data.slug) if (!await Article.findOne({slug: data.slug})) throw '路径已存在'
 
         return true
     },
@@ -169,7 +169,7 @@ export default {
         let data = body.data
         let id = body.id
 
-        if (!id || id == '') throw '必要参数id不存在' 
+        if (!id || id == '') throw '必要参数id' 
 
         let infoArticle = await Article.findById(id).populate({path: 'tag',select: 'name'})
 
@@ -187,10 +187,9 @@ export default {
      * @returns Promise
      */
     delete_verify: async (body) => {
-        let data = body.data
         let id = body.id
 
-        if (!id || id == '') throw '必要参数id不存在' 
+        if (!id || id == '') throw '必要参数id' 
 
         return true
     }

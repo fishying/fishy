@@ -1,15 +1,14 @@
 import express from 'express'
-import ctr from '../../controllers'
+import {article} from '../../controllers'
 
 import passport from '../../server/passport'
 const router = express.Router()
-
 
 router.route('/')
     .get(function (req, res) {
         console.log(1)
     })
-    .delete(passport.authenticateMiddleware(), ctr.article.delete_verify, ctr.article.delete)
-    .post(passport.authenticateMiddleware(), ctr.article.create_verify, ctr.article.create)
-    .put(passport.authenticateMiddleware(), ctr.article.update_verify, ctr.article.update)
+    .delete(passport.authenticateMiddleware(), article.delete_verify, article.delete)
+    .post(passport.authenticateMiddleware(), article.create_verify, article.create)
+    .put(passport.authenticateMiddleware(), article.update_verify, article.update)
 export default router
