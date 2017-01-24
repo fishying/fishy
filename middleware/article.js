@@ -1,10 +1,31 @@
-import {
-    tag as Tag, 
-    article as Article
-} from '../models'
+import Article from '../models/article'
+import Tag from '../models/tag'
+
 import pinyin from '../util/pinyin'
 
 export default {
+    allView: async (limit = 10, page = 1) => {
+        let count = await Article.count()
+        let cbk = await Article
+            .find()
+            .skip(limit*(page - 1))
+            .limit(limit)
+            .populate({path: 'tag',select: 'name'})
+            .populate({path: 'author',select: 'name'})
+        return {
+            article: cbk,
+            meta: {
+                pagination: {
+                    page: page,
+                    limit: limit,
+                    total: Math.ceil(count / limit)
+                },
+                article: {
+                    total: count
+                }
+            }
+        }
+    },
     /**
      * create
      * 添加article

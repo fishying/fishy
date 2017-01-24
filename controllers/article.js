@@ -2,6 +2,16 @@ import article from '../middleware/article'
 import respond from '../util/respond'
 
 export default {
+    allView: async (req, res) => {
+        article.allView()
+            .then(ctx => {
+                respond(res, ctx, true)
+            })
+            .catch(msg => {
+                console.log(msg)
+                respond(res, msg)
+            })
+    },
     create: async (req, res) => {
         let data = req.body
         data.data.author ? data.data.author : data.data.author = req.user._id
