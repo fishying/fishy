@@ -28,6 +28,15 @@ export default {
                 respond(res, msg)
             })
     },
+    delete: async (req, res) => {
+        tag.delete(req.body.id)
+            .then(ctx => {
+                respond(res, ctx, true)
+            })
+            .catch(msg => {
+                respond(res, msg)
+            })
+    },
     create_verify: async (req, res, next) => {
         tag.create_verify(req.body.data)
             .then(() => {
@@ -39,6 +48,15 @@ export default {
     },
     update_verify: async (req, res, next) => {
         tag.update_verify( req.body.id, req.body.data)
+            .then(() => {
+                next()
+            })
+            .catch(msg => {
+                respond(res, msg)
+            })
+    },
+    delete_verify: async (req, res, next) => {
+        tag.delete_verify( req.body.id, req.body.data)
             .then(() => {
                 next()
             })

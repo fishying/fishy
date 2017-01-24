@@ -1,5 +1,7 @@
-import Article from '../models/article'
-import Tag from '../models/tag'
+import {
+    tag as Tag, 
+    article as Article
+} from '../models'
 import pinyin from '../util/pinyin'
 
 export default {

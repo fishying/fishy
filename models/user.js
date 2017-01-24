@@ -16,9 +16,6 @@ let userSchema = new Schema({
         type: String,
         unique: true
     },
-    password: {
-        type: String
-    },
     email: {
         type: String,
         unique: true
@@ -29,7 +26,7 @@ let userSchema = new Schema({
     },
     image: {
         type: String,
-        default: ''
+        default: null
     },
     created_at: {
         type: Date,

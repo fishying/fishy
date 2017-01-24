@@ -22,7 +22,11 @@ let tagSchema = new Schema({
     article: [{
         type: ObjectId,
         ref: 'article'
-    }]
+    }],
+    image: {
+        type: String,
+        default: null
+    }
 })
 
 // update后假如没有article在此tag，将删除此tag

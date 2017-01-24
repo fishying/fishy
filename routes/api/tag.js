@@ -9,7 +9,7 @@ router.route('/')
     .get(function (req, res) {
         console.log(1)
     })
-    //.delete(passport.authenticateMiddleware(), ctr.article.delete_verify, ctr.article.delete)
+    .delete(passport.authenticateMiddleware(), tag.delete_verify, tag.delete)
     .post(passport.authenticateMiddleware(), tag.create_verify, tag.create)
     .put(passport.authenticateMiddleware(), tag.update_verify, tag.update)
 export default router

@@ -10,3 +10,8 @@ db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', () => {
     console.log('MongoDB Opened!')
 })
+
+export {tag} from './tag'
+export {article} from './article'
+export {user} from './user'
+export {setting} from './setting'
