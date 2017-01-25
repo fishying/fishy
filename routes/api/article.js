@@ -9,4 +9,8 @@ router.route('/')
     .delete(passport.authenticateMiddleware(), article.delete_verify, article.delete)
     .post(passport.authenticateMiddleware(), article.create_verify, article.create)
     .put(passport.authenticateMiddleware(), article.update_verify, article.update)
+
+router.get('/:id', article.oneView)
+router.get('/slug/:slug', article.oneView)
+
 export default router

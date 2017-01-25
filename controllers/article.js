@@ -3,14 +3,32 @@ import respond from '../util/respond'
 
 export default {
     allView: async (req, res) => {
-        article.allView()
+        article.allView(parseInt(req.query.limit), parseInt(req.query.page))
             .then(ctx => {
                 respond(res, ctx, true)
             })
             .catch(msg => {
-                console.log(msg)
                 respond(res, msg)
             })
+    },
+    oneView: async (req, res) => {
+        if (req.params.id) {
+            article.oneViewId(req.params.id)
+                .then(ctx => {
+                    respond(res, ctx, true)
+                })
+                .catch(msg => {
+                    respond(res, msg)
+                })
+        } else {
+            article.oneViewSlug(req.params.slug)
+                .then(ctx => {
+                    respond(res, ctx, true)
+                })
+                .catch(msg => {
+                    respond(res, msg)
+                })
+        }
     },
     create: async (req, res) => {
         let data = req.body

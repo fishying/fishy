@@ -32,9 +32,13 @@
     "express-hbs": "^1.0.3",
     "express-session": "^1.14.2",
     "handlebars": "^4.0.6",
+    "highlight.js": "^9.9.0",
+    "markdown-it": "^8.2.2",
+    "markdown-it-emoji": "^1.3.0",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^4.0.0"
+    "passport-local-mongoose": "^4.0.0",
+    "twemoji": "^2.2.3"
   }
 }

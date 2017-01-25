@@ -28,7 +28,6 @@ export default (app) => {
     }))
 
     hbs.registerHelper('get', function (type, options) {
-        console.log(options)
         return 'asdfsdf'
     })
 

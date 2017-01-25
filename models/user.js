@@ -9,16 +9,13 @@ let Schema = mongoose.Schema
 
 let userSchema = new Schema({
     slug: {
-        type: String,
-        unique: true
+        type: String
     },
     name: {
-        type: String,
-        unique: true
+        type: String
     },
     email: {
-        type: String,
-        unique: true
+        type: String
     },
     profile: {      // 简介
         type: String,

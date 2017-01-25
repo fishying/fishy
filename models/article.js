@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 import plugins from '../util/plugin'
+
+import md from '../server/md.js'
 plugins(mongoose)
 
 import pinyin from '../util/pinyin'
@@ -48,6 +50,8 @@ let articleSchema = new Schema ({
         type: String,
         default: null
     }
+},{
+    toJSON: {virtuals: true}
 })
 
 // slug
@@ -56,6 +60,17 @@ articleSchema.pre('save', async function (next) {
         this.slug = await pinyin(this.title)
     }
     next()
+})
+
+articleSchema.virtual('content').get(function() {
+    return md.render(this.md)
+})
+
+articleSchema.virtual('excerpt').get(function() {
+    return md.render(this.md)
+        .replace(/<.*?>/ig, '')
+        .substr(0,100)
+        .replace(/\n/ig, '') + '...'
 })
 
 let article = mongoose.model('article', articleSchema)

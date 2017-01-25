@@ -42,18 +42,14 @@ export default {
         
         if (!id || id == '') throw '必要参数id' 
 
-        let info = await Tag.findById(id)
-
-        if (!info) throw '没有此标签'
+        if (!await Tag.findById(id)) throw '没有此标签'
 
         return true
     },
     delete_verify: async (id) => {
         if (!id || id == '') throw '必要参数id' 
 
-        let info = await Tag.findById(id)
-
-        if (!info) throw '没有此标签'
+        if (!await Tag.findById(id)) throw '没有此标签'
 
         return true
     }

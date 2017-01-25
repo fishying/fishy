@@ -6,12 +6,14 @@ import pinyin from '../util/pinyin'
 export default {
     allView: async (limit = 10, page = 1) => {
         let count = await Article.count()
+        
         let cbk = await Article
             .find()
             .skip(limit*(page - 1))
             .limit(limit)
-            .populate({path: 'tag',select: 'name'})
-            .populate({path: 'author',select: 'name'})
+            .populate({path: 'tag',select: 'name slug'})
+            .populate({path: 'author',select: 'name slug'})
+            .sort({'create_at': -1})
         return {
             article: cbk,
             meta: {
@@ -23,6 +25,58 @@ export default {
                 article: {
                     total: count
                 }
+            }
+        }
+    },
+    oneViewId: async (id) => {
+        console.log(id)
+        let cbk = await Article
+            .findById(id)
+            .populate({path: 'tag',select: 'name slug'})
+            .populate({path: 'author',select: 'name slug'})
+
+        let prev = await Article
+            .findOne({_id: {$lt: id}})
+            .limit(1)
+            .populate({path: 'tag',select: 'name slug'})
+            .populate({path: 'author',select: 'name slug'})
+            
+        let next = await Article
+            .findOne({_id: {$gt: id}})
+            .limit(1)
+            .populate({path: 'tag',select: 'name slug'})
+            .populate({path: 'author',select: 'name slug'})
+        return {
+            article:cbk,
+            meta: {
+                next: next,
+                prev: prev
+            }
+        }
+    },
+    oneViewSlug: async (slug) => {
+        let cbk = await Article
+            .findOne({slug: slug})
+            .populate({path: 'tag',select: 'name slug'})
+            .populate({path: 'author',select: 'name slug'})
+
+        let prev = await Article
+            .findOne({_id: {$lt: cbk._id}})
+            .limit(1)
+            .populate({path: 'tag',select: 'name slug'})
+            .populate({path: 'author',select: 'name slug'})
+
+        let next = await Article
+            .findOne({_id: {$gt: cbk._id}})
+            .limit(1)
+            .populate({path: 'tag',select: 'name slug'})
+            .populate({path: 'author',select: 'name slug'})
+
+        return {
+            article:cbk,
+            meta: {
+                next: next,
+                prev: prev
             }
         }
     },
@@ -174,8 +228,7 @@ export default {
         if (!data.md || data.md == '') throw '必须添加文章内容'
 
         /* 判断是否存在相同title和slug */
-        
-        if (!await Article.findOne({title: data.title})) throw '标题已存在'
+        if (await Article.findOne({title: data.title})) throw '标题已存在'
 
         if (data.slug) if (!await Article.findOne({slug: data.slug})) throw '路径已存在'
 
@@ -194,9 +247,7 @@ export default {
 
         if (!id || id == '') throw '必要参数id' 
 
-        let infoArticle = await Article.findById(id).populate({path: 'tag',select: 'name'})
-
-        if (!infoArticle) throw '没有此文章'
+        if (!await Article.findById(id)) throw '标题已存在'
 
         if (!data) throw '参数出错'
 

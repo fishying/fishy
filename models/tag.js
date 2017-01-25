@@ -36,7 +36,6 @@ let tagSchema = new Schema({
         await this.remove({'_id': tags._id})
     }
 })*/
-
 let tag = mongoose.model('tag', tagSchema)
 
 
