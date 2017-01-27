@@ -2,6 +2,30 @@ import Article from '../models/article'
 import Tag from '../models/tag'
 
 export default {
+    allView: async (limit = 10, page = 1) => {
+        let count = await Tag.count()
+        
+        let cbk = await Tag
+            .find()
+            .skip(limit*(page - 1))
+            .limit(limit)
+            .populate({path: 'tag',select: 'name slug'})
+            .populate({path: 'author',select: 'name slug'})
+            .sort({'create_at': -1})
+        return {
+            tag: cbk,
+            meta: {
+                pagination: {
+                    page: page,
+                    limit: limit,
+                    total: Math.ceil(count / limit)
+                },
+                tag: {
+                    total: count
+                }
+            }
+        }
+    },
     create: async (data) => {
         let cbk = await Tag.create(data)
         return {
