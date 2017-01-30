@@ -10,6 +10,34 @@ export default {
      * @param {any} req
      * @param {any} res
      */
+    allView: async (req, res) => {
+        tag.allView(parseInt(req.query.limit) || null, parseInt(req.query.page) || null)
+            .then(ctx => {
+                respond(res, ctx, true)
+            })
+            .catch(msg => {
+                respond(res, msg)
+            })
+    },
+    oneView: async (req, res) => {
+        if (req.params.id) {
+            tag.oneViewId(req.params.id)
+                .then(ctx => {
+                    respond(res, ctx, true)
+                })
+                .catch(msg => {
+                    respond(res, msg)
+                })
+        } else {
+            tag.oneViewSlug(req.params.slug)
+                .then(ctx => {
+                    respond(res, ctx, true)
+                })
+                .catch(msg => {
+                    respond(res, msg)
+                })
+        }
+    },
     create: async (req, res) => {
         tag.create(req.body.data)
             .then(ctx => {

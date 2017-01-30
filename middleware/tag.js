@@ -2,16 +2,18 @@ import Article from '../models/article'
 import Tag from '../models/tag'
 
 export default {
-    allView: async (limit = 10, page = 1) => {
+    allView: async (limit, page) => {
+        limit = limit ? limit : 10
+        page = page ? page : 1
+
         let count = await Tag.count()
-        
         let cbk = await Tag
             .find()
             .skip(limit*(page - 1))
             .limit(limit)
-            .populate({path: 'tag',select: 'name slug'})
-            .populate({path: 'author',select: 'name slug'})
+            .populate({path: 'article'})
             .sort({'create_at': -1})
+        console.log(cbk)
         return {
             tag: cbk,
             meta: {
@@ -23,6 +25,34 @@ export default {
                 tag: {
                     total: count
                 }
+            }
+        }
+    },
+    oneViewId: async (id) => {
+        let cbk = await Tag
+            .findById(id)
+            .populate({path: 'article'})
+
+        return {
+            tag:cbk,
+            meta: {
+                article: cbk.article.length
+            }
+        }
+    },
+    oneViewSlug: async (slug) => {
+        let cbk = await Tag
+            .findOne({slug: slug})
+            .populate({path: 'article'})
+        if (!cbk) {
+            return {
+                tag: null
+            }
+        }
+        return {
+            tag:cbk,
+            meta: {
+                article: cbk.article.length
             }
         }
     },

@@ -4,9 +4,11 @@ import Tag from '../models/tag'
 import pinyin from '../util/pinyin'
 
 export default {
-    allView: async (limit = 10, page = 1) => {
+    allView: async (limit, page) => {
+        limit = limit ? limit : 10
+        page = page ? page : 1
+
         let count = await Article.count()
-        
         let cbk = await Article
             .find()
             .skip(limit*(page - 1))
@@ -14,6 +16,7 @@ export default {
             .populate({path: 'tag',select: 'name slug'})
             .populate({path: 'author',select: 'name slug'})
             .sort({'create_at': -1})
+
         return {
             article: cbk,
             meta: {
@@ -29,7 +32,6 @@ export default {
         }
     },
     oneViewId: async (id) => {
-        console.log(id)
         let cbk = await Article
             .findById(id)
             .populate({path: 'tag',select: 'name slug'})
@@ -59,7 +61,11 @@ export default {
             .findOne({slug: slug})
             .populate({path: 'tag',select: 'name slug'})
             .populate({path: 'author',select: 'name slug'})
-
+        if (!cbk) {
+            return {
+                article: null
+            }
+        }
         let prev = await Article
             .findOne({_id: {$lt: cbk._id}})
             .limit(1)

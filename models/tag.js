@@ -17,7 +17,8 @@ let tagSchema = new Schema({
         default: ''
     },
     profile: {
-        type: String
+        type: String,
+        default: ''
     },
     article: [{
         type: ObjectId,

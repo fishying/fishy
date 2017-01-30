@@ -3,7 +3,7 @@ import respond from '../util/respond'
 
 export default {
     allView: async (req, res) => {
-        article.allView(parseInt(req.query.limit), parseInt(req.query.page))
+        article.allView(parseInt(req.query.limit) || null, parseInt(req.query.page) || null)
             .then(ctx => {
                 respond(res, ctx, true)
             })
