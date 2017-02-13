@@ -32,9 +32,9 @@ export default (app) => {
     })
 
     app.engine('hbs', hbs.express4({
-        partialsDir: relative('../view'),
-        layoutsDir: relative('../view'),
-        defaultLayout: relative('../view/default.hbs')
+        partialsDir: relative(`../view/theme/${config.theme}`),
+        layoutsDir: relative(`../view/theme/${config.theme}`),
+        defaultLayout: relative(`../view/theme/${config.theme}/default.hbs`)
     }))
     
     app.set('view engine', 'hbs')

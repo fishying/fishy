@@ -1,6 +1,5 @@
 import User from '../models/user'
 import respond from '../util/respond'
-import passport from '../server/passport'
 
 export default {
     register: async (req, res) => {
