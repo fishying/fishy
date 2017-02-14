@@ -54,6 +54,7 @@ let articleSchema = new Schema ({
     toJSON: {virtuals: true}
 })
 
+
 // slug
 articleSchema.pre('save', async function (next) {
     if (!this.slug || this.slug === '') {
@@ -62,7 +63,8 @@ articleSchema.pre('save', async function (next) {
     next()
 })
 
-articleSchema.virtual('content').get(function() {
+articleSchema.virtual('content')
+.get(function() {
     return md.render(this.md)
 })
 

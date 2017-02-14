@@ -1,0 +1,13 @@
+{{#each article}}
+    <article class="article">
+        <header class="article-header">
+            <h2 class="title"><a href="/{{slug}}">{{title}}</a></h2>
+        </header>
+        <section class="article-excerpt">
+            {{excerpt tailor=60}}
+        </section>
+        <footer>
+            <time>{{date now=true}}</time>
+        </footer>
+    </article>
+{{/each}}

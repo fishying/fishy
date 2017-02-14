@@ -1,7 +1,19 @@
-{{!< default}}
-<form action="/api/register" method="post">
-    <input type="text" name="username"/>
-    <input type="password" name="email"/>
-    <input type="password" name="password"/>
-    <input type="submit" value="Log In"/>
-</form>
+{{!< ./default}}
+<div class="log">
+    <h2 class="title">注册</h2>
+    <input type="text" name="username" id="username" placeholder="账号"/>
+    <input type="text" name="email" id="email" autocorrect="off" placeholder="邮箱"/>
+    <input type="password" name="password" id="password" autocorrect="off" placeholder="密码"/>
+    <button type="submit" id="button">Logon</button>
+</div>
+<script>
+$('#button').click(function () {
+    $.post('/api/logon',{
+        username: $('#username').val(),
+        password: $('#password').val(),
+        email: $('#email').val()
+    }, function (data) {
+        console.log(data)
+    })
+})
+</script>

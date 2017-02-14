@@ -5,6 +5,7 @@ import fp from 'path'
 import morgan from 'morgan'
 import session from 'express-session'
 import config from '../config.json'
+import helpers from '../helpers'
 const MongoStore = require('connect-mongo')(session)
 
 // passport
@@ -26,13 +27,9 @@ export default (app) => {
         }), 
         cookie: {maxAge:180*60*1000} //store保存时间
     }))
-
-    hbs.registerHelper('get', function (type, options) {
-        return 'asdfsdf'
-    })
-
+    helpers(hbs)
     app.engine('hbs', hbs.express4({
-        partialsDir: relative(`../view/theme/${config.theme}`),
+        partialsDir: relative(`../view/theme/${config.theme}/partials`),
         layoutsDir: relative(`../view/theme/${config.theme}`),
         defaultLayout: relative(`../view/theme/${config.theme}/default.hbs`)
     }))

@@ -1,5 +1,6 @@
 import Article from '../models/article'
 import Tag from '../models/tag'
+import md from '../server/md.js'
 
 import pinyin from '../util/pinyin'
 
@@ -11,12 +12,15 @@ export default {
         let count = await Article.count()
         let cbk = await Article
             .find()
+            .lean()
             .skip(limit*(page - 1))
             .limit(limit)
             .populate({path: 'tag',select: 'name slug'})
             .populate({path: 'author',select: 'name slug'})
             .sort({'create_at': -1})
-
+        for (let i in cbk) {
+            cbk[i].content = md.render(cbk[i].md)
+        }
         return {
             article: cbk,
             meta: {
@@ -59,6 +63,7 @@ export default {
     oneViewSlug: async (slug) => {
         let cbk = await Article
             .findOne({slug: slug})
+            .lean()
             .populate({path: 'tag',select: 'name slug'})
             .populate({path: 'author',select: 'name slug'})
         if (!cbk) {
