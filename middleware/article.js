@@ -40,18 +40,28 @@ export default {
             .findById(id)
             .populate({path: 'tag',select: 'name slug'})
             .populate({path: 'author',select: 'name slug'})
+            .lean()
+
+        if (cbk) cbk.content = md.render(cbk.md)
 
         let prev = await Article
             .findOne({_id: {$lt: id}})
             .limit(1)
             .populate({path: 'tag',select: 'name slug'})
             .populate({path: 'author',select: 'name slug'})
+            .lean()
             
+        if (prev) prev.content = md.render(prev.md)
+
         let next = await Article
             .findOne({_id: {$gt: id}})
             .limit(1)
             .populate({path: 'tag',select: 'name slug'})
             .populate({path: 'author',select: 'name slug'})
+            .lean()
+
+        if (next) next.content = md.render(next.md)
+        
         return {
             article:cbk,
             meta: {
@@ -66,22 +76,27 @@ export default {
             .lean()
             .populate({path: 'tag',select: 'name slug'})
             .populate({path: 'author',select: 'name slug'})
-        if (!cbk) {
-            return {
-                article: null
-            }
-        }
+            .lean()
+
+        if (cbk) cbk.content = md.render(cbk.md)
+
         let prev = await Article
             .findOne({_id: {$lt: cbk._id}})
             .limit(1)
             .populate({path: 'tag',select: 'name slug'})
             .populate({path: 'author',select: 'name slug'})
+            .lean()
+
+        if (prev) prev.content = md.render(prev.md)
 
         let next = await Article
             .findOne({_id: {$gt: cbk._id}})
             .limit(1)
             .populate({path: 'tag',select: 'name slug'})
             .populate({path: 'author',select: 'name slug'})
+            .lean()
+
+        if (next) next.content = md.render(next.md)
 
         return {
             article:cbk,

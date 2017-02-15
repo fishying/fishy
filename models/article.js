@@ -63,18 +63,6 @@ articleSchema.pre('save', async function (next) {
     next()
 })
 
-articleSchema.virtual('content')
-.get(function() {
-    return md.render(this.md)
-})
-
-articleSchema.virtual('excerpt').get(function() {
-    return md.render(this.md)
-        .replace(/<.*?>/ig, '')
-        .substr(0,100)
-        .replace(/\n/ig, '') + '...'
-})
-
 let article = mongoose.model('article', articleSchema)
 
 
