@@ -1,5 +1,6 @@
 import Article from '../models/article'
 import Tag from '../models/tag'
+import md from '../server/md.js'
 
 export default {
     allView: async (limit, page) => {
@@ -13,7 +14,11 @@ export default {
             .limit(limit)
             .populate({path: 'article'})
             .sort({'create_at': -1})
-        console.log(cbk)
+            .lean()
+        
+        for (let i in cbk.article) {
+            cbk.article[i].content = md.render(cbk.article[i].md)
+        }
         return {
             tag: cbk,
             meta: {
@@ -32,7 +37,10 @@ export default {
         let cbk = await Tag
             .findById(id)
             .populate({path: 'article'})
-
+            .lean()
+        for (let i in cbk.article) {
+            cbk[i].content = md.render(cbk.article[i].md)
+        }
         return {
             tag:cbk,
             meta: {
@@ -44,10 +52,14 @@ export default {
         let cbk = await Tag
             .findOne({slug: slug})
             .populate({path: 'article'})
+            .lean()
         if (!cbk) {
             return {
                 tag: null
             }
+        }
+        for (let i in cbk.article) {
+            cbk.article[i].content = md.render(cbk.article[i].md)
         }
         return {
             tag:cbk,

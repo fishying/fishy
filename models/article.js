@@ -65,5 +65,4 @@ articleSchema.pre('save', async function (next) {
 
 let article = mongoose.model('article', articleSchema)
 
-
 export default article
