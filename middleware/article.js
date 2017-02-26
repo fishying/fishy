@@ -5,104 +5,92 @@ import md from '../server/md.js'
 import pinyin from '../util/pinyin'
 
 export default {
-    allView: async (limit, page) => {
+    /**
+     * 访问所有的article
+     * 
+     * @param {String} limit 
+     * @param {String} page 
+     * @returns Object
+     */
+    all: async (limit, page) => {
         limit = limit ? limit : 10
         page = page ? page : 1
-
-        let count = await Article.count()
-        let cbk = await Article
-            .find()
-            .lean()
-            .skip(limit*(page - 1))
-            .limit(limit)
-            .populate({path: 'tag',select: 'name slug'})
-            .populate({path: 'author',select: 'name slug'})
-            .sort({'create_at': -1})
-        for (let i in cbk) {
-            cbk[i].content = md.render(cbk[i].md)
-        }
-        return {
-            article: cbk,
-            meta: {
-                pagination: {
-                    page: page,
-                    limit: limit,
-                    total: Math.ceil(count / limit)
-                },
-                article: {
-                    total: count
+        try {
+            let count = await Article.count()
+            let articleCbk = await Article.viewAll(limit, page)
+            return {
+                article: articleCbk.length ? articleCbk : null,
+                meta: {
+                    pagination: {
+                        page: page,
+                        limit: limit,
+                        total: Math.ceil(count / limit)
+                    },
+                    article: {
+                        total: count
+                    }
                 }
             }
-        }
-    },
-    oneViewId: async (id) => {
-        let cbk = await Article
-            .findById(id)
-            .populate({path: 'tag',select: 'name slug'})
-            .populate({path: 'author',select: 'name slug'})
-            .lean()
-
-        if (cbk) cbk.content = md.render(cbk.md)
-
-        let prev = await Article
-            .findOne({_id: {$lt: id}})
-            .limit(1)
-            .populate({path: 'tag',select: 'name slug'})
-            .populate({path: 'author',select: 'name slug'})
-            .lean()
-            
-        if (prev) prev.content = md.render(prev.md)
-
-        let next = await Article
-            .findOne({_id: {$gt: id}})
-            .limit(1)
-            .populate({path: 'tag',select: 'name slug'})
-            .populate({path: 'author',select: 'name slug'})
-            .lean()
-
-        if (next) next.content = md.render(next.md)
-        
-        return {
-            article:cbk,
-            meta: {
-                next: next,
-                prev: prev
+        } catch (err) {
+            throw {
+                message: '查询出错',
+                info: err
             }
         }
     },
-    oneViewSlug: async (slug) => {
-        let cbk = await Article
-            .findOne({slug: slug})
-            .lean()
-            .populate({path: 'tag',select: 'name slug'})
-            .populate({path: 'author',select: 'name slug'})
-            .lean()
+    oneId: async (id) => {
+        try {
+            let cbk = await Article.viewOneId(id)
 
-        if (cbk) cbk.content = md.render(cbk.md)
+            if (!cbk) {
+                return {
+                    article: null,
+                }
+            }
+            
+            let prev = await Article.viewPrev(cbk._id)
 
-        let prev = await Article
-            .findOne({_id: {$lt: cbk._id}})
-            .limit(1)
-            .populate({path: 'tag',select: 'name slug'})
-            .populate({path: 'author',select: 'name slug'})
-            .lean()
+            let next = await Article.viewNext(cbk._id)
+            
+            return {
+                article:cbk,
+                meta: {
+                    next: next,
+                    prev: prev
+                }
+            }
+        } catch (err) {
+            throw {
+                message: '查询出错',
+                info: err
+            }
+        }
+    },
+    oneSlug: async (slug) => {
+        try {
+            let cbk = await Article.viewOneSlug(slug)
 
-        if (prev) prev.content = md.render(prev.md)
+            if (!cbk) {
+                return {
+                    article: null,
+                }
+            }
 
-        let next = await Article
-            .findOne({_id: {$gt: cbk._id}})
-            .limit(1)
-            .populate({path: 'tag',select: 'name slug'})
-            .populate({path: 'author',select: 'name slug'})
-            .lean()
+            let prev = await Article.viewPrev(cbk._id)
 
-        if (next) next.content = md.render(next.md)
+            let next = await Article.viewNext(cbk._id)
 
-        return {
-            article:cbk,
-            meta: {
-                next: next,
-                prev: prev
+            return {
+                article: cbk,
+                meta: {
+                    next: next,
+                    prev: prev
+                }
+            }
+        } catch (err) {
+            throw {
+                message: '查询出错',
+                info: err
             }
         }
     },
@@ -157,11 +145,16 @@ export default {
      */
     update: async (id, updateArticle) => {
         let infoArticle = await Article.findById(id).populate({path: 'tag',select: 'name'})
-        
-        let createTag = []   // 经过筛选的tag
-        let tags = updateArticle.tag.map(e  => {
-            return String(e)
-        })
+        let createTag = []
+            ,tags   // 经过筛选的tag
+
+        if (updateArticle.tag instanceof Array) {
+            tags = updateArticle.tag.map(e  => {
+                return String(e)
+            })
+        } else {
+            tags = []
+        }
         
         delete updateArticle.tag
 
@@ -273,7 +266,7 @@ export default {
 
         if (!id || id == '') throw '必要参数id' 
 
-        if (!await Article.findById(id)) throw '标题已存在'
+        if (!await Article.findById(id)) throw 'id不存在'
 
         if (!data) throw '参数出错'
 

@@ -2,8 +2,8 @@ import article from '../middleware/article'
 import respond from '../util/respond'
 
 export default {
-    allView: async (req, res) => {
-        article.allView(parseInt(req.query.limit) || null, parseInt(req.query.page) || null)
+    all: async (req, res) => {
+        article.all(parseInt(req.query.limit) || null, parseInt(req.query.page) || null)
             .then(ctx => {
                 respond(res, ctx, true)
             })
@@ -11,9 +11,9 @@ export default {
                 respond(res, msg)
             })
     },
-    oneView: async (req, res) => {
+    one: async (req, res) => {
         if (req.params.id) {
-            article.oneViewId(req.params.id)
+            article.oneId(req.params.id)
                 .then(ctx => {
                     respond(res, ctx, true)
                 })
@@ -21,7 +21,7 @@ export default {
                     respond(res, msg)
                 })
         } else {
-            article.oneViewSlug(req.params.slug)
+            article.oneSlug(req.params.slug)
                 .then(ctx => {
                     respond(res, ctx, true)
                 })
@@ -51,6 +51,7 @@ export default {
                 respond(res, ctx, true)
             })
             .catch(msg => {
+                console.log(msg)
                 respond(res, msg)
             })
     },

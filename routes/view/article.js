@@ -4,7 +4,7 @@ const router = express.Router()
 import article from '../../middleware/article'
 router
     .get('/:slug', async (req, res) => {
-        await article.oneViewSlug(req.params.slug)
+        await article.oneSlug(req.params.slug)
             .then(e => {
                 res.render(`theme/${config.theme}/article`, {
                     title: 'login',
@@ -14,7 +14,7 @@ router
             })
     })
     .get('/', async (req, res) => {
-        let data = await article.allView()
+        let data = await article.all()
         res.render(`theme/${config.theme}/index`, {
             title: 'index',
             article: data.article,
