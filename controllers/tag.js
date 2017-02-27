@@ -10,8 +10,8 @@ export default {
      * @param {any} req
      * @param {any} res
      */
-    allView: async (req, res) => {
-        tag.allView(parseInt(req.query.limit) || null, parseInt(req.query.page) || null)
+    all: async (req, res) => {
+        tag.all(parseInt(req.query.limit) || null, parseInt(req.query.page) || null)
             .then(ctx => {
                 respond(res, ctx, true)
             })
@@ -19,9 +19,9 @@ export default {
                 respond(res, msg)
             })
     },
-    oneView: async (req, res) => {
+    one: async (req, res) => {
         if (req.params.id) {
-            tag.oneViewId(req.params.id)
+            tag.oneId(req.params.id)
                 .then(ctx => {
                     respond(res, ctx, true)
                 })
@@ -29,7 +29,7 @@ export default {
                     respond(res, msg)
                 })
         } else {
-            tag.oneViewSlug(req.params.slug)
+            tag.oneSlug(req.params.slug)
                 .then(ctx => {
                     respond(res, ctx, true)
                 })

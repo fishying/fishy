@@ -1,5 +1,8 @@
 import mongoose from 'mongoose'
 import plugins from '../util/plugin'
+
+import md from '../server/md.js'
+
 plugins(mongoose)
 
 let Schema = mongoose.Schema
@@ -39,5 +42,51 @@ let tagSchema = new Schema({
 })*/
 let tag = mongoose.model('tag', tagSchema)
 
+tag.viewAll = async (limit, page) => {
+    let cbk = await tag
+        .find()
+        .skip(limit*(page - 1))
+        .limit(limit)
+        .populate({path: 'article'})
+        .sort({'create_at': -1})
+        .lean()
+
+    if (cbk) {
+        cbk = cbk.map(e => {
+            for (let i in e.article) {
+                e.article[i].content = md.render(e.article[i].md)
+            }
+            return e
+        })
+    }
+
+    return cbk
+}
+
+tag.viewOneId = async (id) => {
+    let cbk = await tag
+        .findById(id)
+        .populate({path: 'article'})
+        .lean()
+    if (cbk) {
+        for (let i in cbk.article) {
+            cbk[i].content = md.render(cbk.article[i].md)
+        }
+    }
+    return cbk
+}
+
+tag.viewOneSlug = async (slug) => {
+    let cbk = await tag
+        .findOne({slug: slug})
+        .populate({path: 'article'})
+        .lean()
+    if (cbk) {
+        for (let i in cbk.article) {
+            cbk[i].content = md.render(cbk.article[i].md)
+        }
+    }
+    return cbk
+}
 
 export default tag

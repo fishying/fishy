@@ -51,7 +51,7 @@ let articleSchema = new Schema ({
         default: null
     }
 },{
-    toJSON: {virtuals: true}
+    toJson: {virtuals: true}
 })
 
 
@@ -61,6 +61,14 @@ articleSchema.pre('save', async function (next) {
         this.slug = await pinyin(this.title)
     }
     next()
+})
+
+articleSchema.virtual('test').get(function() {
+    console.log(this)
+    return 1
+})
+articleSchema.virtual('test').set(function() {
+    console.log(1)
 })
 
 let article = mongoose.model('article', articleSchema)

@@ -3,24 +3,15 @@ import Tag from '../models/tag'
 import md from '../server/md.js'
 
 export default {
-    allView: async (limit, page) => {
+    all: async (limit, page) => {
         limit = limit ? limit : 10
         page = page ? page : 1
 
         let count = await Tag.count()
-        let cbk = await Tag
-            .find()
-            .skip(limit*(page - 1))
-            .limit(limit)
-            .populate({path: 'article'})
-            .sort({'create_at': -1})
-            .lean()
+        let cbk = await Tag.viewAll(limit, page)
         
-        for (let i in cbk.article) {
-            cbk.article[i].content = md.render(cbk.article[i].md)
-        }
         return {
-            tag: cbk,
+            tag: cbk ? cbk : null,
             meta: {
                 pagination: {
                     page: page,
@@ -33,36 +24,19 @@ export default {
             }
         }
     },
-    oneViewId: async (id) => {
-        let cbk = await Tag
-            .findById(id)
-            .populate({path: 'article'})
-            .lean()
-        for (let i in cbk.article) {
-            cbk[i].content = md.render(cbk.article[i].md)
-        }
+    oneId: async (id) => {
+        let cbk = await Tag.viewOneId(id)
         return {
-            tag:cbk,
+            tag: cbk ? cbk : null,
             meta: {
                 article: cbk.article.length
             }
         }
     },
-    oneViewSlug: async (slug) => {
-        let cbk = await Tag
-            .findOne({slug: slug})
-            .populate({path: 'article'})
-            .lean()
-        if (!cbk) {
-            return {
-                tag: null
-            }
-        }
-        for (let i in cbk.article) {
-            cbk.article[i].content = md.render(cbk.article[i].md)
-        }
+    oneSlug: async (slug) => {
+        let cbk = await Tag.viewOneSlug(slug)
         return {
-            tag:cbk,
+            tag: cbk ? cbk : null,
             meta: {
                 article: cbk.article.length
             }
@@ -70,6 +44,11 @@ export default {
     },
     create: async (data) => {
         let cbk = await Tag.create(data)
+        if (!data.article || data.article.length > 0) {
+            for (let a of data.article){
+                await Article.update({_id: a}, {$addToSet:{tag: cbk._id}})
+            }
+        }
         return {
             message: '添加标签成功',
             data: cbk
@@ -97,7 +76,7 @@ export default {
 
         if (!data.name || data.name == '') throw '必须添加标签名称'
 
-        if (!await Tag.findOne({title: data.name})) throw '标签已存在'
+        if (await Tag.findOne({name: data.name})) throw '标签已存在'
 
         if (data.slug) if (await Tag.findOne({slug: data.slug})) throw '路径已存在'
 
