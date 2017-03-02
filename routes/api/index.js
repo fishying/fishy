@@ -3,13 +3,10 @@ import {log} from '../../controllers'
 import article from './article'
 import tag from './tag'
 
-//passport
-import passport from '../../server/passport'
-
 const router = express.Router()
 
-router.post('/login', passport.authenticate('local'), log.login)
-router.post('/register', log.register)
+router.post('/login', log.login_verify, log.login)
+router.post('/register', log.register_verify, log.register)
 router.get('/logout', log.logout)
 
 router.use('/article', article)

@@ -5,12 +5,10 @@ let ObjectId = Schema.Types.ObjectId
 
 let settingSchema = {
     title: {
-        type: String,
-        default: 'test'
+        type: String
     },
     profile: {
-        type: String,
-        default: 'test'
+        type: String
     },
     logo: {
         type: String,

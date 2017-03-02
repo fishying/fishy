@@ -63,14 +63,6 @@ articleSchema.pre('save', async function (next) {
     next()
 })
 
-articleSchema.virtual('test').get(function() {
-    console.log(this)
-    return 1
-})
-articleSchema.virtual('test').set(function() {
-    console.log(1)
-})
-
 let article = mongoose.model('article', articleSchema)
 
 article.viewAll = async (limit, page) => {

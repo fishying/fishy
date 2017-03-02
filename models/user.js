@@ -44,7 +44,8 @@ let userSchema = new Schema({
 })
 
 userSchema.plugin(passportLocalMongoose, {
-    usernameField: 'name'
+    usernameField: 'name',
+    limitAttempts: true
 })
 
 userSchema.pre('save', async function (next) {
