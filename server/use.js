@@ -3,6 +3,8 @@ import '../models'
 import hbs from 'express-hbs'
 import fp from 'path'
 import morgan from 'morgan'
+import restc from 'restc'
+
 import session from 'express-session'
 import config from '../config.json'
 import helpers from '../helpers'
@@ -18,6 +20,7 @@ function relative(path) {
 export default (app) => {
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(restc.express())
     app.use(session({
         secret: 'wanan',
         resave: false,

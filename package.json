@@ -19,6 +19,7 @@
     "moment": "^2.17.1",
     "mongoose": "^4.7.2",
     "pinyin": "^2.8.0",
+    "restc": "^0.0.4",
     "sinon": "^1.17.6",
     "superkoa": "^1.0.2",
     "validator": "^6.3.0",

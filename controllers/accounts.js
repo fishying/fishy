@@ -20,14 +20,14 @@ export default {
     login: async (req, res) => {
         passport.authenticate('local', function(err, user, info) {
             if (err) {
-                return respond(res, [401, {message: '登录失败', info: err}])
+                return respond(res, [400, {message: '登录失败', info: err}])
             }
             if (!user) {
-                return respond(res, [401, {message: '密码错误'}])
+                return respond(res, [400, {message: '密码错误'}])
             }
             req.logIn(user, function(err) {
                 if (err) {
-                    return respond(res, [401, {message: '登录失败', info: err}])
+                    return respond(res, [400, {message: '登录失败', info: err}])
                 }
                 return res.json({
                     message: '登录成功'

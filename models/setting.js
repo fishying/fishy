@@ -5,10 +5,16 @@ let ObjectId = Schema.Types.ObjectId
 
 let settingSchema = {
     title: {
-        type: String
+        type: String,
+        default: 'Fishy'
+    },
+    url: {
+        type: String,
+        default: null
     },
     profile: {
-        type: String
+        type: String,
+        default: 'hello world'
     },
     logo: {
         type: String,
@@ -19,6 +25,7 @@ let settingSchema = {
         default: null
     }
 }
+
 let setting = mongoose.model('setting', settingSchema)
 
 export default setting
