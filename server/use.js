@@ -20,7 +20,7 @@ function relative(path) {
 export default (app) => {
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: false }))
-    app.use(restc.express())
+    // app.use(restc.express())
     app.use(session({
         secret: 'wanan',
         resave: false,
@@ -30,6 +30,9 @@ export default (app) => {
         }), 
         cookie: {maxAge:180*60*1000} //store保存时间
     }))
+    app.locals.blog = {
+        title: 'teste'
+    }
     helpers(hbs)
     app.engine('hbs', hbs.express4({
         partialsDir: relative(`../view/theme/${config.theme}/partials`),

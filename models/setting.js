@@ -20,10 +20,18 @@ let settingSchema = {
         type: String,
         default: null
     },
-    image: {
+    cover: {
         type: String,
         default: null
-    }
+    },
+    navigation: [{
+        url: {
+            type: String
+        },
+        name: {
+            type: String
+        }
+    }]
 }
 
 let setting = mongoose.model('setting', settingSchema)
