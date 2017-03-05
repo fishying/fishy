@@ -1,9 +1,9 @@
 import bodyParser from 'body-parser'
 import '../models'
-import hbs from 'express-hbs'
+import exphbs from 'express-handlebars'
 import fp from 'path'
 import morgan from 'morgan'
-import restc from 'restc'
+// import restc from 'restc'
 
 import session from 'express-session'
 import config from '../config.json'
@@ -33,15 +33,19 @@ export default (app) => {
     app.locals.blog = {
         title: 'teste'
     }
-    helpers(hbs)
-    app.engine('hbs', hbs.express4({
-        partialsDir: relative(`../view/theme/${config.theme}/partials`),
-        layoutsDir: relative(`../view/theme/${config.theme}`),
-        defaultLayout: relative(`../view/theme/${config.theme}/default.hbs`)
-    }))
-    
-    app.set('view engine', 'hbs')
-    app.set('views', relative('../view'))
+
+    let hbs = exphbs.create({
+        defaultLayout: 'default',
+        helpers: helpers,
+        extname: '.hbs',
+        layoutsDir: relative(`../views/theme/${config.theme}`),
+        partialsDir: [
+            relative(`../views/theme/${config.theme}/partials`)
+        ]
+    })
+    app.engine('.hbs', hbs.engine)
+    app.set('views', relative('../views'))
+    app.set('view engine', '.hbs')
 
     // 默认hbs
     app.use(morgan('dev'))
