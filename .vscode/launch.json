@@ -20,12 +20,6 @@
         },
         {
             "type": "node",
-            "request": "launch",
-            "name": "启动程序",
-            "program": "${workspaceRoot}/npm run start"
-        },
-        {
-            "type": "node",
             "request": "attach",
             "name": "附加到进程",
             "address": "localhost",
