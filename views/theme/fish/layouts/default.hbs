@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
-    
+    {{> stylesheets}}
+    {{{block "pageStyles"}}}
 </head>
-<body>
+<body class="{{bodyClass}}">
     {{{body}}}
 </body>
 </html>

@@ -6,6 +6,7 @@ const setAccounts = async (req, res, next) => {
     let app = req.app
     let url = app.get('accounts_views')
     var hbs = exphbs.create({
+        defaultLayout: 'default',
         helpers: helpers,
         extname: '.hbs',
         layoutsDir: `${url}/layouts`,
@@ -24,6 +25,7 @@ const setFrontEnd = async (req, res, next) => {
 
     let url = app.get('frontend_views')
     var hbs = exphbs.create({
+        defaultLayout: 'default',
         helpers: helpers,
         extname: '.hbs',
         layoutsDir: `${url}/layouts`,
@@ -31,7 +33,6 @@ const setFrontEnd = async (req, res, next) => {
             `${url}/partials/`
         ]
     })
-    app.enable('view cache')
 
     app.engine('.hbs', hbs.engine)
 

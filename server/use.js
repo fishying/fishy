@@ -28,6 +28,7 @@ export default (app) => {
         }), 
         cookie: {maxAge:180*60*1000} //store保存时间
     }))
+
     app.set('accounts_views', relative('../views/accounts'))
     app.set('frontend_views', relative(`../views/theme/${config.theme}`))
     app.set('view engine', '.hbs')

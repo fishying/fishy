@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-export default function (type, options) {
+export default function (type) {
     let text = type.data.root.article[type.data.key].create_at
         ? type.data.root.article[type.data.key].create_at
         : type.hash.time

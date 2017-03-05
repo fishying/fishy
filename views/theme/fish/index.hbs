@@ -1,8 +1,22 @@
 {{!< default}}
-<header>
-    
+
+{{#contentFor "pageStyles"}}
+<link rel="stylesheet" href="/assets/index.css">
+{{/contentFor}}
+
+<header class="main-header {{#if blog.cover}}" style="background-image: url({{blog.cover}}){{else}}no-cover{{/if}}">
+    <nav class="main-nav overlay clearfix">
+        {{#if blog.logo}}
+            <a class="blog-logo" href="{{blog.url}}"><img src="{{blog.logo}}" alt="{{blog.title}}" /></a>
+        {{/if}}
+    </nav>
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">{{blog.title}}</h1>
+        </div>
+    </div>
+    <a class="scroll-down icon-arrow-left" href="#content" data-offset="-45"><span class="hidden">Scroll Down</span></a>
 </header>
 <main>
     {{> look}}
-    {{blog.title}}
 </main>
