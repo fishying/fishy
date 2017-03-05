@@ -1,6 +1,6 @@
 import express from 'express'
 import config from '../../config.json'
-import tag from '../../middleware/tag'
+import { tag } from '../../api'
 const router = express.Router()
 
 router

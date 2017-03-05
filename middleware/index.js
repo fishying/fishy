@@ -1,1 +1,1 @@
-export {article} from './article'
+export { default as request } from './request'

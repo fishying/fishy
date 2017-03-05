@@ -1,4 +1,4 @@
-import article from '../middleware/article'
+import { article } from '../api'
 import respond from '../util/respond'
 
 export default {

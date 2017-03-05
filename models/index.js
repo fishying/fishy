@@ -21,8 +21,7 @@ db.once('open', async () => {
     }
 })
 
-
-export default {
+export {
     tag,
     article,
     user,

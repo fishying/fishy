@@ -1,5 +1,5 @@
 import express from 'express'
-import {log} from '../../controllers'
+import { log } from '../../controllers'
 import article from './article'
 import tag from './tag'
 

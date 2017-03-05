@@ -1,5 +1,5 @@
-import Article from '../models/article'
-import Tag from '../models/tag'
+import { article as Article } from '../models'
+import { tag as Tag } from '../models'
 import md from '../server/md.js'
 
 import pinyin from '../util/pinyin'

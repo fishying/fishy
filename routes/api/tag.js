@@ -1,5 +1,5 @@
 import express from 'express'
-import {tag} from '../../controllers'
+import { tag } from '../../controllers'
 
 import passport from '../../server/passport'
 const router = express.Router()

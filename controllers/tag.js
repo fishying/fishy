@@ -1,4 +1,4 @@
-import tag from '../middleware/tag'
+import { tag } from '../api'
 import respond from '../util/respond'
 
 

@@ -1,5 +1,5 @@
 import express from 'express'
-import {article} from '../../controllers'
+import { article } from '../../controllers'
 
 import passport from '../../server/passport'
 const router = express.Router()

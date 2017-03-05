@@ -1,4 +1,3 @@
-
 function err (res, status) {
     if (status instanceof Array) {
         res.status(status[0]).json(status[1])
