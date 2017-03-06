@@ -3,13 +3,13 @@ import { tag as Tag } from '../models'
 import md from '../server/md.js'
 
 export default {
-    all: async (limit, page) => {
+    all: async (limit = 10, page = 1) => {
         limit = limit ? limit : 10
         page = page ? page : 1
 
         let count = await Tag.count()
         let cbk = await Tag.viewAll(limit, page)
-        
+        let articleTotal = await Tag.viewArticleCount(cbk._id)
         return {
             tag: cbk ? cbk : null,
             meta: {
@@ -18,33 +18,42 @@ export default {
                     limit: limit,
                     total: Math.ceil(count / limit)
                 },
-                tag: {
-                    total: count
+                article: {
+                    total: articleTotal
                 }
             }
         }
     },
-    oneId: async (id) => {
-        let cbk = await Tag.viewOneId(id)
-        return {
-            tag: cbk ? cbk : null,
-            meta: {
-                article: cbk.article.length
-            }
-        }
-    },
-    oneSlug: async (slug, limit = 10, page = 1) => {
-        let cbk = await Tag.viewOneSlug(slug, limit, page)
+    oneId: async (id, limit = 10, page = 1) => {
+        let cbk = await Tag.viewOneId(id, limit, page)
+        let articleTotal = await Tag.viewArticleCount(cbk._id)
         return {
             tag: cbk ? cbk : null,
             meta: {
                 pagination: {
                     page: page,
                     limit: limit,
-                    total: 2
+                    total: Math.ceil(articleTotal / limit)
                 },
                 article: {
-                    total: cbk.article.length
+                    total: articleTotal
+                }
+            }
+        }
+    },
+    oneSlug: async (slug, limit = 10, page = 1) => {
+        let cbk = await Tag.viewOneSlug(slug, limit, page)
+        let articleTotal = await Tag.viewArticleCount(cbk._id)
+        return {
+            tag: cbk ? cbk : null,
+            meta: {
+                pagination: {
+                    page: page,
+                    limit: limit,
+                    total: Math.ceil(articleTotal / limit)
+                },
+                article: {
+                    total: articleTotal
                 }
             }
         }

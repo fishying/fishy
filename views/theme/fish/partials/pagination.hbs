@@ -1,0 +1,11 @@
+{{#pagination 'article'}}
+    <nav class="pagination" role="navigation">
+        <span class="page-number">Page {{total}} of {{page}}</span>
+        {{#if next}}
+            <a class="older-posts" href="/page/{{nextPage}}">next <span aria-hidden="true">→</span></a>
+        {{/if}}
+        {{#if prev}}
+            <a class="newer-posts" href="/page/{{prevPage}}"><span aria-hidden="true">←</span> prev</a>
+        {{/if}}
+    </nav>
+{{/pagination}}

@@ -2,7 +2,7 @@ import moment from 'moment'
 
 export default function (type) {
     let text
-    if (type.data.key) {
+    if (type.data.key >= 0) {
         text = type.data.root.article[type.data.key].create_at
     } else {
         text = type.data.root.article.create_at

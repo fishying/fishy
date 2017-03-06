@@ -65,10 +65,20 @@ tag.viewAll = async (limit, page) => {
     return cbk
 }
 
-tag.viewOneId = async (id) => {
+tag.viewOneId = async (id, limit, page) => {
     let cbk = await tag
         .findById(id)
-        .populate({path: 'article'})
+        .deepPopulate('article article.author article.tag', {
+            populate: {
+                article: {
+                    options: {
+                        limit: limit,
+                        skip: limit*(page - 1),
+                        sort: {'create_at': 1}
+                    }
+                }
+            }
+        })
         .lean()
     if (cbk) {
         for (let i in cbk.article) {
@@ -102,7 +112,8 @@ tag.viewOneSlug = async (slug, limit, page) => {
 }
 
 tag.viewArticleCount = async (id) => {
-    
+    let cbk = await tag.findById(id)
+    return cbk.article.length
 }
 
 export default tag
