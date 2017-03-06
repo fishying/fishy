@@ -33,12 +33,19 @@ export default {
             }
         }
     },
-    oneSlug: async (slug) => {
-        let cbk = await Tag.viewOneSlug(slug)
+    oneSlug: async (slug, limit = 10, page = 1) => {
+        let cbk = await Tag.viewOneSlug(slug, limit, page)
         return {
             tag: cbk ? cbk : null,
             meta: {
-                article: cbk.article.length
+                pagination: {
+                    page: page,
+                    limit: limit,
+                    total: 2
+                },
+                article: {
+                    total: cbk.article.length
+                }
             }
         }
     },

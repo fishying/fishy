@@ -2,7 +2,8 @@ import mongoose from 'mongoose'
 import plugins from '../util/plugin'
 
 import md from '../server/md.js'
-
+import deep from 'mongoose-deep-populate'
+let deepPopulate = deep(mongoose)
 plugins(mongoose)
 
 let Schema = mongoose.Schema
@@ -27,11 +28,13 @@ let tagSchema = new Schema({
         type: ObjectId,
         ref: 'article'
     }],
-    image: {
+    cover: {
         type: String,
         default: null
     }
 })
+
+tagSchema.plugin(deepPopulate)
 
 // update后假如没有article在此tag，将删除此tag
 /* tagSchema.post('update', async function () {
@@ -50,7 +53,6 @@ tag.viewAll = async (limit, page) => {
         .populate({path: 'article'})
         .sort({'create_at': -1})
         .lean()
-
     if (cbk) {
         cbk = cbk.map(e => {
             for (let i in e.article) {
@@ -76,17 +78,31 @@ tag.viewOneId = async (id) => {
     return cbk
 }
 
-tag.viewOneSlug = async (slug) => {
+tag.viewOneSlug = async (slug, limit, page) => {
     let cbk = await tag
         .findOne({slug: slug})
-        .populate({path: 'article'})
+        .deepPopulate('article article.author article.tag', {
+            populate: {
+                article: {
+                    options: {
+                        limit: limit,
+                        skip: limit*(page - 1),
+                        sort: {'create_at': 1}
+                    }
+                }
+            }
+        })
         .lean()
     if (cbk) {
-        for (let i in cbk.article) {
-            cbk[i].content = md.render(cbk.article[i].md)
+        for (let i of cbk.article) {
+            i.content = md.render(i.md)
         }
     }
     return cbk
+}
+
+tag.viewArticleCount = async (id) => {
+    
 }
 
 export default tag

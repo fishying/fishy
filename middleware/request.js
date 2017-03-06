@@ -17,7 +17,7 @@ const setAccounts = async (req, res, next) => {
     app.engine('.hbs', hbs.engine)
     app.set('views', url)
 
-    app.use('/accounts/assets', express.static(`${url}/assets`))
+    app.use('/accounts/assets', express.static(`${url}/assets`, {maxAge: 1000*60*60}))
     next()
 }
 const setFrontEnd = async (req, res, next) => {
@@ -37,7 +37,7 @@ const setFrontEnd = async (req, res, next) => {
     app.engine('.hbs', hbs.engine)
 
     app.set('views', url)
-    app.use('/assets', express.static(`${url}/assets`))
+    app.use('/assets', express.static(`${url}/assets`, {maxAge: 1000*60*60}))
     next()
 }
 

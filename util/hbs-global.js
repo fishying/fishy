@@ -9,7 +9,8 @@ let globalVar = async (req, res) => {
     res.locals.blog = {
         title: info[0].title,
         profile: info[0].profile,
-        cover: info[0].cover
+        cover: info[0].cover,
+        logo: info[0].logo
     }
 }
 

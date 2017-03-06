@@ -21,7 +21,10 @@ let userSchema = new Schema({
         type: String,
         default: '这个人很懒，啥也没留下。。。'
     },
-    image: {
+    avatar: {
+        type: String
+    },
+    cover: {
         type: String,
         default: null
     },

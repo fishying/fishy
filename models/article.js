@@ -46,9 +46,13 @@ let articleSchema = new Schema ({
         type:Boolean,
         default: false
     },
-    image: {
+    cover: {
         type: String,
         default: null
+    },
+    class: {
+        type: String,
+        default: 'article'
     }
 },{
     toJson: {virtuals: true}

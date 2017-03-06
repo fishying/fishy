@@ -1,9 +1,13 @@
 import moment from 'moment'
 
 export default function (type) {
-    let text = type.data.root.article[type.data.key].create_at
-        ? type.data.root.article[type.data.key].create_at
-        : type.hash.time
+    let text
+    if (type.data.key) {
+        text = type.data.root.article[type.data.key].create_at
+    } else {
+        text = type.data.root.article.create_at
+    }
+
     let format = type.hash.format || 'YYYY-MM-DD'
     let g = type.hash.global || 'zh-cn'
     moment.locale(g)

@@ -1,19 +1,19 @@
 import express from 'express'
-import config from '../../config.json'
 import { tag } from '../../api'
 const router = express.Router()
 
 router
     .get('/tag/:slug', async (req, res) => {
-        await tag.oneViewSlug(req.params.slug)
-            .then(e => {
-                res.render(`theme/${config.theme}/tag`, {
-                    title: e.name,
-                    info: e.tag,
-                    article: e.tag.article,
-                    meta: e.meta
-                })
-            })
+        console.log(1)
+        let data = await tag.oneSlug(req.params.slug)
+        console.log(data)
+        res.render('tag', {
+            title: data.name,
+            info: data.tag,
+            article: data.tag.article,
+            meta: data.meta,
+            bodyClass: 'tag-template'
+        }).end()
     })
 
 export default router
