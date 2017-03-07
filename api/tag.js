@@ -9,7 +9,7 @@ export default {
 
         let count = await Tag.count()
         let cbk = await Tag.viewAll(limit, page)
-        let articleTotal = await Tag.viewArticleCount(cbk._id)
+        let total = await Tag.count()
         return {
             tag: cbk ? cbk : null,
             meta: {
@@ -18,8 +18,8 @@ export default {
                     limit: limit,
                     total: Math.ceil(count / limit)
                 },
-                article: {
-                    total: articleTotal
+                tag: {
+                    total: total
                 }
             }
         }

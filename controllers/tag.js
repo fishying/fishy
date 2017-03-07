@@ -16,6 +16,7 @@ export default {
                 respond(res, ctx, true)
             })
             .catch(msg => {
+                console.log(msg)
                 respond(res, msg)
             })
     },
