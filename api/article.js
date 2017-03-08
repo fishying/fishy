@@ -240,7 +240,8 @@ export default {
      */
     create_verify: async (body) => {
         let data = body.data
-        if (!data) throw '参数出错'
+
+        if (!data) throw '缺少必要参数参数data'
 
         if (!data.title || data.title == '') throw '必须添加文章标题'
 
@@ -248,8 +249,8 @@ export default {
 
         /* 判断是否存在相同title和slug */
         if (await Article.findOne({title: data.title})) throw '标题已存在'
-
-        if (data.slug) if (!await Article.findOne({slug: data.slug})) throw '路径已存在'
+        
+        if (data.slug || data.slug === '' || data.slug === null) if (await Article.findOne({slug: data.slug})) throw '路径已存在'
 
         return true
     },
