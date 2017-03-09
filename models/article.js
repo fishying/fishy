@@ -69,9 +69,10 @@ articleSchema.pre('save', async function (next) {
 
 let article = mongoose.model('article', articleSchema)
 
-article.viewAll = async (limit, page) => {
+article.viewAll = async (limit, page, enabled) => {
     let cbk = await article
         .find()
+        .where(enabled ? {enabled: enabled} : {})
         .lean()
         .skip(limit*(page - 1))
         .limit(limit)
@@ -84,9 +85,10 @@ article.viewAll = async (limit, page) => {
     })
 }
 
-article.viewOneId = async (id) => {
+article.viewOneId = async (id, enabled) => {
     let articleCbk = await article
         .findById(id)
+        .where(enabled ? {enabled: enabled} : {})
         .populate({path: 'tag',select: 'name slug'})
         .populate({path: 'author',select: 'name slug'})
         .lean()
@@ -96,9 +98,10 @@ article.viewOneId = async (id) => {
     return articleCbk
 }
 
-article.viewOneSlug = async (slug) => {
+article.viewOneSlug = async (slug, enabled) => {
     let articleCbk = await article
         .findOne({slug: slug})
+        .where(enabled ? {enabled: enabled} : {})
         .populate({path: 'tag',select: 'name slug'})
         .populate({path: 'author',select: 'name slug'})
         .lean()

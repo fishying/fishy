@@ -2,8 +2,12 @@ import { article } from '../api'
 import respond from '../util/respond'
 
 export default {
-    all: async (req, res) => {
-        article.all(parseInt(req.query.limit) || null, parseInt(req.query.page) || null)
+    all: async (req, res, admin) => {
+        let enabled
+        if (admin === true) {
+            enabled = false
+        }
+        article.all(parseInt(req.query.limit) || null, parseInt(req.query.page) || null, enabled)
             .then(ctx => {
                 respond(res, ctx, true)
             })
@@ -11,9 +15,13 @@ export default {
                 respond(res, msg)
             })
     },
-    one: async (req, res) => {
+    one: async (req, res, admin) => {
+        let enabled
+        if (admin === true) {
+            enabled = false
+        }
         if (req.params.id) {
-            article.oneId(req.params.id)
+            article.oneId(req.params.id, enabled)
                 .then(ctx => {
                     respond(res, ctx, true)
                 })
@@ -21,7 +29,7 @@ export default {
                     respond(res, msg)
                 })
         } else {
-            article.oneSlug(req.params.slug)
+            article.oneSlug(req.params.slug, enabled)
                 .then(ctx => {
                     respond(res, ctx, true)
                 })

@@ -81,8 +81,8 @@ tag.viewOneId = async (id, limit, page) => {
         })
         .lean()
     if (cbk) {
-        for (let i in cbk.article) {
-            cbk[i].content = md.render(cbk.article[i].md)
+        for (let i of cbk.article) {
+            i.content = md.render(i.md)
         }
     }
     return cbk

@@ -12,12 +12,12 @@ export default {
      * @param {String} page 
      * @returns Object
      */
-    all: async (limit, page) => {
+    all: async (limit, page, enabled = true) => {
         limit = limit ? limit : 10
         page = page ? page : 1
         try {
-            let count = await Article.count()
-            let articleCbk = await Article.viewAll(limit, page)
+            let count = await Article.count({enabled: enabled})
+            let articleCbk = await Article.viewAll(limit, page, enabled)
             return {
                 article: articleCbk.length ? articleCbk : null,
                 meta: {
@@ -38,9 +38,9 @@ export default {
             }
         }
     },
-    oneId: async (id) => {
+    oneId: async (id, enabled = true) => {
         try {
-            let cbk = await Article.viewOneId(id)
+            let cbk = await Article.viewOneId(id, enabled)
 
             if (!cbk) {
                 return {
@@ -66,9 +66,9 @@ export default {
             }
         }
     },
-    oneSlug: async (slug) => {
+    oneSlug: async (slug, enabled = true) => {
         try {
-            let cbk = await Article.viewOneSlug(slug)
+            let cbk = await Article.viewOneSlug(slug, enabled)
 
             if (!cbk) {
                 return {
