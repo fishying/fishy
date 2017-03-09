@@ -16,6 +16,7 @@
     "babel-preset-stage-3": "^6.17.0",
     "express-favicon": "^2.0.0",
     "express-handlebars": "^3.0.0",
+    "express-rate-limit": "^2.6.0",
     "jsonwebtoken": "^7.2.1",
     "md5": "^2.2.1",
     "moment": "^2.17.1",

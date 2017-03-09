@@ -2,7 +2,16 @@ import bodyParser from 'body-parser'
 import '../models'
 import fp from 'path'
 import morgan from 'morgan'
+
+import RateLimit from 'express-rate-limit'
 // import restc from 'restc'
+
+const limiter = new RateLimit({
+    windowMs: 15*60*1000, // 15 minutes 
+    max: 100, // limit each IP to 100 requests per windowMs 
+    delayMs: 0, // disable delaying - full speed until the max limit is reached 
+    message: '可恶，你为什么调戏我的服务器！'
+})
 
 import session from 'express-session'
 import config from '../config.json'
@@ -16,6 +25,7 @@ function relative(path) {
 }
 
 export default (app) => {
+    app.use(limiter)
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: false }))
     // app.use(restc.express())
