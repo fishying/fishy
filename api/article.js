@@ -24,7 +24,7 @@ export default {
                     pagination: {
                         page: page,
                         limit: limit,
-                        total: Math.ceil(count / limit)
+                        total: Math.ceil(count / limit) ? Math.ceil(count / limit) : 1
                     },
                     article: {
                         total: count

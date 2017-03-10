@@ -3,6 +3,7 @@ import { log } from '../../controllers'
 import article from './article'
 import tag from './tag'
 import setting from './setting'
+import user from './user'
 
 import admin from './admin'
 
@@ -17,5 +18,6 @@ router.use('/admin', admin)
 router.use('/setting', setting)
 router.use('/article', article)
 router.use('/tag', tag)
+router.use('/user', user)
 
 export default router

@@ -11,7 +11,7 @@ export default {
         let cbk = await Tag.viewAll(limit, page)
         let total = await Tag.count()
         return {
-            tag: cbk ? cbk : null,
+            tag: cbk.length ? cbk : null,
             meta: {
                 pagination: {
                     page: page,

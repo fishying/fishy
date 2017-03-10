@@ -5,7 +5,7 @@ plugins(mongoose)
 let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId
 
-let commentSchema = Schema({
+let commentSchema = new Schema({
     /* 谁评论 */
     from: {
         admin: {
