@@ -2,8 +2,6 @@
 
 ## 技术栈
 
-现阶段：一脸懵逼研究React中。。。
-
 - 后端
     - `mongoose`
     - `express`
