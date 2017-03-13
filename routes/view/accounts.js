@@ -6,12 +6,20 @@ router
     .get('/login', async (req, res) => {
         res.render('login', {
             title: 'login'
-        }).end()
+        })
     })
     .get('/logon', async (req, res) => {
         res.render('logon', {
             title: 'login'
-        }).end()
+        })
+    })
+    .get('/install', async (req, res) => {
+        res.render('install', {
+            title: 'install'
+        })
+    })
+    .post('/install', async (req, res) => {
+        console.log()
     })
 
 export default router

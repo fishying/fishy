@@ -1,0 +1,138 @@
+{{!< default}}
+
+
+{{#contentFor "pageStyles"}}
+<style>
+.log.install {
+    width: 530px;
+}
+.message {
+    position: fixed;
+    top: 10px;
+    width: 100%;
+    text-align: center;
+}
+.message.err .message-content {
+    background: #ff6767;
+    box-shadow: 0px 0px 20px 0px #ff9393;
+    border: 1px solid #ffa3a3;
+    color: #fff;
+}
+.message .message-content {
+    display:inline-block;
+    line-height:32px;
+    background: #fff;
+    min-width: 100px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px #ccc;
+    border: 1px solid #e3e3e3;
+}
+</style>
+{{/contentFor}}
+<div class="log install">
+    <h2 class="title">安装</h2>
+    <h3 class="title">博客基本内容</h3>
+    <label>
+        <p class="n">博客标题:</p>
+        <input type="text" class="blog" name="title" id="title" placeholder="博客标题"/>
+    </label>
+    <label>
+        <p class="n">博客地址:</p>
+        <input type="text" class="blog" name="url" id="url" placeholder="博客地址"/>
+    </label>
+    <label>
+        <p class="n">博客描述:</p>
+        <input type="text" class="blog" name="description" id="description" placeholder="博客描述"/>
+    </label>
+    <h3 class="title">管理员账号内容</h3>
+    <label>
+        <p class="n">管理员名称:</p>
+        <input type="text" class="admin" name="name" id="name" placeholder="管理员名称"/>
+    </label>
+    <label>
+        <p class="n">管理员邮箱:</p>
+        <input type="text" class="admin" name="email" id="email" placeholder="管理员邮箱"/>
+    </label>
+    <label>
+        <p class="n">管理员密码:</p>
+        <input type="password" class="admin" name="password" id="password" placeholder="管理员密码"/>
+    </label>
+    <button type="submit" id="button">安装</button>
+</div>
+{{#contentFor "pageScripts"}}
+<script>
+function messageOpen (text, type) {
+    var html = $(
+          '<div class="message open '+ type +'">'
+        + '    <div class="message-content">' + text + '</div>'
+        + '</div>')
+    $('body').append(html)
+    html.fadeIn("slow")
+    setTimeout(function () {
+        html.fadeOut("slow",function(){
+            html.remove()
+        })
+    }, 500)
+}
+(function () {
+    var exUrl = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?$/
+    var exEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+    let obj = {}
+    function isOk (dom) {
+        if (dom.attr('id') === 'blog_url') {
+            if (exUrl.test(dom.val())) {
+                dom.removeClass('err')
+                obj[dom.attr('id')] = true
+            } else {
+                dom.addClass('err')
+            }
+        } else if (dom.attr('id') === 'admin_email') {
+            if (exEmail.test(dom.val())) {
+                dom.removeClass('err')
+                obj[dom.attr('id')] = true
+            } else {
+                dom.addClass('err')
+            }
+        } else {
+            if (dom.val() == '' || dom.val() == undefined || /\s/g.test(dom.val())) {
+                dom.addClass('err')
+            } else {
+                dom.removeClass('err')
+                obj[dom.attr('id')] = true
+            }
+        }
+    }
+    $('input').blur(function (e) {
+        isOk($(e.target))
+    })
+    $('button').click(function (e) {
+        var inp = $('input')
+        for (var i = 0; i< inp.length; i++) {
+            isOk($(inp[i]))
+        }
+        if (inp.length === Object.keys(obj).length) {
+            var blogObj = {}
+            var adminObj = {}
+            for (var i = 0; i < inp.length; i++) {
+                if ($(inp[i]).attr('class') === 'blog') {
+                    blogObj[$(inp[i]).attr('id')] = $(inp[i]).val()
+                } else {
+                    adminObj[$(inp[i]).attr('id')] = $(inp[i]).val()
+                }
+            }
+            $.post('/install',
+                {
+                    blog: blogObj,
+                    admin: adminObj
+                },
+                function (data) {
+                    console.log(i)
+                }
+            )
+        } else {
+            messageOpen('输入有误！', 'err')
+        }
+    })
+})()
+</script>
+{{/contentFor}}

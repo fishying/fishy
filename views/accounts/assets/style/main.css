@@ -16,6 +16,29 @@ h2.title {
     font-weight: 400;
     color: #1d89ff;
 }
+
+.log h3.title {
+    font-size: 16px;
+    margin: 12px 0;
+    text-align: center;
+    font-weight: 400;
+    color: #51a4ff;
+}
+.log label {
+    margin-bottom: 12px;
+}
+.log label p {
+    margin-bottom: 6px;
+    color: #6d6d6d;
+}
+.log label .n:before {
+    content: "*";
+    position: absolute;
+    color: #ff3a3a;
+    font-size: 16px;
+    margin-left: -12px;
+    margin-top: 6px;
+}
 .log {
     width: 340px;
     margin: 0 auto;
@@ -26,6 +49,7 @@ h2.title {
     box-shadow: 0 1px 4px rgba(0,0,0,.04);
 }
 .log input {
+    transition: .3s all;
     width: 100%;
     display: block;
     border: none;
@@ -38,8 +62,18 @@ h2.title {
     border-radius: 4px;
 }
 .log input:hover {
-    transition: .3s all;
-    border: 1px solid #1d89ff;
+    border: 1px solid #40a5ed;
+}
+.log input:focus {
+    border-color: #40a5ed;
+    box-shadow: 0 0 0 2px rgba(64,165,237,.2);
+}
+.log input.err {
+    border-color: #ff3a3a;
+}
+.log input.err:focus {
+    border-color: #ff3a3a;
+    box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.26);
 }
 .log button {
     width: 100%;
