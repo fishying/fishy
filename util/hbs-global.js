@@ -8,9 +8,10 @@ let globalVar = async (req, res) => {
     let info = await setting.find()
     res.locals.blog = {
         title: info[0].title,
-        profile: info[0].profile,
+        description: info[0].description,
         cover: info[0].cover,
-        logo: info[0].logo
+        logo: info[0].logo,
+        keywords: info[0].keywords
     }
 }
 

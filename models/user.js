@@ -17,7 +17,7 @@ let userSchema = new Schema({
     email: {
         type: String
     },
-    profile: {      // 简介
+    description: {      // 简介
         type: String,
         default: '这个人很懒，啥也没留下。。。'
     },

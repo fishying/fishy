@@ -6,7 +6,7 @@ router
     .get('/', async (req, res) => {
         let data = await article.all()
         res.render('index', {
-            title: 'index',
+            title: `${res.locals.blog.title} - ${res.locals.blog.description}`,
             article: data.article,
             meta: data.meta,
             bodyClass: 'home-template'
@@ -22,13 +22,12 @@ router
         }
 
         let data = await article.all(null, page)
-        console.log(data)
         if (!data.article) {
             return res.redirect('/404')
         }
 
         res.render('index', {
-            title: 'index',
+            title: `${res.locals.blog.title} - ${res.locals.blog.description}`,
             article: data.article,
             meta: data.meta,
             bodyClass: 'article-template'
@@ -39,7 +38,7 @@ router
         let data = await article.oneSlug(req.params.slug)
         
         res.render('article', {
-            title: 'article',
+            title: `${data.article.title} - ${res.locals.blog.title}`,
             article: data.article,
             meta: data.meta,
             bodyClass: 'article-template'

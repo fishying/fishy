@@ -12,7 +12,7 @@ let settingSchema = {
         type: String,
         default: null
     },
-    profile: {
+    description: {
         type: String,
         default: 'hello world'
     },
@@ -31,7 +31,11 @@ let settingSchema = {
         name: {
             type: String
         }
-    }]
+    }],
+    keywords: {
+        type: String,
+        default: null
+    }
 }
 
 let setting = mongoose.model('setting', settingSchema)

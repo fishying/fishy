@@ -20,7 +20,7 @@ let tagSchema = new Schema({
         type: String,
         default: ''
     },
-    profile: {
+    description: {
         type: String,
         default: ''
     },
@@ -51,7 +51,7 @@ tag.viewAll = async (limit, page) => {
         .skip(limit*(page - 1))
         .limit(limit)
         .populate({path: 'article'})
-        .sort({'create_at': -1})
+        .sort({'_id': -1})
         .lean()
     if (cbk) {
         cbk = cbk.map(e => {
@@ -97,7 +97,7 @@ tag.viewOneSlug = async (slug, limit, page) => {
                     options: {
                         limit: limit,
                         skip: limit*(page - 1),
-                        sort: {'create_at': 1}
+                        sort: {'_id': 1}
                     }
                 }
             }

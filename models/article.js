@@ -78,7 +78,7 @@ article.viewAll = async (limit, page, enabled) => {
         .limit(limit)
         .populate({path: 'tag',select: 'name slug'})
         .populate({path: 'author',select: 'name slug'})
-        .sort({'create_at': -1})
+        .sort({'_id': -1})
     return cbk.map(e => {
         e.content =  md.render(e.md)
         return e
