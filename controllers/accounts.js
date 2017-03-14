@@ -1,5 +1,6 @@
-import User from '../models/user'
 import respond from '../util/respond'
+
+import { setting as Setting, user as User } from '../models'
 
 import passport from '../server/passport'
 
@@ -40,6 +41,61 @@ export default {
         res.json({
             message: '退出成功'
         })
+    },
+    install: async (req, res) => {
+        let blogInfo = req.body.blog
+        let adminInfo = req.body.admin
+        try {
+            await Setting.create(blogInfo)
+            await User.register(new User({name: adminInfo.name, email: adminInfo.email}), adminInfo.password, (err, account) => {
+                if (err) {
+                    respond(res, err)
+                } else {
+                    return res.json({
+                        message: '安装成功'
+                    })
+                }
+            })
+        } catch (err) {
+            respond(res, err)
+        }
+    },
+    install_verify: async (req, res, next) => {
+        let blogInfo = req.body.blog
+        let adminInfo = req.body.admin
+        let cbk = await Setting.find()
+
+        if (cbk.length > 0) return res.status(401).json({message: '已经安装过了'})
+
+        if (!blogInfo || !adminInfo) {
+            return res.status(401).json({message: '参数不正确'})
+        }
+
+        if (!adminInfo.hasOwnProperty('email')) {
+            return res.status(401).json({message: '管理员邮箱没填写'})
+        } else if (!validator.isEmail(adminInfo.email)) {
+            return res.status(401).json({message: '管理员邮箱填写不正确'})
+        }
+
+        if (!adminInfo.hasOwnProperty('name')) {
+            return res.status(401).json({message: '管理员账号没填写'})
+        }
+
+        if (!adminInfo.hasOwnProperty('password')) {
+            return res.status(401).json({message: '管理员密码没填写'})
+        }
+
+        if (!blogInfo.hasOwnProperty('title')) {
+            return res.status(401).json({message: '博客标题没填写'})
+        }
+
+        if (!blogInfo.hasOwnProperty('url')) {
+            return res.status(401).json({message: '博客url没填写'})
+        } else if (!validator.isURL(blogInfo.url)) {
+            return res.status(401).json({message: '博客url填写有误'})
+        }
+
+        next()
     },
     login_verify: async (req, res, next) => {
         if (!validator.isLength(req.body.username, {min:1, max: undefined})) {

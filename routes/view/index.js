@@ -15,9 +15,7 @@ function relative(path) {
 const router = express.Router()
 
 router.use(async function (req, res, next) {
-
     await Global.globalVar(req, res)
-
     next()
 })
 

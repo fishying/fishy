@@ -17,10 +17,6 @@ let db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', async () => {
     console.log('MongoDB Opened!')
-    let isInit = await setting.find()
-    if (!isInit.length) {
-        await setting.create({})
-    }
 })
 
 export {

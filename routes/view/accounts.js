@@ -1,5 +1,5 @@
 import express from 'express'
-
+import { setting } from '../../models'
 const router = express.Router()
 
 router
@@ -14,12 +14,13 @@ router
         })
     })
     .get('/install', async (req, res) => {
-        res.render('install', {
+        let cbk = await setting.find()
+        if (cbk.length > 0) {
+            return res.redirect('/')
+        }
+        return res.render('install', {
             title: 'install'
         })
-    })
-    .post('/install', async (req, res) => {
-        console.log()
     })
 
 export default router

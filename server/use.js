@@ -2,8 +2,12 @@ import bodyParser from 'body-parser'
 import '../models'
 import fp from 'path'
 import morgan from 'morgan'
-
+import logger from './logger'
 import RateLimit from 'express-rate-limit'
+import session from 'express-session'
+import config from '../config.json'
+import passport from './passport'
+const MongoStore = require('connect-mongo')(session)
 // import restc from 'restc'
 
 const limiter = new RateLimit({
@@ -13,14 +17,10 @@ const limiter = new RateLimit({
     message: '可恶，你为什么调戏我的服务器！'
 })
 
-import session from 'express-session'
-import config from '../config.json'
-const MongoStore = require('connect-mongo')(session)
 
 // passport
-import passport from './passport'
 
-function relative(path) {
+function relative (path) {
     return fp.join(__dirname, path)
 }
 
@@ -43,6 +43,13 @@ export default (app) => {
     app.set('frontend_views', relative(`../views/theme/${config.theme}`))
     app.set('view engine', '.hbs')
 
+	app.use(function (err, req, res, next) {
+        logger.error(err)
+        return res.status(500).json({
+            success: false,
+            message: err
+        })
+	})
     // 默认hbs
     app.use(morgan('dev'))
     app.use(passport.initialize())
