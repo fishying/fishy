@@ -4,8 +4,11 @@ import { article } from '../../api'
 const router = express.Router()
 router
     .get('/', async (req, res) => {
-        let data = await article.all()
-        res.render('index', {
+        let data = await article.GetAll()
+
+        if (!res.locals.blog) return res.redirect('/install')
+
+        return res.render('index', {
             title: `${res.locals.blog.title} - ${res.locals.blog.description}`,
             article: data.article,
             meta: data.meta,
@@ -17,11 +20,14 @@ router
     })
     .get('/page/:page', async (req, res) => {
         let page = req.params.page
+        
+        if (!res.locals.blog) return res.redirect('/install')
+
         if (page === null || page === undefined || page === 1) {
             return res.redirect('/')
         }
 
-        let data = await article.all(null, page)
+        let data = await article.GetAll(null, page)
         if (!data.article) {
             return res.redirect('/404')
         }
@@ -35,7 +41,10 @@ router
 
     })
     .get('/:slug', async (req, res) => {
-        let data = await article.oneSlug(req.params.slug)
+        
+        if (!res.locals.blog) return res.redirect('/install')
+
+        let data = await article.GetOneSlug(req.params.slug)
         
         res.render('article', {
             title: `${data.article.title} - ${res.locals.blog.title}`,

@@ -42,14 +42,7 @@ export default (app) => {
     app.set('accounts_views', relative('../views/accounts'))
     app.set('frontend_views', relative(`../views/theme/${config.theme}`))
     app.set('view engine', '.hbs')
-
-	app.use(function (err, req, res, next) {
-        logger.error(err)
-        return res.status(500).json({
-            success: false,
-            message: err
-        })
-	})
+    
     // 默认hbs
     app.use(morgan('dev'))
     app.use(passport.initialize())
