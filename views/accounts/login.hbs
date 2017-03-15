@@ -1,19 +1,70 @@
 {{!< default}}
-<div class="log">
+<div class="log" id="app">
     <h2 class="title">登录</h2>
-    <input type="text" name="username" id="username" placeholder="账号"/>
-    <input type="password" name="password" id="password" autocorrect="off" placeholder="密码"/>
-    <button type="submit" id="button">Login</button>
+    <el-form label-position="top" :model="login" class="demo-ruleForm" ref="blog">
+        <el-form-item
+            :prop="'' + inputs.id"
+            :rules="inputs.rules"
+            v-for="inputs in loginInput"
+        >
+            <el-input :type="inputs.id" v-model="login[inputs.id]" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button @click="onLogin('blog')" type="primary">提交</el-button>
+        </el-form-item>
+    </el-form>
 </div>
 {{#contentFor "pageScripts"}}
 <script>
-$('#button').click(function () {
-    $.post('/api/login',{
-        username: $('#username').val(),
-        password: $('#password').val()
-    }, function (data) {
-        console.log(data)
-    })
+var app = new Vue({
+    delimiters: ['${', '}'],
+    el: '#app',
+    data: {
+        loginInput: [
+            {
+                name: '账号',
+                id: 'name',
+                info: '账号',
+                rules: [
+                    { required: true, message: '账号不能为空'}
+                ]
+            },
+            {
+                name: '密码',
+                id: 'password',
+                info: '密码',
+                rules: [
+                    { required: true, message: '密码不能为空'},
+                    { min: 6, max: 16, message: '长度在 6 到 16 个字符' }
+                ]
+            }
+        ],
+        login: {
+            name: '',
+            password: ''
+        }
+    },
+    methods: {
+        onLogin (formName) {
+            var that = this
+            this.$refs[formName].validate(function (valid) {
+                if (valid) {
+                    axios.post('/api/login', {
+                            username: that.login.name,
+                            password: that.login.password
+                        })
+                        .then(function (response) {
+                            that.$message('登陆成功~')
+                        })
+                        .catch(function (error) {
+                            that.$message.error(error.message)
+                        })
+                } else {
+                    return false;
+                }
+            })
+        }
+    }
 })
 </script>
 {{/contentFor}}

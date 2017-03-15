@@ -4,7 +4,8 @@ const router = express.Router()
 
 router
     .get('/tag/:slug', async (req, res) => {
-        let data = await tag.oneSlug(req.params.slug)
+        let data = await tag.GetOneSlug(req.params.slug)
+        if (!res.locals.blog) return res.redirect('/install')
         res.render('tag', {
             title: `${data.tag.name} - ${res.locals.blog.title}`,
             tag: data.tag,

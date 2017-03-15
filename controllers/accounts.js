@@ -83,6 +83,8 @@ export default {
 
         if (!adminInfo.hasOwnProperty('password')) {
             return res.status(401).json({message: '管理员密码没填写'})
+        } else if (!validator.isLength(req.body.username, {min:6, max: 16})) {
+            return res.status(401).json({message: '6-16'})
         }
 
         if (!blogInfo.hasOwnProperty('title')) {
@@ -106,7 +108,6 @@ export default {
                 return res.status(401).json({message: '用户名不正确'})
             }
         }
-
         if (!validator.isLength(req.body.password, {min:6, max: 16})) {
             return res.status(401).json({message: '请填写正确的密码'})
         }

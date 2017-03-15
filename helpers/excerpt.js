@@ -4,7 +4,7 @@ export default function (type, options) {
         : type.data.root.article[type.data.key].content.replace(/<.*?>/ig, '') 
     
     let tailor = type.hash.tailor ? type.hash.tailor : 50
-    let ellipsis = type.hash.tailor ? type.hash.tailor : '...'
+    let ellipsis = type.hash.ellipsis ? type.hash.ellipsis : '...'
 
     if (text.length <= tailor) {
         return text

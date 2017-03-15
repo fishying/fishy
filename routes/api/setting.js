@@ -5,7 +5,7 @@ import passport from '../../server/passport'
 const router = express.Router()
 
 router.route('/')
-    .get(setting.all)
-    .put(passport.authenticateMiddleware(), setting.update_verify, setting.update)
+    .get(setting.GetAll)
+    .put(passport.authenticateMiddleware(), setting.Verify.Put, setting.Put)
 
 export default router

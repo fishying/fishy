@@ -1,4 +1,5 @@
 function err (res, status) {
+    console.error(status)
     if (status instanceof Array) {
         res.status(status[0]).json(status[1])
     } else if (status instanceof Object) {

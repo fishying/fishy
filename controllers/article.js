@@ -1,5 +1,6 @@
 import { article } from '../api'
-import { Article } from '../models'
+import { article as Article } from '../models'
+
 import respond from '../util/respond'
 
 export let GetAll = async (req, res, admin) => {
@@ -56,9 +57,8 @@ export let Post = async (req, res) => {
 export let Put = async (req, res) => {
     let data = req.body
     data.data.author ? data.data.author : data.data.author = req.user._id
-    
     try {
-        let ctx = await article.Put(data.data)
+        let ctx = await article.Put(data.id, data.data)
         respond(res, ctx, true)
     } catch (msg) {
         respond(res, msg)
@@ -68,7 +68,7 @@ export let Put = async (req, res) => {
 export let Delete = async (req, res) => {
     let id = req.body.id
     try {
-        let ctx = await article.delete(id)
+        let ctx = await article.Delete(id)
         respond(res, ctx, true)
     } catch (msg) {
         respond(res, msg)
@@ -77,37 +77,47 @@ export let Delete = async (req, res) => {
 export let Verify = {
     Post: async (req, res, next) => {
         let data = req.body.data
+        try {
+            if (!data) throw '缺少必要参数参数data'
 
-        if (!data) respond(res, '缺少必要参数参数data')
+            if (!data.title || data.title == '') throw '必须添加文章标题'
 
-        if (!data.title || data.title == '') respond(res, '必须添加文章标题')
+            if (!data.md || data.md == '') throw '必须添加文章内容'
 
-        if (!data.md || data.md == '') respond(res, '必须添加文章内容')
+            if (await Article.findOne({title: data.title})) throw '标题已存在'
+            
+            if (data.slug || data.slug === '' || data.slug === null) 
+                if (await Article.findOne({slug: data.slug}))
+                    throw '路径已存在'
+            return next()
+        } catch (msg) {
+            respond(res, msg)
+        }
 
-        if (await Article.findOne({title: data.title})) respond(res, '标题已存在')
-        
-        if (data.slug || data.slug === '' || data.slug === null) 
-            if (await Article.findOne({slug: data.slug}))
-                respond(res, '路径已存在')
-
-        return next()
     },
     Put: async (req, res, next) => {
         let data = req.body.data
         let id = req.body.id
+        try {
+            if (!id || id == '') throw res, '必要参数id'
 
-        if (!id || id == '') respond(res, '必要参数id')
+            if (!await Article.findById(id)) throw res, 'id不存在'
 
-        if (!await Article.findById(id)) respond(res, 'id不存在')
+            if (!data) throw res, '参数出错'
+            return next()
+        } catch (msg) {
 
-        if (!data) respond(res, '参数出错')
-
-        return next()
+            respond(res, msg)
+        }
     },
     Delete: async (req, res, next) => {
         let id = req.body.id
-
-        if (!id || id == '') respond(res, '必要参数id')
+        try {
+            if (!id || id == '') throw '必要参数id'
+            return next()
+        } catch (msg) {
+            respond(res, msg)
+        }
 
         return true
     }

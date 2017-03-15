@@ -1,95 +1,101 @@
 import { tag } from '../api'
+import { tag as Tag } from '../models'
 import respond from '../util/respond'
 
+export let GetAll = async (req, res) => {
+    let limit = parseInt(req.query.limit) || null
+    let page = parseInt(req.query.page) || null
+    try {
+        let ctx = await tag.GetAll(limit, page)
+        respond(res, ctx, true)
+    } catch (msg) {
+        respond(res, msg)
+    }
+}
 
-export default {
-    /**
-     * create
-     * tag的添加
-     * 
-     * @param {any} req
-     * @param {any} res
-     */
-    all: async (req, res) => {
-        tag.all(parseInt(req.query.limit) || null, parseInt(req.query.page) || null)
-            .then(ctx => {
-                respond(res, ctx, true)
-            })
-            .catch(msg => {
-                respond(res, msg)
-            })
-    },
-    one: async (req, res) => {
+export let GetOne = async (req, res) => {
+    try {
+        let ctx
         if (req.params.id) {
-            tag.oneId(req.params.id)
-                .then(ctx => {
-                    respond(res, ctx, true)
-                })
-                .catch(msg => {
-                    respond(res, msg)
-                })
+            ctx = await tag.GetOneId(req.params.id)
         } else {
-            tag.oneSlug(req.params.slug)
-                .then(ctx => {
-                    respond(res, ctx, true)
-                })
-                .catch(msg => {
-                    respond(res, msg)
-                })
+            ctx = await tag.GetOneSlug(req.params.slug)
+        }
+        respond(res, ctx, true)
+    } catch (msg) {
+        respond(res, msg)
+    }
+}
+
+export let Post = async (req, res) => {
+    try {
+        let ctx = await tag.Post(req.body.data)
+        respond(res, ctx, true)
+    } catch (msg) {
+        respond(res, msg)
+    }
+}
+
+export let Put = async (req, res) => {
+    try {
+        let ctx = await tag.Put(req.body.id, req.body.data)
+        respond(res, ctx, true)
+    } catch (msg) {
+        respond(res, msg)
+    }
+}
+
+export let Delete = async (req, res) => {
+    try {
+        let ctx = await tag.Delete(req.body.id)
+        respond(res, ctx, true)
+    } catch (msg) {
+        respond(res, msg)
+    }
+}
+
+export let Verify = {
+    Post: async (req, res, next) => {
+        let data = req.body
+        try {
+            if (!data) throw '参数出错'
+
+            if (!data.name || data.name == '') throw '必须添加标签名称'
+
+            if (await Tag.findOne({name: data.name})) throw '标签已存在'
+
+            if (data.slug) if (await Tag.findOne({slug: data.slug})) throw '路径已存在'
+            return next()
+        } catch (msg) {
+            respond(res, msg)
         }
     },
-    create: async (req, res) => {
-        tag.create(req.body.data)
-            .then(ctx => {
-                respond(res, ctx, true)
-            })
-            .catch(msg => {
-                respond(res, msg)
-            })
+    Put: async (req, res, next) => {
+        let data = req.body.data
+        let id = req.body.id
+        try {
+            
+            if (!data) throw '参数出错'
+            
+            if (!id || id == '') throw '必要参数id' 
+
+            if (!await Tag.findById(id)) throw '没有此标签'
+
+            return next()
+        } catch (msg) {
+            respond(res, msg)
+        }
     },
-    update: async (req, res) => {
-        tag.update(req.body.id, req.body.data)
-            .then(ctx => {
-                respond(res, ctx, true)
-            })
-            .catch(msg => {
-                respond(res, msg)
-            })
-    },
-    delete: async (req, res) => {
-        tag.delete(req.body.id)
-            .then(ctx => {
-                respond(res, ctx, true)
-            })
-            .catch(msg => {
-                respond(res, msg)
-            })
-    },
-    create_verify: async (req, res, next) => {
-        tag.create_verify(req.body.data)
-            .then(() => {
-                next()
-            })
-            .catch(msg => {
-                respond(res, msg)
-            })
-    },
-    update_verify: async (req, res, next) => {
-        tag.update_verify( req.body.id, req.body.data)
-            .then(() => {
-                next()
-            })
-            .catch(msg => {
-                respond(res, msg)
-            })
-    },
-    delete_verify: async (req, res, next) => {
-        tag.delete_verify( req.body.id, req.body.data)
-            .then(() => {
-                next()
-            })
-            .catch(msg => {
-                respond(res, msg)
-            })
+    Delete: async (req, res, next) => {
+        let id = req.body.id
+        try {
+            if (!id || id == '') throw '必要参数id' 
+
+            if (!await Tag.findById(id)) throw '没有此标签'
+
+            return next()
+        } catch (msg) {
+            respond(res, msg)
+        }
     }
 }

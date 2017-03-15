@@ -1,7 +1,11 @@
 import * as article from './article'
+import * as setting from './setting'
+import * as user from './user'
+import * as tag from './tag'
+
 export {
-    article
+    article,
+    setting,
+    user,
+    tag
 }
-export { default as tag } from './tag'
-export { default as setting } from './setting'
-export { default as user } from './user'
