@@ -1,10 +1,6 @@
-import mongoose from 'mongoose'
-import plugins from '../util/plugin'
+import mongoose from './mongoose'
 
 import md from '../server/md.js'
-import deep from 'mongoose-deep-populate'
-let deepPopulate = deep(mongoose)
-plugins(mongoose)
 
 let Schema = mongoose.Schema
 
@@ -33,8 +29,6 @@ let tagSchema = new Schema({
         default: null
     }
 })
-
-tagSchema.plugin(deepPopulate)
 
 // update后假如没有article在此tag，将删除此tag
 /* tagSchema.post('update', async function () {

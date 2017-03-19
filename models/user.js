@@ -1,9 +1,6 @@
-import mongoose from 'mongoose'
+import mongoose from './mongoose'
 import passportLocalMongoose from 'passport-local-mongoose'
 import pinyin from '../util/pinyin'
-import plugins from '../util/plugin'
-plugins(mongoose)
-
 
 let Schema = mongoose.Schema
 

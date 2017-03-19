@@ -7,10 +7,6 @@ import user from './user'
 import setting from './setting'
 
 
-mongoose.Promise = global.Promise
-
-mongoose.plugin(require('mongoose-deep-populate'))
-
 mongoose.connect(`mongodb://${config.username}:${config.pwd}@${config.host}:${config.port}/${config.db}`)
 
 let db = mongoose.connection

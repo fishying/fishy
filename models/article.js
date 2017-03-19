@@ -1,8 +1,5 @@
-import mongoose from 'mongoose'
-import plugins from '../util/plugin'
-
+import mongoose from './mongoose'
 import md from '../server/md.js'
-plugins(mongoose)
 
 import pinyin from '../util/pinyin'
 

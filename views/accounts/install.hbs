@@ -1,39 +1,43 @@
 {{!< default}}
-
+{{#contentFor "pageStyles"}}
+<style>
+.install .el-form-item.is-required:before {
+    content: "*";
+    color: #ff4949;
+    position: absolute;
+    margin-left: -12px;
+}
+</style>
+{{/contentFor}}
 <div class="log install" id="app">
     <h2 class="title">安装</h2>
 
     <h3 class="title">博客基本内容</h3>
 
-    <el-form :model="blog" label-width="100px" class="demo-ruleForm" ref="blog">
+    <el-form :model="blog" class="demo-ruleForm" ref="blog" label-position="left">
         <el-form-item
-            :label="inputs.name"
             :prop="'' + inputs.id"
             :rules="inputs.rules"
             v-for="inputs in blogInput"
         >
-            <el-input type="title" v-model="blog[inputs.id]" auto-complete="off"></el-input>
+            <el-input type="title" v-model="blog[inputs.id]" :placeholder="inputs.name" auto-complete="off"></el-input>
         </el-form-item>
     </el-form>
 
     <h3 class="title">管理员内容</h3>
 
-    <el-form :model="admin" label-width="100px" class="demo-ruleForm" ref="admin">
+    <el-form :model="admin" class="demo-ruleForm" ref="admin" label-position="left">
         <el-form-item
-            :label="inputs.name"
             :prop="'' + inputs.id"
             :rules="inputs.rules"
              v-for="inputs in adminInput"
         >
-            <el-input :type="inputs.id == 'password' ? 'password' : 'text'"  v-model="admin[inputs.id]" auto-complete="off"></el-input>
+            <el-input :type="inputs.id == 'password' ? 'password' : 'text'" :placeholder="inputs.name"  v-model="admin[inputs.id]" auto-complete="off"></el-input>
         </el-form-item>
     </el-form>
-    <el-form label-width="100px">
-        <el-form-item>
-            <el-button type="primary" @click="submitForm()">提交</el-button>
-        </el-form-item>
-    </el-form>
+    <el-button type="primary" @click="submitForm()">提交</el-button>
 </div>
+
 {{#contentFor "pageScripts"}}
 <script>
 var app = new Vue({

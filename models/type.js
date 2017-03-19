@@ -1,6 +1,4 @@
-import mongoose from 'mongoose'
-import plugins from '../util/plugin'
-plugins(mongoose)
+import mongoose from './mongoose'
 
 let Schema = mongoose.Schema
 

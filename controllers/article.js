@@ -14,7 +14,6 @@ export let GetAll = async (req, res, admin) => {
         let ctx = await article.GetAll(limit, page, enabled)
         respond(res, ctx, true)
     } catch (msg) {
-        console.log(msg)
         respond(res, msg)
     }
 }
