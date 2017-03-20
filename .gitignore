@@ -3,6 +3,8 @@ logs
 *.log
 npm-debug.log*
 
+config/mail.js
+
 # Runtime data
 pids
 *.pid

@@ -4,6 +4,9 @@ const router = express.Router()
 
 router
     .get('/login', async (req, res) => {
+        if (req.user) {
+            return res.redirect('/admin')
+        }
         res.render('login', {
             title: 'login'
         })

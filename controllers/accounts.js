@@ -42,6 +42,19 @@ export default {
             message: '退出成功'
         })
     },
+    resetPwd: async (req, res) => {
+        req.user.setPassword(req.body.password, (cbk) => {
+            req.user.save((err) => {
+                if (err) {
+                    return res.status(400).send({ message: err })
+                }
+                return res.json({
+                    message: '修改成功',
+                    data: req.user
+                })
+            })
+        })
+    },
     install: async (req, res) => {
         let blogInfo = req.body.blog
         let adminInfo = req.body.admin

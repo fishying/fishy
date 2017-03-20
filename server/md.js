@@ -1,7 +1,7 @@
 import hljs from 'highlight.js'
 
 var md = require('markdown-it')({
-    html:         false,        // Enable HTML tags in source
+    html:         true,        // Enable HTML tags in source
     xhtmlOut:     false,        // Use '/' to close single tags (<br />).
                               // This is only for full CommonMark compatibility.
     breaks:       false,        // Convert '\n' in paragraphs into <br>

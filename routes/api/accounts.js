@@ -9,6 +9,7 @@ router.post('/login', accounts.login_verify, accounts.login)
 router.post('/register', accounts.register_verify, accounts.register)
 router.post('/install', accounts.install_verify, accounts.install)
 router.get('/logout', accounts.logout)
+router.post('/reset_pwd', passport.authenticateMiddleware(), accounts.resetPwd)
 
 
 export default router

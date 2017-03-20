@@ -1,5 +1,6 @@
 import { article } from '../api'
 import { article as Article } from '../models'
+import validator from 'validator'
 
 import respond from '../util/respond'
 
@@ -79,9 +80,9 @@ export let Verify = {
         try {
             if (!data) throw '缺少必要参数参数data'
 
-            if (!data.title || data.title == '') throw '必须添加文章标题'
+            if (!data.title) throw '必须添加文章标题'
 
-            if (!data.md || data.md == '') throw '必须添加文章内容'
+            if (!data.md) throw '必须添加文章内容'
 
             if (await Article.findOne({title: data.title})) throw '标题已存在'
             
@@ -90,7 +91,9 @@ export let Verify = {
                     throw '路径已存在'
             return next()
         } catch (msg) {
-            respond(res, msg)
+            respond(res, {message: msg,
+                data: req.body.data
+            })
         }
 
     },
@@ -105,8 +108,9 @@ export let Verify = {
             if (!data) throw res, '参数出错'
             return next()
         } catch (msg) {
-
-            respond(res, msg)
+            respond(res, {message: msg,
+                data: req.body.data
+            })
         }
     },
     Delete: async (req, res, next) => {
@@ -115,7 +119,9 @@ export let Verify = {
             if (!id || id == '') throw '必要参数id'
             return next()
         } catch (msg) {
-            respond(res, msg)
+            respond(res, {message: msg,
+                data: req.body.data
+            })
         }
 
         return true

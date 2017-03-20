@@ -2,7 +2,8 @@ import express from 'express'
 
 import router from './routes'
 import use from './server/use'
-
+import logger from './logger'
+import './server/mailer.js'
 const app = new express()
 
 use(app)
