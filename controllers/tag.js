@@ -67,7 +67,9 @@ export let Verify = {
             if (data.slug) if (await Tag.findOne({slug: data.slug})) throw '路径已存在'
             return next()
         } catch (msg) {
-            respond(res, msg)
+            respond(res, {message: msg,
+                data: req.body.data
+            })
         }
     },
     Put: async (req, res, next) => {
@@ -83,7 +85,9 @@ export let Verify = {
 
             return next()
         } catch (msg) {
-            respond(res, msg)
+            respond(res, {message: msg,
+                data: req.body.data
+            })
         }
     },
     Delete: async (req, res, next) => {
@@ -95,7 +99,9 @@ export let Verify = {
 
             return next()
         } catch (msg) {
-            respond(res, msg)
+            respond(res, {message: msg,
+                data: req.body.data
+            })
         }
     }
 }

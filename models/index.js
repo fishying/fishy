@@ -1,11 +1,10 @@
 import mongoose from 'mongoose'
-import config from '../config.json'
+import config from '../config/mongodb'
 
 import tag from './tag'
 import article from './article'
 import user from './user'
 import setting from './setting'
-
 
 mongoose.connect(`mongodb://${config.username}:${config.pwd}@${config.host}:${config.port}/${config.db}`)
 

@@ -2,7 +2,7 @@ import User from '../models/user'
 
 export let Get = async (id) => {
     let data = await User.findById(id)
-        .select('name email slug website cover avater profile _id')
+        .select('name email slug website cover avatar profile _id')
         .lean()
     return {
         user: data
