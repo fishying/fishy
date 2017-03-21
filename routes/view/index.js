@@ -19,7 +19,6 @@ router.use(async function (req, res, next) {
 
 router
     .use('/admin/', admin)
-    .use(request.setAccounts)
     .use('/', accounts)
     .use(request.setFrontEnd)
     .get('/404', async (req, res) => {

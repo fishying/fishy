@@ -7,7 +7,7 @@ router.get('*', async (req, res) => {
         return res.redirect('/login')
     }
     app.use(express.static(app.get('admin_views')))
-    res.sendFile('/', { root: app.get('admin_views') })
+    return res.sendFile('/', { root: app.get('admin_views') })
 })
 
 export default router

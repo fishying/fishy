@@ -1,8 +1,11 @@
 import express from 'express'
 import { setting } from '../../models'
+import { request } from '../../middleware'
+
 const router = express.Router()
 
 router
+    .use(request.setAccounts)
     .get('/login', async (req, res) => {
         if (req.user) {
             return res.redirect('/admin')
@@ -11,11 +14,11 @@ router
             title: 'login'
         })
     })
-    .get('/logon', async (req, res) => {
+    /*.get('/logon', async (req, res) => {
         res.render('logon', {
             title: 'login'
         })
-    })
+    })*/
     .get('/install', async (req, res) => {
         let cbk = await setting.find()
         if (cbk.length > 0) {
