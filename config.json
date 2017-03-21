@@ -1,8 +1,4 @@
 {
-    "host": "localhost",
-    "port": "27017",
-    "db": "fishy",
-    "username": "fishy",
-    "pwd": "fishy",
+    "port": "2333",
     "theme": "casper"
 }
