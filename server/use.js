@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import RateLimit from 'express-rate-limit'
 import session from 'express-session'
 import config from '../config.json'
+import MongoConfig from '../config/mongodb'
 import passport from './passport'
 const MongoStore = require('connect-mongo')(session)
 import expressValidator from 'express-validator'
@@ -35,7 +36,7 @@ export default (app) => {
         resave: false,
         saveUninitialized: false,
         store: new MongoStore({
-            url: `mongodb://${config.host}:${config.port}/${config.db}`,
+            url: `mongodb://${MongoConfig.username}:${MongoConfig.pwd}@${MongoConfig.host}:${MongoConfig.port}/${MongoConfig.db}`,
         }), 
         cookie: {maxAge:180*60*1000} //store保存时间
     }))
