@@ -4,7 +4,7 @@
 
 - 后端
     - `mongoose`
-    - `express`
+    - `express`
 - 前端
     - 后台
         - `React`
