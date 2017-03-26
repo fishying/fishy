@@ -30,11 +30,11 @@ export let GetOneId = async (id, enabled = true) => {
             article: null,
         }
     }
-    
+
     let prev = await Article.viewPrev(cbk._id)
 
     let next = await Article.viewNext(cbk._id)
-    
+
     return {
         article:cbk,
         meta: {
@@ -71,7 +71,7 @@ export let Post = async (data) => {
 
     if (data.tag) {
         tags = data.tag
-        
+
         delete data.tag
     }
     let newArticle = await Article.create(data)
@@ -105,7 +105,7 @@ export let Put = async (id, data) => {
     } else {
         tags = []
     }
-    
+
     delete data.tag
 
     if (data.update_at) {
@@ -119,7 +119,7 @@ export let Put = async (id, data) => {
     let oldTag = infoArticle.tag.map(t => {
         return t.name
     })
-    
+
     tags.forEach(t => {
         if (oldTag.indexOf(t) < 0) {
             createTag.push({
@@ -128,7 +128,7 @@ export let Put = async (id, data) => {
             })
         }
     })
-    
+
     oldTag.forEach(t => {
         if (tags.indexOf(t) < 0) {
             createTag.push({
@@ -137,7 +137,7 @@ export let Put = async (id, data) => {
             })
         }
     })
-    
+
     // 修改article的tag和tag的article
     for (let i of createTag) {
         await Tag.findOrCreate({name: i.name}, {name: i.name, slug: i.name})

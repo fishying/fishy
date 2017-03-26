@@ -114,15 +114,15 @@ export default {
     },
     update_verify: async (id, data) => {
         if (!data) throw '参数出错'
-        
-        if (!id || id == '') throw '必要参数id' 
+
+        if (!id || id == '') throw '必要参数id'
 
         if (!await Tag.findById(id)) throw '没有此标签'
 
         return true
     },
     delete_verify: async (id) => {
-        if (!id || id == '') throw '必要参数id' 
+        if (!id || id == '') throw '必要参数id'
 
         if (!await Tag.findById(id)) throw '没有此标签'
 
