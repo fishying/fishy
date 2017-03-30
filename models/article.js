@@ -55,6 +55,7 @@ let articleSchema = new Schema ({
     toJson: {virtuals: true}
 })
 
+let select = 'create_at vistits cover _id md slug title tag enabled author create_at update_at'
 
 // slug
 articleSchema.pre('save', async function (next) {
@@ -69,6 +70,7 @@ let article = mongoose.model('article', articleSchema)
 article.viewAll = async (limit, page, enabled) => {
     let cbk = await article
         .find()
+        .select(select)
         .where(enabled ? {enabled: enabled} : {})
         .lean()
         .skip(limit*(page - 1))
@@ -76,6 +78,7 @@ article.viewAll = async (limit, page, enabled) => {
         .populate({path: 'tag',select: 'name slug'})
         .populate({path: 'author',select: 'name slug avatar'})
         .sort({'_id': -1})
+
     return cbk.map(e => {
         e.content =  md.render(e.md)
         return e
@@ -85,7 +88,8 @@ article.viewAll = async (limit, page, enabled) => {
 article.viewOneId = async (id, enabled) => {
     let articleCbk = await article
         .findById(id)
-        .where(enabled ? {enabled: enabled} : {})
+        .select(select)
+        .where(enabled ? { enabled: enabled } : {})
         .populate({path: 'tag',select: 'name slug'})
         .populate({path: 'author',select: 'name slug'})
         .lean()
@@ -98,6 +102,7 @@ article.viewOneId = async (id, enabled) => {
 article.viewOneSlug = async (slug, enabled) => {
     let articleCbk = await article
         .findOne({slug: slug})
+        .select(select)
         .where(enabled ? {enabled: enabled} : {})
         .populate({path: 'tag',select: 'name slug'})
         .populate({path: 'author',select: 'name slug'})
@@ -111,6 +116,7 @@ article.viewOneSlug = async (slug, enabled) => {
 article.viewPrev = async (id) => {
     let articleCbk = await article
         .findOne({_id: {$lt: id}})
+        .select(select)
         .limit(1)
         .populate({path: 'tag',select: 'name slug'})
         .populate({path: 'author',select: 'name slug'})
@@ -124,6 +130,7 @@ article.viewPrev = async (id) => {
 article.viewNext = async (id) => {
     let articleCbk = await article
         .findOne({_id: {$gt: id}})
+        .select(select)
         .limit(1)
         .populate({path: 'tag',select: 'name slug'})
         .populate({path: 'author',select: 'name slug'})
