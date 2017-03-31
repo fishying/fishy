@@ -38,7 +38,7 @@ export default (app) => {
         store: new MongoStore({
             url: `mongodb://${MongoConfig.username}:${MongoConfig.pwd}@${MongoConfig.host}:${MongoConfig.port}/${MongoConfig.db}`,
         }), 
-        cookie: {maxAge:180*60*1000} //store保存时间
+        cookie: {maxAge: 5 * 24 * 60 * 60 * 1000} //store保存时间
     }))
 
     app.set('accounts_views', relative('../views/accounts'))
