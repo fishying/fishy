@@ -168,7 +168,10 @@ export let Delete = async (id) => {
     }
     if (infoArticle.tag && infoArticle.tag.length > 0) {
         for (let i of infoArticle.tag) {
-            await Tag.update({_id: i}, {$pull:{article: infoArticle._id}})
+            let tag = await Tag.findByIdAndUpdate(i, {$pull:{article: infoArticle._id}}, {new: true})
+            if (tag.article.length === 0) {
+                await Tag.remove({'_id': tag._id})
+            }
         }
     }
     return {
