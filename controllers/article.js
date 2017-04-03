@@ -2,7 +2,7 @@ import { article } from '../api'
 import { article as Article } from '../models'
 import validator from 'validator'
 
-import respond from '../util/respond'
+import respond from '../lib/util/respond'
 
 export let GetAll = async (req, res, admin) => {
     let enabled

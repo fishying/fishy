@@ -1,9 +1,17 @@
 import { article as Article } from '../models'
 import { tag as Tag } from '../models'
 import md from '../server/md.js'
+import omit from '../lib/util/omit.js'
 
-import pinyin from '../util/pinyin'
-
+import pinyin from '../lib/util/pinyin'
+/**
+ *  获取全部的文章
+ * @param  {[type]}
+ * @param  {[type]}
+ * @param  {Boolean}
+ * @return {[type]}
+ */
+const defaultArt = ['slug', 'md', 'cover', 'title', 'tag']
 export let GetAll = async (limit, page, enabled = true) => {
     let count = await Article.count({enabled: enabled})
     let articleCbk = await Article.viewAll(limit, page, enabled)
@@ -67,6 +75,7 @@ export let GetOneSlug = async (slug, enabled = true) => {
 }
 
 export let Post = async (data) => {
+    data = omit(defaultArt, data)
     let tags
 
     if (data.tag) {
@@ -94,6 +103,7 @@ export let Post = async (data) => {
 }
 
 export let Put = async (id, data) => {
+    data = omit(defaultArt, data)
     let infoArticle = await Article.findById(id).populate({path: 'tag',select: 'name'})
     let createTag = []
         ,tags   // 经过筛选的tag

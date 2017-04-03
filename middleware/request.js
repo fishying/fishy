@@ -1,6 +1,6 @@
 import express from 'express'
 import exphbs from 'express-handlebars'
-import helpers from '../helpers'
+import helpers from '../lib/helpers'
 const setAccounts = async (req, res, next) => {
     let app = req.app
     let url = app.get('accounts_views')

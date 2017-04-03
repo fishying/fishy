@@ -1,6 +1,6 @@
 import express from 'express'
 import multer  from 'multer'
-import { upload as uploadQiniu } from '../../util/qiniu.js'
+import { upload as uploadQiniu } from '../../lib/util/qiniu.js'
 const router = express.Router()
 var storage = multer.diskStorage({
 //设置上传后文件路径，uploads文件夹会自动创建。

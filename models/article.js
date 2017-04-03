@@ -1,7 +1,7 @@
 import mongoose from './mongoose'
 import md from '../server/md.js'
 
-import pinyin from '../util/pinyin'
+import pinyin from '../lib/util/pinyin'
 
 let Schema = mongoose.Schema
 

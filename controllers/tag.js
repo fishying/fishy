@@ -1,6 +1,6 @@
 import { tag } from '../api'
 import { tag as Tag } from '../models'
-import respond from '../util/respond'
+import respond from '../lib/util/respond'
 
 export let GetAll = async (req, res) => {
     let limit = parseInt(req.query.limit) || null

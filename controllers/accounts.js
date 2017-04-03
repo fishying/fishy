@@ -1,4 +1,4 @@
-import respond from '../util/respond'
+import respond from '../lib/util/respond'
 
 import { setting as Setting, user as User } from '../models'
 
@@ -6,74 +6,118 @@ import passport from '../server/passport'
 
 import validator from 'validator'
 
-export default {
-    register: async (req, res) => {
-        await User.register(new User({name: req.body.username, email: req.body.email}), req.body.password, (err, account) => {
+/** 
+ * 注册用户
+ * 
+ * @param  {[req]}
+ * @param  {[res]}
+ * @return {[Promise]}
+ */
+export let register = async (req, res) => {
+    await User.register(new User({name: req.body.username, email: req.body.email}), req.body.password, (err, account) => {
+        if (err) {
+            respond(res, err)
+        } else {
+            return res.json({
+                message: '注册成功'
+            })
+        }
+    })
+}
+
+/** 
+ * 登录用户
+ * 
+ * @param  {[req]}
+ * @param  {[res]}
+ * @return {[Promise]}
+ */
+export let login = async (req, res) => {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            return respond(res, [400, {message: '登录失败', info: err}])
+        }
+        if (!user) {
+            return respond(res, [400, {message: '密码错误'}])
+        }
+        req.logIn(user, function(err) {
+            if (err) {
+                return respond(res, [400, {message: '登录失败', info: err}])
+            }
+            return res.json({
+                message: '登录成功'
+            })
+        })
+    })(req, res)
+}
+
+/** 
+ * 登出
+ * 
+ * @param  {[req]}
+ * @param  {[res]}
+ * @return {[Promise]}
+ */
+export let logout = async (req, res) => {
+    req.logout()
+    res.json({
+        message: '退出成功'
+    })
+}
+
+/** 
+ * 修改密码
+ * 
+ * @param  {[req]}
+ * @param  {[res]}
+ * @return {[Promise]}
+ */
+export let resetPwd = async (req, res) => {
+    req.user.setPassword(req.body.password, (cbk) => {
+        req.user.save((err) => {
+            if (err) {
+                return res.status(400).send({ message: err })
+            }
+            return res.json({
+                message: '修改成功',
+                data: req.user
+            })
+        })
+    })
+}
+
+/** 
+ * 安装
+ * 
+ * @param  {[req]}
+ * @param  {[res]}
+ * @return {[Promise]}
+ */
+export let install = async (req, res) => {
+    let blogInfo = req.body.blog
+    let adminInfo = req.body.admin
+    try {
+        await Setting.create(blogInfo)
+        await User.register(new User({name: adminInfo.name, email: adminInfo.email}), adminInfo.password, (err, account) => {
             if (err) {
                 respond(res, err)
             } else {
                 return res.json({
-                    message: '注册成功'
+                    message: '安装成功'
                 })
             }
         })
-    },
-    login: async (req, res) => {
-        passport.authenticate('local', function(err, user, info) {
-            if (err) {
-                return respond(res, [400, {message: '登录失败', info: err}])
-            }
-            if (!user) {
-                return respond(res, [400, {message: '密码错误'}])
-            }
-            req.logIn(user, function(err) {
-                if (err) {
-                    return respond(res, [400, {message: '登录失败', info: err}])
-                }
-                return res.json({
-                    message: '登录成功'
-                })
-            })
-        })(req, res)
-    },
-    logout: async (req, res) => {
-        req.logout()
-        res.json({
-            message: '退出成功'
-        })
-    },
-    resetPwd: async (req, res) => {
-        req.user.setPassword(req.body.password, (cbk) => {
-            req.user.save((err) => {
-                if (err) {
-                    return res.status(400).send({ message: err })
-                }
-                return res.json({
-                    message: '修改成功',
-                    data: req.user
-                })
-            })
-        })
-    },
-    install: async (req, res) => {
-        let blogInfo = req.body.blog
-        let adminInfo = req.body.admin
-        try {
-            await Setting.create(blogInfo)
-            await User.register(new User({name: adminInfo.name, email: adminInfo.email}), adminInfo.password, (err, account) => {
-                if (err) {
-                    respond(res, err)
-                } else {
-                    return res.json({
-                        message: '安装成功'
-                    })
-                }
-            })
-        } catch (err) {
-            respond(res, err)
-        }
-    },
-    install_verify: async (req, res, next) => {
+    } catch (err) {
+        respond(res, err)
+    }
+}
+
+/** 
+ * 验证
+ * 
+ */
+export let Verify = {
+    install: async (req, res, next) => {
         let blogInfo = req.body.blog
         let adminInfo = req.body.admin
         let cbk = await Setting.find()
@@ -110,7 +154,7 @@ export default {
         }
         next()
     },
-    login_verify: async (req, res, next) => {
+    login: async (req, res, next) => {
         if (!validator.isLength(req.body.username, {min:1, max: undefined})) {
             return res.status(401).json({message: '请填写正确的用户名'})
         } else {
@@ -125,7 +169,7 @@ export default {
 
         next()
     },
-    register_verify: async (req, res, next) => {
+    register: async (req, res, next) => {
         if (!validator.isLength(req.body.username, {min:1, max: undefined})) {
             return res.status(401).json({message: '请填写正确的用户名'})
         }

@@ -7,7 +7,7 @@ import fp from 'path'
 
 import { request } from '../../middleware'
 
-import Global from '../../util/hbs-global.js'
+import Global from '../../lib/util/hbs-global.js'
 
 
 const router = express.Router()

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import plugins from '../util/plugin'
+import plugins from '../lib/util/plugin'
 import deep from 'mongoose-deep-populate'
 let deepPopulate = deep(mongoose)
 

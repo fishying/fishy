@@ -1,5 +1,5 @@
 import { setting } from '../api'
-import respond from '../util/respond'
+import respond from '../lib/util/respond'
 
 export let GetAll = async (req, res) => {
     try {
