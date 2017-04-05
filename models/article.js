@@ -76,9 +76,8 @@ article.viewAll = async (limit, page, enabled) => {
         .skip(limit*(page - 1))
         .limit(limit)
         .populate({path: 'tag',select: 'name slug'})
-        .populate({path: 'author',select: 'name slug avatar'})
+        .populate({path: 'author', select: 'name slug avatar'})
         .sort({'_id': -1})
-
     return cbk.map(e => {
         e.content =  md.render(e.md)
         return e

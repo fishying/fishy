@@ -11,7 +11,7 @@ import pinyin from '../lib/util/pinyin'
  * @param  {Boolean}
  * @return {[type]}
  */
-const defaultArt = ['slug', 'md', 'cover', 'title', 'tag']
+const defaultArt = ['slug', 'md', 'cover', 'title', 'tag', 'enabled']
 export let GetAll = async (limit, page, enabled = true) => {
     let count = await Article.count({enabled: enabled})
     let articleCbk = await Article.viewAll(limit, page, enabled)
@@ -75,7 +75,8 @@ export let GetOneSlug = async (slug, enabled = true) => {
 }
 
 export let Post = async (data) => {
-    data = omit(defaultArt, data)
+    console.log(data)
+    data = omit(['slug', 'md', 'cover', 'title', 'tag', 'enabled', 'author'], data)
     let tags
 
     if (data.tag) {

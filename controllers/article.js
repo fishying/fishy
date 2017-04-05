@@ -45,6 +45,7 @@ export let GetOne = async (req, res, admin) => {
 export let Post = async (req, res) => {
     let data = req.body
     data.data.author ? data.data.author : data.data.author = req.user._id
+    console.log(data.data.author)
 
     try {
         let ctx = await article.Post(data.data)
