@@ -86,13 +86,12 @@ article.viewAll = async (limit, page, enabled) => {
 
 article.viewOneId = async (id, enabled) => {
     let articleCbk = await article
-        .findById(id)
+        .findByIdAndUpdate(id, {$inc:{'vistits':1}})
         .select(select)
         .where(enabled ? { enabled: enabled } : {})
         .populate({path: 'tag',select: 'name slug'})
         .populate({path: 'author',select: 'name slug'})
         .lean()
-    
     if (articleCbk) articleCbk.content = md.render(articleCbk.md)
 
     return articleCbk
@@ -100,7 +99,7 @@ article.viewOneId = async (id, enabled) => {
 
 article.viewOneSlug = async (slug, enabled) => {
     let articleCbk = await article
-        .findOne({slug: slug})
+        .findOneAndUpdate({slug: slug}, {$inc:{'vistits':1}})
         .select(select)
         .where(enabled ? {enabled: enabled} : {})
         .populate({path: 'tag',select: 'name slug'})
