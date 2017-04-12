@@ -11,6 +11,7 @@ export let GetAll = async (limit, page) => {
 
     let cbk = await Tag.viewAll(limit, page)
     let total = await Tag.count()
+    console.info('GetAll Tag ok')
     return {
         tag: cbk.length ? cbk : null,
         meta: {
@@ -32,6 +33,7 @@ export let GetOneId = async (id, limit, page) => {
 
     let cbk = await Tag.viewOneId(id, limit, page)
     let articleTotal = await Tag.viewArticleCount(cbk._id)
+    console.info(`GetOne ${id} Tag ok`)
     return {
         tag: cbk ? cbk : null,
         meta: {
@@ -47,12 +49,13 @@ export let GetOneId = async (id, limit, page) => {
     }
 }
 
-export let GetOneSlug = async (id, limit, page) => {
+export let GetOneSlug = async (slug, limit, page) => {
     limit = limit ? limit : 10
     page = page ? page : 1
 
-    let cbk = await Tag.viewOneSlug(id, limit, page)
+    let cbk = await Tag.viewOneSlug(slug, limit, page)
     let articleTotal = await Tag.viewArticleCount(cbk._id)
+    console.info(`GetOne ${cbk._id} Tag ok`)
     return {
         tag: cbk ? cbk : null,
         meta: {
@@ -86,6 +89,7 @@ export let Put = async (id, data) => {
     data = omit(defaultTag, data)
     let cbk = await Tag
         .findByIdAndUpdate(id, data, {new: true})
+    console.info(`Put ${id} Tag ok`)
     return {
         message: '修改标签成功',
         data: cbk
@@ -99,6 +103,7 @@ export let Delete = async (id) => {
             await Article.update({_id: i}, {$addToSet:{tag: id}})
         }
     }
+    console.info(`Put ${id} Tag ok`)
     return {
         message: '修改标签成功'
     }

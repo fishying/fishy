@@ -1,4 +1,4 @@
-# Fishy
+# Fishy [wiki](https://github.com/fishying/fishy/wiki)
 
 ## 技术栈
 

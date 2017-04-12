@@ -15,6 +15,7 @@ const defaultArt = ['slug', 'md', 'cover', 'title', 'tag', 'enabled']
 export let GetAll = async (limit, page, enabled = true) => {
     let count = await Article.count({enabled: enabled})
     let articleCbk = await Article.viewAll(limit, page, enabled)
+    console.info('GetAll article ok')
     return {
         article: articleCbk.length ? articleCbk : null,
         meta: {
@@ -43,6 +44,7 @@ export let GetOneId = async (id, enabled = true) => {
 
     let next = await Article.viewNext(cbk._id)
 
+    console.info(`Get ${id} article ok`)
     return {
         article:cbk,
         meta: {
@@ -65,6 +67,7 @@ export let GetOneSlug = async (slug, enabled = true) => {
 
     let next = await Article.viewNext(cbk._id)
 
+    console.info(`Get ${cbk._id} article ok`)
     return {
         article: cbk,
         meta: {
@@ -97,6 +100,7 @@ export let Post = async (data) => {
     }
     let returnArticle = await Article.findById(newArticle._id).populate({path: 'tag',select: 'name'})
 
+    console.info('Post article ok')
     return {
         message: '添加成功',
         data: returnArticle
@@ -166,6 +170,7 @@ export let Put = async (id, data) => {
     let newArticle = await Article
         .findByIdAndUpdate(infoArticle._id, data, {new: true})
         .populate({path: 'tag',select: 'name'})
+    console.info(`Put ${id} article ok`)
     return {
         message: '更改成功',
         data: newArticle
@@ -185,6 +190,7 @@ export let Delete = async (id) => {
             }
         }
     }
+    console.info(`Delete ${id} article ok`)
     return {
         message: '删除成功'
     }

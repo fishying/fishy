@@ -1,11 +1,7 @@
-var log4js = require('log4js')
+import log4js from 'log4js'
+
 log4js.configure({
     appenders: [
-        {
-            type: 'file',
-            filename: 'logger/cheese.log',
-            category: [ 'cheese','console' ]
-        },
         {
             type: 'console'
         }
@@ -14,9 +10,10 @@ log4js.configure({
 })
 
 log4js.loadAppender('file')
-log4js.addAppender(log4js.appenders.file('logger/pants.log'), 'pants')
 
-
+if (!process.env.NODE_ENV === 'production') {
+    log4js.addAppender(log4js.appenders.file('logger/cheese.log'), [ 'cheese','console' ])
+}
 
 var logger = log4js.getLogger('cheese')
 
