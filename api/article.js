@@ -109,6 +109,7 @@ export let Post = async (data) => {
 
 export let Put = async (id, data) => {
     data = omit(defaultArt, data)
+    data.update_at = new Date()
     let infoArticle = await Article.findById(id).populate({path: 'tag',select: 'name'})
     let createTag = []
         ,tags   // 经过筛选的tag

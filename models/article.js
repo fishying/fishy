@@ -90,7 +90,7 @@ article.viewOneId = async (id, enabled) => {
         .select(select)
         .where(enabled ? { enabled: enabled } : {})
         .populate({path: 'tag',select: 'name slug'})
-        .populate({path: 'author',select: 'name slug'})
+        .populate({path: 'author',select: 'name slug avatar'})
         .lean()
     if (articleCbk) articleCbk.content = md.render(articleCbk.md)
 
@@ -103,7 +103,7 @@ article.viewOneSlug = async (slug, enabled) => {
         .select(select)
         .where(enabled ? {enabled: enabled} : {})
         .populate({path: 'tag',select: 'name slug'})
-        .populate({path: 'author',select: 'name slug'})
+        .populate({path: 'author',select: 'name slug avatar'})
         .lean()
     
     if (articleCbk) articleCbk.content = md.render(articleCbk.md)

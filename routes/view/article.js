@@ -23,7 +23,7 @@ router
         
         if (!res.locals.blog) return res.redirect('/install')
 
-        if (page === null || page === undefined || page === 1) {
+        if (page === null || page === undefined || page <= 1) {
             return res.redirect('/')
         }
 
