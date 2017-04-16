@@ -3,8 +3,8 @@ logs
 *.log
 npm-debug.log*
 uploads
-config/mail.js
-config/qiniu.js
+/config/mail.js
+/config/qiniu.js
 
 # Runtime data
 pids
