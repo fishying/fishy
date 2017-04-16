@@ -13,15 +13,18 @@ import pinyin from '../lib/util/pinyin'
  */
 const defaultArt = ['slug', 'md', 'cover', 'title', 'tag', 'enabled']
 export let GetAll = async (limit, page, enabled = true) => {
+    limit = limit ? limit : 10
+    page = page ? page : 1
     let count = await Article.count({enabled: enabled})
     let articleCbk = await Article.viewAll(limit, page, enabled)
     console.info('GetAll article ok')
+    console.log(count)
     return {
         article: articleCbk.length ? articleCbk : null,
         meta: {
             pagination: {
-                page: page ? page : 1,
-                limit: limit ? limit : 10,
+                page: page,
+                limit: limit,
                 total: Math.ceil(count / limit) ? Math.ceil(count / limit) : 1
             },
             article: {

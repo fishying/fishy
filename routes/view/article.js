@@ -36,7 +36,7 @@ router
             title: `${res.locals.blog.title} - ${res.locals.blog.description}`,
             article: data.article,
             meta: data.meta,
-            bodyClass: 'article-template'
+            bodyClass: 'home-template'
         })
 
     })

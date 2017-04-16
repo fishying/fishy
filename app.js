@@ -13,6 +13,11 @@ use(app)
 
 router(app)
 
+process.on('SIGINT', () => {
+    console.log('bye~')
+    process.exit()
+})
+
 app.listen(config.port, function(){
     console.log(`fishy is now running on port ${config.port}!`)
 })
