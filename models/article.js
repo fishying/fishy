@@ -47,15 +47,21 @@ let articleSchema = new Schema ({
         type: String,
         default: null
     },
-    class: {
-        type: String,
-        default: 'article'
+    ismd: {
+        type: Boolean,
+        default: true
+    },
+    page: {
+        type: Boolean,
+        default: false
     }
-},{
-    toJson: {virtuals: true}
+}, {
+    toJson: {
+        virtuals: true
+    }
 })
 
-let select = 'create_at vistits cover _id md slug title tag enabled author create_at update_at'
+let select = 'create_at vistits cover _id md slug title tag enabled author create_at update_at ismd page'
 
 // slug
 articleSchema.pre('save', async function (next) {
@@ -79,7 +85,7 @@ article.viewAll = async (limit, page, enabled) => {
         .populate({path: 'author', select: 'name slug avatar'})
         .sort({'_id': -1})
     return cbk.map(e => {
-        e.content =  md.render(e.md)
+        e.content =  e.ismd ? md.render(e.md) : e.md
         return e
     })
 }
@@ -92,7 +98,13 @@ article.viewOneId = async (id, enabled) => {
         .populate({path: 'tag',select: 'name slug'})
         .populate({path: 'author',select: 'name slug avatar'})
         .lean()
-    if (articleCbk) articleCbk.content = md.render(articleCbk.md)
+    if (articleCbk) {
+        if (articleCbk.ismd) {
+            articleCbk.content = md.render(articleCbk.md)
+        } else {
+            articleCbk.content = articleCbk.md
+        }
+    }
 
     return articleCbk
 }
@@ -106,7 +118,13 @@ article.viewOneSlug = async (slug, enabled) => {
         .populate({path: 'author',select: 'name slug avatar'})
         .lean()
     
-    if (articleCbk) articleCbk.content = md.render(articleCbk.md)
+    if (articleCbk) {
+        if (articleCbk.ismd) {
+            articleCbk.content = md.render(articleCbk.md)
+        } else {
+            articleCbk.content = articleCbk.md
+        }
+    }
 
     return articleCbk
 }
@@ -120,7 +138,13 @@ article.viewPrev = async (id) => {
         .populate({path: 'author',select: 'name slug'})
         .lean()
     
-    if (articleCbk) articleCbk.content = md.render(articleCbk.md)
+    if (articleCbk) {
+        if (articleCbk.ismd) {
+            articleCbk.content = md.render(articleCbk.md)
+        } else {
+            articleCbk.content = articleCbk.md
+        }
+    }
 
     return articleCbk
 }
@@ -134,7 +158,13 @@ article.viewNext = async (id) => {
         .populate({path: 'author',select: 'name slug'})
         .lean()
     
-    if (articleCbk) articleCbk.content = md.render(articleCbk.md)
+    if (articleCbk) {
+        if (articleCbk.ismd) {
+            articleCbk.content = md.render(articleCbk.md)
+        } else {
+            articleCbk.content = articleCbk.md
+        }
+    }
 
     return articleCbk
 }

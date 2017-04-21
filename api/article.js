@@ -11,14 +11,13 @@ import pinyin from '../lib/util/pinyin'
  * @param  {Boolean}
  * @return {[type]}
  */
-const defaultArt = ['slug', 'md', 'cover', 'title', 'tag', 'enabled']
+const defaultArt = ['slug', 'md', 'cover', 'title', 'tag', 'enabled', 'ismd', 'page']
 export let GetAll = async (limit, page, enabled = true) => {
     limit = limit ? limit : 10
     page = page ? page : 1
     let count = await Article.count({enabled: enabled})
     let articleCbk = await Article.viewAll(limit, page, enabled)
     console.info('GetAll article ok')
-    console.log(count)
     return {
         article: articleCbk.length ? articleCbk : null,
         meta: {
@@ -43,16 +42,12 @@ export let GetOneId = async (id, enabled = true) => {
         }
     }
 
-    let prev = await Article.viewPrev(cbk._id)
-
-    let next = await Article.viewNext(cbk._id)
-
     console.info(`Get ${id} article ok`)
     return {
         article:cbk,
         meta: {
-            next: next,
-            prev: prev
+            next: await Article.viewPrev(cbk._id),
+            prev: await Article.viewNext(cbk._id)
         }
     }
 }
@@ -66,23 +61,18 @@ export let GetOneSlug = async (slug, enabled = true) => {
         }
     }
 
-    let prev = await Article.viewPrev(cbk._id)
-
-    let next = await Article.viewNext(cbk._id)
-
     console.info(`Get ${cbk._id} article ok`)
     return {
         article: cbk,
         meta: {
-            next: next,
-            prev: prev
+            next: await Article.viewPrev(cbk._id),
+            prev: await Article.viewNext(cbk._id)
         }
     }
 }
 
 export let Post = async (data) => {
-    console.log(data)
-    data = omit(['slug', 'md', 'cover', 'title', 'tag', 'enabled', 'author'], data)
+    data = omit([...defaultArt, 'author'], data)
     let tags
 
     if (data.tag) {
@@ -90,7 +80,7 @@ export let Post = async (data) => {
 
         delete data.tag
     }
-    let newArticle = await Article.create(data)
+    let newArticle = await Article.create({...data})
 
     if (tags) {
         for (let i in tags) {

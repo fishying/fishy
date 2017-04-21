@@ -45,10 +45,20 @@ router
         if (!res.locals.blog) return res.redirect('/install')
 
         let data = await article.GetOneSlug(req.params.slug)
+
         if (!data.article) {
             return res.redirect('/404')
         }
-        res.render('article', {
+        if (data.article.page) {
+            return res.render(`page-${data.article.slug}`, {
+                title: `${data.article.title} - ${res.locals.blog.title}`,
+                article: data.article,
+                meta: data.meta,
+                bodyClass: 'page-template'
+            })
+        }
+
+        return res.render('article', {
             title: `${data.article.title} - ${res.locals.blog.title}`,
             article: data.article,
             meta: data.meta,

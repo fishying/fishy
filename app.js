@@ -19,5 +19,5 @@ process.on('SIGINT', () => {
 })
 
 app.listen(config.port, function(){
-    console.log(`fishy is now running on port ${config.port}!`)
+    console.log(`biu~ ${config.port}!`)
 })
