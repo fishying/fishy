@@ -9,7 +9,6 @@ export default (app) => {
         res.sendFile('favicon.ico', {
             root: relative('../')
         }, async function (err) {
-            console.error(err)
             if (err) {
                 return res.status(404)
             }

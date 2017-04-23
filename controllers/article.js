@@ -5,14 +5,11 @@ import validator from 'validator'
 import respond from '../lib/util/respond'
 
 export let GetAll = async (req, res, admin) => {
-    let enabled
     let limit = parseInt(req.query.limit) || null
     let page = parseInt(req.query.page) || null
 
-    admin === true ? enabled = false : enabled = true
-
     try {
-        let ctx = await article.GetAll(limit, page, enabled)
+        let ctx = await article.GetAll(limit, page, admin)
         respond(res, ctx, true)
     } catch (msg) {
         respond(res, msg)

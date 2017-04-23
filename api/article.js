@@ -12,11 +12,13 @@ import pinyin from '../lib/util/pinyin'
  * @return {[type]}
  */
 const defaultArt = ['slug', 'md', 'cover', 'title', 'tag', 'enabled', 'ismd', 'page']
-export let GetAll = async (limit, page, enabled = true) => {
+export let GetAll = async (limit, page, isAdmin) => {
     limit = limit ? limit : 10
     page = page ? page : 1
-    let count = await Article.count({enabled: enabled})
-    let articleCbk = await Article.viewAll(limit, page, enabled)
+    isAdmin = isAdmin || false
+    console.log(isAdmin)
+    let count = await Article.count(isAdmin ? {} : {enabled: isAdmin, page: false})
+    let articleCbk = await Article.viewAll(limit, page, isAdmin)
     console.info('GetAll article ok')
     return {
         article: articleCbk.length ? articleCbk : null,

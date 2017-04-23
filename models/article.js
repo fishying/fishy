@@ -73,11 +73,11 @@ articleSchema.pre('save', async function (next) {
 
 let article = mongoose.model('article', articleSchema)
 
-article.viewAll = async (limit, page, enabled) => {
+article.viewAll = async (limit, page, isAdmin) => {
     let cbk = await article
         .find()
         .select(select)
-        .where(enabled ? {enabled: enabled} : {})
+        .where(isAdmin ? {} : {enabled: true, page: false})
         .lean()
         .skip(limit*(page - 1))
         .limit(limit)
