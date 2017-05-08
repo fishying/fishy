@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
-import mailInfo from '../config/mail'
+import { email as emailConfig } from '../config.js'
 
-let transporter = nodemailer.createTransport(mailInfo)
+let transporter = nodemailer.createTransport(emailConfig)
 
 export let Get = async (to, from, data) => {
     let mailOptions = {

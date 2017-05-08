@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
-import config from '../config/mongodb'
+import { mongo as mongoConfig } from '../config.js'
 
 import tag from './tag'
 import article from './article'
 import user from './user'
 import setting from './setting'
 
-mongoose.connect(`mongodb://${config.username}:${config.pwd}@${config.host}:${config.port}/${config.db}`)
+mongoose.connect(`mongodb://${mongoConfig.username}:${mongoConfig.pwd}@${mongoConfig.host}:${mongoConfig.port}/${mongoConfig.db}`)
 
 let db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
