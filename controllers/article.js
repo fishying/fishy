@@ -5,8 +5,8 @@ import validator from 'validator'
 import respond from '../lib/util/respond'
 
 export let GetAll = async (req, res, admin) => {
-    let limit = parseInt(req.query.limit) || null
-    let page = parseInt(req.query.page) || null
+    let limit = parseInt(req.query.limit) || parseInt(req.body.limit) || null
+    let page = parseInt(req.query.page) || parseInt(req.body.page) || null
 
     try {
         let ctx = await article.GetAll(limit, page, admin)
