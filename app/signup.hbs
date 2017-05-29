@@ -1,0 +1,58 @@
+{{!< default}}
+<div class="main">
+    <form class="sign" action="signup" method="post"  autocomplete="off">
+        <h2 class="title">{{title}}</h2>
+        <label>
+            <span>Account Name</span>
+            <input type="text" id="username" name="username">
+        </label>
+        <label>
+            <span>Account Email</span>
+            <input type="text" id="email" name="email">
+        </label>
+        <label>
+            <span>Account Pwd</span>
+            <input type="password" id="pwd" name="pwd" autocomplete="new-password">
+        </label>
+        <div class="btns">
+            <input class="btn" id="btn" type="submit" name="" value="Next">
+        </div>
+    </form>
+</div>
+{{#contentFor "pageScripts"}}
+<script>
+(function () {
+    var input = document.querySelector('.sign')
+    var username = document.getElementById('username')
+    var email = document.getElementById('email')
+    var pwd = document.getElementById('pwd')
+
+    var btn = document.getElementById('btn')
+
+    var isVar = false
+
+    input.addEventListener('change', function (e) {
+        if (e.target.localName !== 'input') return
+        validator()
+    })
+
+    btn.addEventListener('click', function (e) {
+        validator()
+        if (!isVar) e.preventDefault()
+    }, false)
+    function validator () {
+        axios.post('/validator?resource=signup', {
+            username: username.value,
+            email: email.value,
+            pwd: pwd.value,
+        })
+            .then(function (response) {
+                isVar = response.data.validator
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
+})()
+</script>
+{{/contentFor}}

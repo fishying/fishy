@@ -1,9 +1,0 @@
-[submodule "admin"]
-	path = admin
-	url = https://github.com/fishying/fishy-admin.git
-[submodule "views/theme/casper"]
-	path = views/theme/casper
-	url = https://github.com/fishying/Casper.git
-[submodule "views/theme/pinghsu"]
-	path = views/theme/pinghsu
-	url = https://github.com/fishying/pinghsu.git

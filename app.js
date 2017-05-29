@@ -1,23 +1,26 @@
+/**
+ * Created by yuer on 2017/5/22.
+ */
 import express from 'express'
+import config from './config'
+import routes from './core/routes'
+import './core/models'
+import './server/logger'
 
-import router from './routes'
+// use middleware
 import use from './server/use'
-import './server/mailer.js'
-import { app as appConfig } from './config.js'
-
-import './logger'
 
 const app = new express()
 
 use(app)
-
-router(app)
+routes(app)
 
 process.on('SIGINT', () => {
     console.log('bye~')
     process.exit()
 })
 
-app.listen(appConfig.port, function(){
-    console.log(`biu~ ${appConfig.port}!`)
+app.listen(config.port, function(){
+    console.log(`port ${config.port}!`)
+    console.log('biu~')
 })

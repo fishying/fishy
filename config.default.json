@@ -1,0 +1,17 @@
+{
+    "secret": "lock",
+    "port": 2333,
+    "mongodb": {
+        "host": "localhost",
+        "port": 27017,
+        "db": "lock",
+        "username": "lock",
+        "pwd": "lock"
+    },
+    "oauth": {
+        "github": {
+            "client_id": "000",
+            "client_secret": "000"
+        }
+    }
+}

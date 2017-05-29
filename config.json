@@ -1,4 +1,17 @@
 {
-    "port": "2333",
-    "theme": "casper"
+    "secret": "lock",
+    "port": 2333,
+    "mongodb": {
+        "host": "localhost",
+        "port": 27017,
+        "db": "soap",
+        "username": "soap",
+        "pwd": "soap"
+    },
+    "oauth": {
+        "github": {
+            "client_id": "6509c38c55d429061594",
+            "client_secret": "76f14c9b6c945f197491eb3f7006d1aa89ec22d0"
+        }
+    }
 }

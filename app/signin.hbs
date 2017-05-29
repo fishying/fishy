@@ -1,0 +1,51 @@
+{{!< default}}
+<div class="main">
+    <form class="sign" action="signin" method="post" autocomplete="off">
+        <h2 class="title">{{title}}</h2>
+        <label>
+            <span>Account Name</span>
+            <input type="text" id="username" name="username">
+        </label>
+        <label>
+            <span>Account Pwd</span>
+            <input type="password" id="pwd" name="pwd" autocomplete="new-password">
+        </label>
+        <!--<a class="btn" href="http://github.com/login/oauth/authorize?client_id=6509c38c55d429061594&scope=user">Github</a>-->
+        <a class="btn">Next</a>
+    </form>
+</div>
+{{#contentFor "pageScripts"}}
+<script>
+(function () {
+    var input = document.querySelector('.sign')
+    var username = document.getElementById('username')
+    var pwd = document.getElementById('pwd')
+
+    var btn = document.getElementById('btn')
+
+    var isVar = false
+
+    input.addEventListener('change', function (e) {
+        if (e.target.localName !== 'input') return
+        validator()
+    })
+
+    btn.addEventListener('click', function (e) {
+        validator()
+        if (!isVar) e.preventDefault()
+    }, false)
+    function validator () {
+        axios.post('/validator?resource=signin', {
+            username: username.value,
+            pwd: pwd.value
+        })
+            .then(function (response) {
+                isVar = response.data.validator
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
+})()
+</script>
+{{/contentFor}}
