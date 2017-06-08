@@ -96,21 +96,25 @@ export const verify = {
 }
 
 async function veliSignUp (data) {
-    let username = data.username || null
-    let pwd = data.pwd || null
-    let email = data.email || null
-    if (!orUserName(username))
-        throw '用户名输入有误'
-    if (!orPwd(pwd))
-        throw '密码输入有误'
-    if (!orEmail(email))
-        throw '邮箱输入有误'
-    if (await User.findOne({ username: username }))
-        throw '用户名已存在'
-    if (await User.findOne({ email: email }))
-        throw '邮箱已被注册'
+    try {
+        let username = data.username || null
+        let pwd = data.pwd || null
+        let email = data.email || null
+        if (!orUserName(username))
+            throw '用户名输入有误'
+        if (!orPwd(pwd))
+            throw '密码输入有误'
+        if (!orEmail(email))
+            throw '邮箱输入有误'
+        if (await User.findOne({ username: username }))
+            throw '用户名已存在'
+        if (await User.findOne({ email: email }))
+            throw '邮箱已被注册'
 
-    return true
+        return true
+    } catch (error) {
+        console.log(error)
+    }
 }
 async function veliSignIn (data) {
     let username = data.username || null

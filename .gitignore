@@ -3,7 +3,7 @@ logs
 .idea/
 *.log
 npm-debug.log*
-/config.js
+config.js
 
 # Runtime data
 pids

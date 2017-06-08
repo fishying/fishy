@@ -1,6 +1,6 @@
 {{!< default}}
 <div class="main">
-    <form class="sign" action="signin" method="post" autocomplete="off">
+    <form class="sign" action="signin" method="post" autocomplete="off" id="form">
         <h2 class="title">{{title}}</h2>
         <label>
             <span>Account Name</span>
@@ -11,7 +11,7 @@
             <input type="password" id="pwd" name="pwd" autocomplete="new-password">
         </label>
         <!--<a class="btn" href="http://github.com/login/oauth/authorize?client_id=6509c38c55d429061594&scope=user">Github</a>-->
-        <a class="btn">Next</a>
+        <a class="btn" id="btn">Next</a>
     </form>
 </div>
 {{#contentFor "pageScripts"}}
@@ -20,7 +20,7 @@
     var input = document.querySelector('.sign')
     var username = document.getElementById('username')
     var pwd = document.getElementById('pwd')
-
+    var form = document.getElementById('form')
     var btn = document.getElementById('btn')
 
     var isVar = false
@@ -32,7 +32,11 @@
 
     btn.addEventListener('click', function (e) {
         validator()
-        if (!isVar) e.preventDefault()
+        if (!isVar) {
+            e.preventDefault()
+        } else {
+            form.submit()
+        }
     }, false)
     function validator () {
         axios.post('/validator?resource=signin', {

@@ -18,7 +18,7 @@ class Cute {
     async error (code, msg) {
         msg = verifyMsg(msg)
         this.res.status(code).json(msg)
-        console.log(msg)
+        console.error(msg)
         return this
     }
     async ok (msg) {

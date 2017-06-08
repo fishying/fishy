@@ -35,3 +35,7 @@ export const orEmail = (Email) => {
         return false
     return true
 }
+
+export const valiNewPostData = (data) => {
+    let dataArr = ['slug', 'title', 'content', 'tag', 'cover']
+}
