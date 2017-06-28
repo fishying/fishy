@@ -10,6 +10,9 @@ import './server/logger'
 // use middleware
 import use from './server/use'
 
+console.log('--------------------------------------------------------------------------------')
+console.log('fishy')
+console.log('--------------------------------------------------------------------------------')
 const app = new express()
 
 use(app)
