@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Yiiu/lock#readme",
   "devDependencies": {
+    "app-module-path": "^2.2.0",
     "axios": "^0.16.1",
     "babel-core": "^6.24.1",
     "babel-polyfill": "^6.23.0",

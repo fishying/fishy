@@ -1,14 +1,15 @@
 /**
  * Created by yuer on 2017/5/22.
  */
+import "app-module-path/register";
 import express from 'express'
-import config from './config'
-import routes from './core/routes'
-import './core/models'
-import './server/logger'
+import config from 'config'
+import routes from 'core/routes'
+import 'core/models'
+import 'server/logger'
 
 // use middleware
-import use from './server/use'
+import use from 'server/use'
 
 console.log('--------------------------------------------------------------------------------')
 console.log('fishy')
@@ -26,4 +27,5 @@ process.on('SIGINT', () => {
 app.listen(config.port, function(){
     console.log(`port ${config.port}!`)
     console.log('biu~')
+    console.log('--------------------------------------------------------------------------------')
 })
